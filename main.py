@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from models import models, schemas
 from controllers import recipeController
 from database.database import SessionLocal, engine
+from database.mongo import mongodb
 
 models.Base.metadata.create_all(bind=engine)
 
