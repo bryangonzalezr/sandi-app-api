@@ -8,8 +8,8 @@ from models.recipe import Recipe
 from schemas.recipe import recipeEntity, recipesEntity
 
 load_dotenv()
-API_ID = os.getenv("EDADMAM_API_ID")
-API_KEY = os.getenv("EDADMAM_API_KEY")
+API_ID = os.getenv("EDAMAM_API_ID")
+API_KEY = os.getenv("EDAMAM_API_KEY")
 DBM_NAME = os.getenv("DBM_NAME")
 
 
