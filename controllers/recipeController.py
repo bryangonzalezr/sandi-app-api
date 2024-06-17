@@ -26,7 +26,8 @@ def store(db, recipe: Recipe):
     db = getattr(db, DBM_NAME)
     new_recipe = dict(recipe)
     id = db.recipes.insert_one(new_recipe).inserted_id
-    return db_recipe := recipeEntity(db.recipes.find_one({"_id": id}))
+    db_recipe = recipeEntity(db.recipes.find_one({"_id": id}))
+    return db_recipe
 
 def update(db, recipe_id: int, recipe: Recipe):
     db = getattr(db, DBM_NAME)
