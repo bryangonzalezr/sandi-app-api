@@ -1,18 +1,24 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class Recipe(BaseModel):
-    id: str
     label: str
     image: str
-    level: int
-    summary: str
-    calories: float
-    totalWeight: float
+    images: dict   
+    diet_labels: List[str]
+    health_labels: List[str]
+    cautions: List[str]
+    ingredient_lines: List[str]
     ingredients: List[dict]
-    totalNutrients: List[dict]
-    totalDaily: List[dict]
-    dietLabels: str
-    healthLabels: str
-
-    
+    calories: float
+    glycemic_index: Optional[float] = Field(None)
+    inflammatory_index: Optional[float] = Field(None)
+    total_weight: float
+    cuisine_type: List[str]
+    meal_type: List[str]
+    dish_type: List[str]
+    instructions: Optional[List[str]] = Field(None)
+    tags: List[str]
+    total_nutrients: dict
+    total_daily: dict
+    digest: List[dict]
