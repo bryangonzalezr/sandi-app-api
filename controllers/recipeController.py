@@ -58,7 +58,8 @@ async def getRecipeFromApi(userData: UserData):
             if value != None:
                 if key == "nutrients":
                     for nut_key, nut_value in value.items():
-                        params[f"{key}%5B{nut_key}%5D"] = nut_value
+                        if '%2B'in nut_value or '-' in nut_value:
+                            params[f"{key}%5B{nut_key}%5D"] = f"{nut_value}"
                 elif key == "query":
                     params["q"] = value
                 else:
@@ -70,6 +71,8 @@ async def getRecipeFromApi(userData: UserData):
         if response.status_code == 200:
             data = dict(response.json())
             response = data["hits"]
+            if len(response) == 0:
+                response = {"message": "No se encontraron recetas con los parámetros proporcionados"}
             return Response(content=json.dumps(response), media_type="application/json")
         else:
             raise HTTPException(status_code=response.status_code, detail=response.json())

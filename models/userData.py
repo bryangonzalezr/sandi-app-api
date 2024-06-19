@@ -14,4 +14,4 @@ class UserData(BaseModel):
     glycemicIndex: Optional[str] = Field(None)
     inflammatoryIndex: Optional[str] = Field(None)
     excluded: Optional[List[str]] = Field(None)
-    nutrients: Optional[List[dict]] = Field(None)
+    nutrients: Optional[dict] = Field(None)
