@@ -43,10 +43,6 @@ def delete(db, recipe_id: str):
     recipeEntity(db.recipes.find_one_and_delete({"_id": ObjectId(recipe_id)}))
     return Response(status_code=HTTP_204_NO_CONTENT)
 
-async def responseApi(userData: UserData):
-    
-    return response
-
 async def getRecipeFromApi(userData: UserData):
     try:
         url = "https://api.edamam.com/api/recipes/v2"
