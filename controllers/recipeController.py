@@ -1,10 +1,13 @@
-from fastapi import Response
+from fastapi import Response, HTTPException
 from dotenv import load_dotenv
 from starlette.status import HTTP_204_NO_CONTENT
+from bson.objectid import ObjectId
 import httpx
 import os
+import json
 
 from models.recipe import Recipe
+from models.userData import UserData
 from schemas.recipe import recipeEntity, recipesEntity
 
 load_dotenv()
@@ -18,29 +21,62 @@ def index(db, skip: int = 0, limit: int = 100):
     db = getattr(db, DBM_NAME)
     return recipesEntity(db.recipes.find())
 
-def show(db, recipe_id: int):
+def show(db, recipe_id: str):
     db = getattr(db, DBM_NAME)
-    return recipeEntity(db.recipes.find_one({"_id": recipe_id}))
+    return recipeEntity(db.recipes.find_one({"_id": ObjectId(recipe_id)}))
 
 def store(db, recipe: Recipe):
     db = getattr(db, DBM_NAME)
     new_recipe = dict(recipe)
     id = db.recipes.insert_one(new_recipe).inserted_id
-    db_recipe = recipeEntity(db.recipes.find_one({"_id": id}))
+    db_recipe = recipeEntity(db.recipes.find_one({"_id": ObjectId(id)}))
     return db_recipe
 
-def update(db, recipe_id: int, recipe: Recipe):
+def update(db, recipe_id: str, recipe: Recipe):
     db = getattr(db, DBM_NAME)
-    db_recipe = recipeEntity(db.recipes.find_one_and_update({"_id": recipe_id}, {"$set": dict(recipe)}, return_document=True))
+    db_recipe = recipeEntity(db.recipes.find_one_and_update({"_id": ObjectId(recipe_id)}, {"$set": dict(recipe)}, return_document=True))
 
     return db_recipe
 
-def delete(db, recipe_id: int):
+def delete(db, recipe_id: str):
     db = getattr(db, DBM_NAME)
-    recipeEntity(db.recipes.find_one_and_delete({"_id": recipe_id}))
+    recipeEntity(db.recipes.find_one_and_delete({"_id": ObjectId(recipe_id)}))
     return Response(status_code=HTTP_204_NO_CONTENT)
 
-""" def get_recipe_from_api(q: str, f: int, to: int, diet: str, health: str, r: str, calories: str, returns: str, callback: str):
-    url = "https://api.edamam.com/recipes/v2?"
+async def responseApi(userData: UserData):
+    
+    return response
 
-    request_url = httpx.get(url, params={"q": "chicken", "app_id": API_ID, "app_key": API_KEY}) """
+async def getRecipeFromApi(userData: UserData):
+    try:
+        url = "https://api.edamam.com/api/recipes/v2"
+
+        userData = dict(userData)
+        params = {
+            "type": "public",
+            "beta": "false",
+            "app_id": API_ID,
+            "app_key": API_KEY
+        }
+        for key, value in userData.items():
+            if value != None:
+                if key == "nutrients":
+                    for nut_key, nut_value in value.items():
+                        params[f"{key}%5B{nut_key}%5D"] = nut_value
+                elif key == "query":
+                    params["q"] = value
+                else:
+                    params[key] = value
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, params=params)
+
+        if response.status_code == 200:
+            data = dict(response.json())
+            response = data["hits"]
+            return Response(content=json.dumps(response), media_type="application/json")
+        else:
+            raise HTTPException(status_code=response.status_code, detail=response.json())
+    except httpx.HTTPError as err:
+        raise HTTPException(status_code=500, detail=str(err))
+    

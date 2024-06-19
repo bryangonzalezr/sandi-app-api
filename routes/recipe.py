@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from models.recipe import Recipe
+from models.userData import UserData
 from controllers import recipeController
 from database.database import SessionLocal, engine
 from database.mongo import conn as mongodb
@@ -24,7 +25,7 @@ def index():
     return recipeController.index(mongodb)
 
 @recipe.get("/receta/{recipe_id}")
-def show(recipe_id: int):
+def show(recipe_id: str):
     return recipeController.show(mongodb, recipe_id)
 
 @recipe.post("/receta/")
@@ -36,5 +37,9 @@ def update(recipe_id, recipe: Recipe):
     return recipeController.update(mongodb, recipe_id, recipe)
 
 @recipe.delete("/receta/{recipe_id}")
-def delete(recipe_id, recipe: Recipe):
+def delete(recipe_id):
     return recipeController.delete(mongodb, recipe_id)
+
+@recipe.post("/receta/api/")
+async def getRecipeFromApi(userData: UserData):
+    return await recipeController.getRecipeFromApi(userData)
