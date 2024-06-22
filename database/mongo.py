@@ -9,8 +9,13 @@ DBM_PORT=os.getenv("DBM_PORT")
 #DBM_NAME=os.getenv("DBM_NAME")
 # DBM_USER=os.getenv("DBM_USER")
 # DBM_NAME = os.getenv("DBM_NAME")
+DBM_URI = os.getenv("DBM_URI")
 
-MONGODB_URI = f"{DBM_ENGINE}://{DBM_HOST}:{DBM_PORT}/"
+
+if not DBM_URI:
+    MONGODB_URI = f"{DBM_ENGINE}://{DBM_HOST}:{DBM_PORT}/"
+else:
+    MONGODB_URI = DBM_URI
 conn = MongoClient(MONGODB_URI)
 
 """ class MongoDB:

@@ -9,6 +9,7 @@ import json
 from models.recipe import Recipe
 from models.userData import UserData
 from schemas.recipe import recipeEntity, recipesEntity
+import random
 
 load_dotenv()
 API_ID = os.getenv("EDAMAM_API_ID")
@@ -70,10 +71,16 @@ async def getRecipeFromApi(userData: UserData):
 
         if response.status_code == 200:
             data = dict(response.json())
-            response = data["hits"]
+            response = data.get("hits")
+            
             if len(response) == 0:
-                response = {"message": "No se encontraron recetas con los parámetros proporcionados"}
-            return Response(content=json.dumps(response), media_type="application/json")
+                recipe = {"message": "No se encontraron recetas con los parámetros proporcionados"}
+            else:
+                response= random.choice(response)
+                recipe = Recipe.from_dict(response["recipe"])
+            
+
+            return recipe
         else:
             raise HTTPException(status_code=response.status_code, detail=response.json())
     except httpx.HTTPError as err:

@@ -2,8 +2,6 @@ def recipeEntity(item) -> dict:
     return {
         "id": str(item["_id"]),
         "label": item.get("label"),
-        "image": item.get("image"),
-        "images": item.get("images"),
         "calories": item.get("calories"),
         "glycemic_index": item.get("glycemicIndex"),
         "inflammatory_index": item.get("inflammatoryIndex"),
