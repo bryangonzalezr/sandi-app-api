@@ -1,8 +1,8 @@
 from fastapi import Response, HTTPException
-from models.userData import UserData
+from models.UserData import UserData
 from models.Menu import Menu
 from models.Daymenu import DayMenu
-from models.recipe import Recipe
+from models.Recipe import Recipe
 from schemas.Menu import menuEntity, menusEntity
 from controllers.daymenuController import generate_day_menu
 from bson.objectid import ObjectId
