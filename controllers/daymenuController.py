@@ -1,7 +1,7 @@
 from fastapi import Response, HTTPException
-from models.UserData import UserData
-from models.Daymenu import DayMenu
-from models.Recipe import Recipe
+from models.userData import UserData
+from models.daymenu import DayMenu
+from models.recipe import Recipe
 from schemas.Daymenu import daymenuEntity, daymenusEntity
 from bson.objectid import ObjectId
 from starlette.status import HTTP_204_NO_CONTENT 

@@ -6,8 +6,8 @@ import httpx
 import os
 import json
 
-from models.Recipe import Recipe
-from models.UserData import UserData
+from models.recipe import Recipe
+from models.userData import UserData
 from schemas.recipe import recipeEntity, recipesEntity
 import random
 

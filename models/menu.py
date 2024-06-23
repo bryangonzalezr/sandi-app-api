@@ -1,4 +1,4 @@
-from models.Daymenu import DayMenu
+from models.daymenu import DayMenu
 from pydantic import BaseModel, Field
 from typing import List, Optional
 

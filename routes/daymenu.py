@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from models.Daymenu import DayMenu
-from models.Recipe import Recipe
-from models.UserData import UserData
+from models.daymenu import DayMenu
+from models.recipe import Recipe
+from models.userData import UserData
 from controllers import daymenuController
 from database.database import SessionLocal, engine
 from database.mongo import conn as mongodb

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from models.Recipe import Recipe
-from models.UserData import UserData
+from models.recipe import Recipe
+from models.userData import UserData
 from controllers import recipeController
 from database.mongo import conn as mongodb
 
