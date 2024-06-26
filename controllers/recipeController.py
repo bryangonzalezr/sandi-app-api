@@ -58,14 +58,14 @@ async def getRecipeFromApi(userData: UserData):
                 "label",
                 "dietLabels",
                 "healthLabels",
+                "mealType",
+                "dishType",
                 "cautions",
                 "ingredientLines",
-                "ingredients",
                 "calories",
                 "glycemicIndex",
                 "inflammatoryIndex",
                 "totalTime",
-                "totalNutrients",
             ]
         }
         for key, value in userData.items():
