@@ -28,7 +28,6 @@ class Recipe(BaseModel):
             meal_type=data['mealType'],
             dish_type=data['dishType'],
             instructions=data.get('instructions'),
-            total_nutrients=data['totalNutrients']
         )
 
     
