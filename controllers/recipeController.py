@@ -53,7 +53,20 @@ async def getRecipeFromApi(userData: UserData):
             "type": "public",
             "beta": "false",
             "app_id": API_ID,
-            "app_key": API_KEY
+            "app_key": API_KEY,
+            "field": [
+                "label",
+                "dietLabels",
+                "healthLabels",
+                "cautions",
+                "ingredientLines",
+                "ingredients",
+                "calories",
+                "glycemicIndex",
+                "inflammatoryIndex",
+                "totalTime",
+                "totalNutrients",
+            ]
         }
         for key, value in userData.items():
             if value != None:

@@ -54,9 +54,6 @@ def delete(db, daymenu_id: str):
     daymenuEntity(db.daymenus.find_one_and_delete({"_id": ObjectId(daymenu_id)}))
     return Response(status_code=HTTP_204_NO_CONTENT)
 
-
-    
-
 async def generate_day_menu(userData: UserData):
     try:
         url = "https://api.edamam.com/api/recipes/v2"
@@ -66,7 +63,20 @@ async def generate_day_menu(userData: UserData):
             "type": "public",
             "beta": "false",
             "app_id": API_ID,
-            "app_key": API_KEY
+            "app_key": API_KEY,
+            "field": [
+                "label",
+                "dietLabels",
+                "healthLabels",
+                "cautions",
+                "ingredientLines",
+                "ingredients",
+                "calories",
+                "glycemicIndex",
+                "inflammatoryIndex",
+                "totalTime",
+                "totalNutrients",
+            ]
         }
         for key, value in userData.items():
             if value != None:
@@ -92,13 +102,13 @@ async def generate_day_menu(userData: UserData):
                 response = data["hits"]
                 if len(response) == 0:
                     response = {"message": "No se encontraron recetas con los parámetros proporcionados"}
+                else:
+                    response= random.choice(response)
+                    recipe = Recipe.from_dict(response["recipe"])
 
-                response= random.choice(response)
-                recipe = Recipe.from_dict(response["recipe"])
-
-                day_menu.recipes.append(recipe)
+                    day_menu.recipes.append(recipe)
                 
-                day_menu.total_calories += recipe.calories
+                    day_menu.total_calories += recipe.calories
                 
             else:
                 raise HTTPException(status_code=response.status_code, detail=response.json())
