@@ -9,17 +9,9 @@ def recipeEntity(item) -> dict:
         "health_labels": item.get("healthLabels"),
         "cautions": item.get("cautions"),
         "ingredient_lines": item.get("ingredientLines"),
-        "ingredients": item.get("ingredients"),
-        "cuisine_type": item.get("cuisineType"),
         "meal_type": item.get("mealType"),
         "dish_type": item.get("dishType"),
         "instructions": item.get("instructions"),
-        "tags": item.get("tags"),
-        "total_weight": item.get("totalWeight"),
-        "total_nutrients": item.get("totalNutrients"),
-        "total_daily": item.get("totalDaily"),
-        "digest": item.get("digest"),
-
     }
 
 def recipesEntity(entity) -> list:
