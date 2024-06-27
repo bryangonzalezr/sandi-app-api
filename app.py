@@ -18,3 +18,7 @@ app.add_middleware(
 app.include_router(recipe)
 app.include_router(daymenu)
 app.include_router(menu)
+
+if __name__ == "__app__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8080)
