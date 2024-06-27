@@ -1,6 +1,5 @@
 from fastapi import Response, HTTPException
 from dotenv import load_dotenv
-from starlette.status import HTTP_204_NO_CONTENT
 from bson.objectid import ObjectId
 import httpx
 import os
@@ -42,7 +41,7 @@ def update(db, recipe_id: str, recipe: Recipe):
 def delete(db, recipe_id: str):
     db = getattr(db, DBM_NAME)
     recipeEntity(db.recipes.find_one_and_delete({"_id": ObjectId(recipe_id)}))
-    return Response(status_code=HTTP_204_NO_CONTENT)
+    return Response("Receta eliminada correctamente",status_code=200)
 
 async def getRecipeFromApi(userData: UserData):
     try:
