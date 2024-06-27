@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 class UserData(BaseModel):
-    query: str
+    query: Optional[str] = Field(None)
     range_ingredients: Optional[str] = Field(None)
     diet: Optional[List[str]] = Field(None)
     health: Optional[List[str]] = Field(None)
