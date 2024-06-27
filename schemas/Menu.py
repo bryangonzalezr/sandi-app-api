@@ -1,5 +1,6 @@
 def menuEntity(item) -> dict:
     return{
+        "id": str(item["_id"]),
         "timespan" : item.get("timespan"),
         "menus" : item.get("menus"),
         
