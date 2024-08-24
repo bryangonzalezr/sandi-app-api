@@ -8,7 +8,7 @@
 
  1. Clonar el proyecto desde WSL.
  2. Copiar `.env.example` a `.env` (`cp .env.example .env`)
- 3. Llenar `.env`.
+ 3. Llenar `.env`, obligatoriamente los datos para la DB (dejar `DB_HOST=pgsql`).
  4. Asegurarse que docker está corriendo.
 
 ---
@@ -37,4 +37,23 @@ Opcionalmente se puede crear el siguiente alias para `sail` en `~/.zshrc` o `~/.
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 ```
 
+### Ejecutar migraciones 
+
+```
+sail php artisan migrate
+```
+### Ejecutar migraciones y rellenar BD con datos de prueba (Seeders)
+
+```
+sail php artisan migrate:fresh --seed
+```
+
+### Limpiar cache
+
+* Cada vez que hagas cambios al .env o a las rutas o a algun archivo de la carpeta config, se debe ejecutar:
+```
+sail php artisan optimize
+```
 ---
+
+
