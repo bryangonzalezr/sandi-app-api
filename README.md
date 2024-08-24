@@ -37,7 +37,11 @@ Opcionalmente se puede crear el siguiente alias para `sail` en `~/.zshrc` o `~/.
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 ```
 
-### Ejecutar migraciones 
+Migraciones
+---
+Ejecutar solo uno de los dos comandos
+
+### Ejecutar solo migraciones 
 
 ```
 sail php artisan migrate
@@ -47,6 +51,7 @@ sail php artisan migrate
 ```
 sail php artisan migrate:fresh --seed
 ```
+---
 
 ### Limpiar cache
 
