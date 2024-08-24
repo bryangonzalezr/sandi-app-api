@@ -1,7 +1,7 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.3
+            context: ./docker/8.3
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -34,7 +34,7 @@ services:
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
             - 'sail-pgsql:/var/lib/postgresql/data'
-            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+            - './docker/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
             - sail
         healthcheck:
@@ -48,9 +48,22 @@ services:
                 - '${DB_USERNAME}'
             retries: 3
             timeout: 5s
+    mongo:
+        image: 'mongo:6.0'
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: '${DBM_USERNAME}'
+            MONGO_INITDB_ROOT_PASSWORD: '${DBM_PASSWORD}'
+            MONGO_INITDB_DATABASE: '${DBM_DATABASE}'
+        volumes:
+            - 'sailmongo:/data/mdb'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    sailmongo:
         driver: local
