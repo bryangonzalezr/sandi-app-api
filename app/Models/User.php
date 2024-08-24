@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\UserSex;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +22,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
+        'sex',
+        'birthday',
+        'phone_number',
+        'description',
+        'objectives',
         'email',
         'password',
     ];
@@ -43,6 +52,62 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'sex' => UserSex::class,
         ];
+    }
+
+    protected function isNutritionist(): bool
+    {
+        return $this->hasRole('nutritionist');
+    }
+
+    protected function isPatient(): bool
+    {
+        return $this->hasRole('patient');
+    }
+
+    protected function isBasicUser(): bool
+    {
+        return $this->hasRole('basic_user');
+    }
+
+    public function suscription()
+    {
+        return $this->belongsToMany(SuscriptionType::class, 'suscriptions', 'suscription_type_id', 'user_id');
+    }
+
+    public function nutritionalProfile()
+    {
+        return $this->hasOne(NutritionalProfile::class);
+    }
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
+    public function dayMenus()
+    {
+        return $this->belongsToMany(DayMenu::class, 'user_day_menus', 'day_menu_id', 'user_id');
+    }
+
+    public function weekMenus()
+    {
+        return $this->belongsToMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->where('timespan', 7);
+    }
+
+    public function monthMenus()
+    {
+        return $this->belongsToMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->whereBetween('timespan', [28, 31]);
+    }
+
+    public function patients()
+    {
+        return $this->hasMany(Patient::class, 'nutritionist_id');
+    }
+
+    public function progress()
+    {
+        return $this->hasOne(Progress::class);
     }
 }
