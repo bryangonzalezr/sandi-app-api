@@ -1,8 +1,12 @@
 # Sandi-App API
 
+## Requisitos
+* WSL 2 (Con ubuntu idealmente)
+* Docker
+
 ## Instrucciones de instalación
 
- 1. Clonar el proyecto.
+ 1. Clonar el proyecto desde WSL.
  2. Copiar `.env.example` a `.env` (`cp .env.example .env`)
  3. Llenar `.env`.
  4. Asegurarse que docker está corriendo.
