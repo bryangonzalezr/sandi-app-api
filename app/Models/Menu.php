@@ -14,6 +14,7 @@ class Menu extends MongoModel
         'name',
         'timespan',
         'total_calories',
+        'menus',
     ];
 
     public function users(): BelongsToMany
