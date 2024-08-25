@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('last_name');
             $table->string('sex');
-            $table->date('birthday');
+            $table->date('birthdate');
             $table->string('phone_number');
             $table->text('description')->nullable();
             $table->text('objectives')->nullable();
