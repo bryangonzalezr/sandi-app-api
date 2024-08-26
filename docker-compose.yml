@@ -23,6 +23,7 @@ services:
             - sail
         depends_on:
             - pgsql
+            - mongo
     pgsql:
         image: 'postgres:15'
         ports:
@@ -49,14 +50,12 @@ services:
             retries: 3
             timeout: 5s
     mongo:
-        image: 'mongo:6.0'
+        image: 'mongo:latest'
         restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: '${DBM_USERNAME}'
-            MONGO_INITDB_ROOT_PASSWORD: '${DBM_PASSWORD}'
-            MONGO_INITDB_DATABASE: '${DBM_DATABASE}'
+        ports:
+        - '${FORWARD_DB_PORT:-27017}:27017'
         volumes:
-            - 'sailmongo:/data/mdb'
+            - 'sail-mongo:/data/mdb'
         networks:
             - sail
 networks:
@@ -65,5 +64,5 @@ networks:
 volumes:
     sail-pgsql:
         driver: local
-    sailmongo:
+    sail-mongo:
         driver: local
