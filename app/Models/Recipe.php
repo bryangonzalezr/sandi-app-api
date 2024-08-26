@@ -9,6 +9,8 @@ class Recipe extends MongoModel
 {
     use HasFactory;
 
+    protected $connection = 'mongodb';
+
     protected $fillable = [
         'label',
         'diet_labels',

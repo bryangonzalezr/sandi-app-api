@@ -65,15 +65,16 @@ class RecipeController extends Controller
 
     public function getRecipeFromApi(GetRecipeRequest $request)
     {
-        /* try {
-            $url = "https://api.edamam.com/api/recipes/v2";
+        try {
 
-        $params = [
-            'type' => 'public',
-            'beta' => false,
-            'app_id' => env('EDAMAM_APP_ID'),
-            'app_key' => env('EDAMAM_APP_KEY'),
-            "field" => [
+            $params = [
+                'type' => 'public',
+                'beta' => false,
+                'app_id' => config('recipe_api.edamam.id'),
+                'app_key' => config('recipe_api.edamam.key'),
+            ];
+
+            $fields = [
                 "label",
                 "dietLabels",
                 "healthLabels",
@@ -85,10 +86,10 @@ class RecipeController extends Controller
                 "glycemicIndex",
                 "inflammatoryIndex",
                 "totalTime",
-            ]
-        ];
+            ];
 
-        foreach ($userData as $key => $value) {
+            // Añadir los parámetros adicionales del usuario
+        foreach ($request->validated() as $key => $value) {
             if ($value !== null) {
                 if ($key === "nutrients") {
                     foreach ($value as $nut_key => $nut_value) {
@@ -103,19 +104,22 @@ class RecipeController extends Controller
                 }
             }
         }
+        $url = "https://api.edamam.com/api/recipes/v2?". http_build_query($params);
 
-        $response = Http::get($url, $params);
-        dd($response->json());
+        foreach ($fields as $field) {
+            $url .= '&field=' . urlencode($field);
+        }
+        // Realizar la solicitud a la API
+        $response = Http::get($url);
         if ($response->successful()) {
             $data = $response->json();
-            dd($data);
             $hits = $data['hits'] ?? [];
-
             if (count($hits) === 0) {
-                $recipe = ["message" => "No se encontraron recetas con los parámetros proporcionados"];
+                $recipe = response()->json([
+                    "message" => "No se encontraron recetas con los parámetros proporcionados"
+                ]);
             } else {
-                $randomRecipe = $hits[array_rand($hits)];
-                $recipe = Recipe::fromArray($randomRecipe['recipe']);
+                $recipe = $hits[array_rand($hits)];
             }
 
             return response()->json($recipe);
@@ -128,6 +132,6 @@ class RecipeController extends Controller
                 'message' => 'Error al obtener recetas de la API',
                 'error' => $e->getMessage(),
             ], 500);
-        } */
+        }
     }
 }

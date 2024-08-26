@@ -10,6 +10,8 @@ class NutritionalProfile extends MongoModel
 {
     use HasFactory;
 
+    protected $connection = 'mongodb';
+
     protected $fillable  = [
         'patient_id',
         'height',

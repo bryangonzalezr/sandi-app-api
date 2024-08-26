@@ -10,6 +10,8 @@ class DayMenu extends MongoModel
 {
     use HasFactory;
 
+    protected $connection = 'mongodb';
+
     protected $fillable = [
         'name',
         'recipes',

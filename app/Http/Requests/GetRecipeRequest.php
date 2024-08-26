@@ -32,7 +32,7 @@ class GetRecipeRequest extends FormRequest
             'calories'         => ['string', 'nullable'],
             'time'             => ['string', 'nullable'],
             'excluded'         => ['array', 'nullable'],
-            'nutrients'        => ['string', 'nullable'],
+            'nutrients'        => ['array', 'nullable'],
         ];
     }
 }

@@ -6,9 +6,15 @@ use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    //Rutas Usuarios
     Route::apiResource('usuarios', UserController::class);
+
+    //Rutas Menus
     Route::apiResource('menus', MenuController::class);
+
+    //Rutas Recetas
     Route::apiResource('receta', RecipeController::class)->except('index');
     Route::get('recetas', [RecipeController::class, 'index']);
-    Route::get('receta/api/', [RecipeController::class, 'getRecipeFromApi']);
+    Route::post('receta/eda', [RecipeController::class, 'getRecipeFromApi']);
 });
