@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class UsersSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $user = User::create([
+            'name' => 'Super',
+            'last_name' => 'Admin',
+            'sex' => 'Masculino',
+            'birthdate' => Carbon::createFromFormat('Y-m-d', '2024-01-01'),
+            'phone_number' => '911112222',
+            'description' => 'El super administrador de la aplicación',
+            'objectives' => 'Super administrar la aplicación',
+            'email' => 'sandi@test.cl',
+            'password' => bcrypt('sandi.,2024'),
+        ]);
+
+        $user->assignRole('superadmin');
+    }
+}
