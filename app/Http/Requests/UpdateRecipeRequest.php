@@ -11,7 +11,7 @@ class UpdateRecipeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class UpdateRecipeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'label' => ['required', 'string'],
+            'diet_labels' => ['required', 'array'],
+            'health_labels' => ['required', 'array'],
+            'cautions' => ['required', 'array'],
+            'ingredient_lines' => ['required', 'array'],
+            'calories' => ['required', 'numeric'],
+            'glycemic_index' => ['nullable', 'numeric'],
+            'inflammatory_index' => ['nullable', 'numeric'],
+            'meal_type' => ['required', 'string'],
+            'dish_type' => ['required', 'string'],
+            'instructions' => ['nullable', 'string'],
+            'user_id' => ['required', 'numeric'],
         ];
     }
 }

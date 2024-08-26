@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -30,6 +31,7 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'sex' => $request->user_sex,
             'birthdate' => $request->birthdate,
+            'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
             'description' => $request->description,
             'objectives' => $request->objectives,
@@ -37,7 +39,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        $user->asasignRole($request->rol);
+        $user->assignRole($request->role);
 
         return new UserResource($user);
     }
@@ -60,6 +62,7 @@ class UserController extends Controller
             'last_name' => $request->last_name,
             'sex' => $request->user_sex,
             'birthdate' => $request->birthdate,
+            'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
             'description' => $request->description,
             'objectives' => $request->objectives,

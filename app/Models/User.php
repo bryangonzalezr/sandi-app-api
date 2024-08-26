@@ -25,6 +25,7 @@ class User extends Authenticatable
         'last_name',
         'sex',
         'birthdate',
+        'age',
         'phone_number',
         'description',
         'objectives',
@@ -58,17 +59,17 @@ class User extends Authenticatable
 
     protected function isNutritionist(): bool
     {
-        return $this->hasRole('nutritionist');
+        return $this->hasRole('nutritionista');
     }
 
     protected function isPatient(): bool
     {
-        return $this->hasRole('patient');
+        return $this->hasRole('paciente');
     }
 
     protected function isBasicUser(): bool
     {
-        return $this->hasRole('basic_user');
+        return $this->hasRole('usuario_basico');
     }
 
     public function suscription()
@@ -78,7 +79,7 @@ class User extends Authenticatable
 
     public function nutritionalProfile()
     {
-        return $this->hasOne(NutritionalProfile::class);
+        return $this->hasOne(NutritionalProfile::class, 'patient_id');
     }
 
     public function recipes()
