@@ -10,6 +10,13 @@ use App\Models\NutritionalPlan;
 
 class NutritionalPlanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:nutritional_plan.view'])->only(['index','show']);
+        $this->middleware(['can:nutritional_plan.create'])->only('store');
+        $this->middleware(['can:nutritional_plan.update'])->only('update');
+        $this->middleware(['can:nutritional_plan.delete'])->only('delete');
+    }
     /**
      * Display a listing of the resource.
      */

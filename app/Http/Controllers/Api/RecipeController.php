@@ -8,17 +8,40 @@ use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class RecipeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:recipe.view'])->only(['index','show']);
+        //$this->middleware(['can:recipe.view_any'])->only('');
+        $this->middleware(['can:recipe.create'])->only('store');
+        $this->middleware(['can:recipe.update'])->only('update');
+        $this->middleware(['can:recipe.delete'])->only('delete');
+        $this->middleware(['can:recipe.generate'])->only('getRecipeFromApi');
+
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $recipes = Recipe::all();
+
+        return RecipeResource::collection($recipes);
+    }
+
+    /**
+     * Muestra el listado de recetas
+     * de los pacientes del nutricionista
+     */
+    public function recipes(User $user)
+    {
+        $recipes = Recipe::where('user_id',$user->id)->get();
 
         return RecipeResource::collection($recipes);
     }

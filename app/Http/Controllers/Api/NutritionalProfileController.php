@@ -10,6 +10,13 @@ use App\Models\NutritionalProfile;
 
 class NutritionalProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:nutritional_profile.view'])->only(['index','show']);
+        $this->middleware(['can:nutritional_profile.create'])->only('store');
+        $this->middleware(['can:nutritional_profile.update'])->only('update');
+        $this->middleware(['can:nutritional_profile.delete'])->only('delete');
+    }
     /**
      * Display a listing of the resource.
      */

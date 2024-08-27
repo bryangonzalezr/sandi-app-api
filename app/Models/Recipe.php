@@ -25,4 +25,9 @@ class Recipe extends MongoModel
         'instructions',
         'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
