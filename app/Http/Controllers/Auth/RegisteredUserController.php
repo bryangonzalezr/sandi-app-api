@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,24 +22,29 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): Response
+    public function store(StoreUserRequest $request): Response
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
+        $civil_status = $request->sex == UserSex::Masculino ? 'Soltero' : 'Soltera';
         $user = User::create([
             'name' => $request->name,
+            'last_name' => $request->last_name,
+            'sex' => $request->user_sex,
+            'birthdate' => $request->birthdate,
+            'age' => Carbon::parse($request->birthdate)->age,
+            'phone_number' => $request->phone_number,
+            'civil_status' => $civil_status,
+            'description' => $request->description,
+            'objectives' => $request->objectives,
             'email' => $request->email,
-            'password' => Hash::make($request->string('password')),
+            'password' => bcrypt($request->password),
         ]);
+
+        $user->assignRole($request->role);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return response()->noContent();
+        return new UserResource($user);
     }
 }

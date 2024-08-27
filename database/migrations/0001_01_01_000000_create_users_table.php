@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('birthdate');
             $table->integer('age');
             $table->string('phone_number');
+            $table->string('civil_status');
             $table->text('description')->nullable();
             $table->text('objectives')->nullable();
             $table->string('email')->unique();

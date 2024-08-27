@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas Usuarios
-    Route::apiResource('usuario', UserController::class);
+    Route::apiResource('usuario', UserController::class)->except('store');
 
     //Rutas Recetas
     Route::apiResource('receta', RecipeController::class)->except('index');

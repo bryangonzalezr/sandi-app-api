@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CivilStatus;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 
 class StoreUserRequest extends FormRequest
 {
@@ -11,7 +15,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,15 +26,16 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'sex' => ['required', 'string'],
             'birthdate' => ['required', 'date'],
             'phone_number' => ['required', 'string'],
+            'civil_status' => ['required', Rule::enum(CivilStatus::class)],
             'description' => ['nullable', 'string'],
             'objectives' => ['nullable', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::default()],
             'role' => ['required', 'string'],
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -24,8 +25,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    /* public function store(StoreUserRequest $request)
     {
+        $civil_status = $request->sex == UserSex::Masculino ? 'Soltero' : 'Soltera';
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
@@ -33,6 +35,7 @@ class UserController extends Controller
             'birthdate' => $request->birthdate,
             'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
+            'civil_status' => $civil_status,
             'description' => $request->description,
             'objectives' => $request->objectives,
             'email' => $request->email,
@@ -42,7 +45,7 @@ class UserController extends Controller
         $user->assignRole($request->role);
 
         return new UserResource($user);
-    }
+    } */
 
     /**
      * Display the specified resource.

@@ -84,7 +84,7 @@ class User extends Authenticatable
 
     public function recipes()
     {
-        return $this->hasMany(Recipe::class);
+        return $this->hasMany(Recipe::class, 'user_id');
     }
 
     public function dayMenus()
