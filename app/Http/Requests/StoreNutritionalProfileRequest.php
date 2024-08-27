@@ -36,10 +36,7 @@ class StoreNutritionalProfileRequest extends FormRequest
             'morbid_antecedents' => ['required', 'array'],
             'family_antecedents' => ['required', 'array'],
             'subjective_assessment' => ['required', 'array'],
-            'bicipital_skinfold' => ['required', 'numeric'],
-            'tricipital_skinfold' => ['required', 'numeric'],
-            'subscapular_skinfold' => ['required', 'numeric'],
-            'supraspinal_skinfold' => ['required', 'numeric'],
+            'nutritional_anamnesis' => ['required', 'array'],
         ];
     }
 }

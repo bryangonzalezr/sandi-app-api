@@ -107,6 +107,11 @@ class User extends Authenticatable
         return $this->hasMany(Patient::class, 'nutritionist_id');
     }
 
+    public function visits()
+    {
+        return $this->hasMany(Visit::class, 'patient_id');
+    }
+
     public function progress()
     {
         return $this->hasOne(Progress::class);

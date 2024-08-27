@@ -22,11 +22,10 @@ class NutritionalProfile extends MongoModel
         'intolerances',
         'morbid_antecedents',
         'family_antecedents',
+        'digestion',
         'subjective_assessment',
-        'bicipital_skinfold',
-        'tricipital_skinfold',
-        'subescapular_skinfold',
-        'supraspinal_skinfold',
+        'nutritional_anamnesis',
+
     ];
 
     public function patient()
