@@ -10,6 +10,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas Usuarios
     Route::apiResource('usuario', UserController::class)->except('store');
+    Route::get('roles', [UserController::class, 'roleList']);
 
     //Rutas Recetas
     Route::apiResource('receta', RecipeController::class)->except('index');

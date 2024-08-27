@@ -9,6 +9,9 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -89,5 +92,24 @@ class UserController extends Controller
             ],
             200
         );
+    }
+
+    /**
+     * Obtiene la lista de roles
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function roleList(Request $request)
+    {
+        $roles = Role::all();
+
+        $roles = $roles->map(function ($rol) {
+            return [
+                'name' => $rol->name,
+                'display_name' => $rol->display_name
+            ];
+        })->values();
+
+        return JsonResource::collection($roles);
     }
 }
