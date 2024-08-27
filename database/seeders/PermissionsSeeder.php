@@ -16,20 +16,37 @@ class PermissionsSeeder extends Seeder
     {
         $roles = $this->seedRoles();
 
-        //$this->seedPermissions();
+        $this->seedPermissions();
 
-        /* $roles['nutricionista']->givePermissionTo([
+        $roles['nutricionista']->givePermissionTo([
             'nutritional_plan.create',
-            'nutritional_plan.view_any',
-            'nutritional_plan.update_any',
-            'nutritional_plan.delete_any',
-            'nutritional_plan.view_own',
-            'nutritional_plan.update_own',
-            'nutritional_plan.delete_own',
-            'users.create',
-            'users.view_any',
-            'users.update_any',
-            'users.delete_any',
+            'nutritional_plan.view',
+            'nutritional_plan.update',
+            'nutritional_plan.delete',
+            'nutritional_profile.create',
+            'nutritional_profile.view',
+            'nutritional_profile.update',
+            'nutritional_profile.delete',
+            'recipe.create',
+            'recipe.view',
+            'recipe.view_any',
+            'recipe.update',
+            'recipe.delete',
+            'recipe.generate',
+            'menu.create',
+            'menu.view',
+            'menu.update',
+            'menu.delete',
+            'menu.generate',
+            'suscription.view',
+            'suscription.create',
+            'suscription.delete',
+            'contact_cards.create',
+            'contact_cards.update',
+            'contact_cards.delete',
+            'contact_cards.view',
+            'users.view_own',
+            'users.update_own',
             'users.view_patient_users',
             'users.update_patient_users',
             'users.delete_patient_users',
@@ -39,10 +56,30 @@ class PermissionsSeeder extends Seeder
 
         $roles['paciente']->givePermissionTo([
             'nutritional_plan.view_own',
+            'nutritional_profile.view_own',
+            'recipe.create',
+            'recipe.view',
+            'recipe.delete',
+            'recipe.generate',
+            'menu.create',
+            'menu.view',
+            'menu.delete',
+            'users.view_own',
+            'users.update_own',
+            'shopping_list.create',
+            'shopping_list.view',
+            'shopping_list.delete',
         ]);
 
         $roles['usuario_basico']->givePermissionTo([
-        ]); */
+            'recipe.create',
+            'recipe.view',
+            'recipe.delete',
+            'recipe.generate',
+            'users.view_own',
+            'users.update_own',
+            'contact_cards.view',
+        ]);
     }
 
     /**
@@ -61,12 +98,12 @@ class PermissionsSeeder extends Seeder
             'nutricionista' => Role::firstOrCreate([
                 'id'          => 2,
                 'name'        => 'nutricionista',
-                'description' => 'Usuario Nutricionista (permisos medios)',
+                'description' => 'Usuario Nutricionista (permisos altos)',
             ]),
             'paciente' => Role::firstOrCreate([
                 'id'          => 3,
                 'name'        => 'paciente',
-                'description' => 'Usuario Paciente (permisos mínimos)',
+                'description' => 'Usuario Paciente (permisos medios)',
             ]),
             'usuario_basico' => Role::firstOrCreate([
                 'id'          => 4,
@@ -243,7 +280,7 @@ class PermissionsSeeder extends Seeder
             'description' => 'Usuario puede desasignar Rol Paciente'
         ]);
 
-        //Permisos tarjeatas de contacto
+        //Permisos tarjetas de contacto
 
         //Nutricionista
         Permission::create([
@@ -259,6 +296,22 @@ class PermissionsSeeder extends Seeder
         Permission::create([
             'name' => 'contact_cards.delete',
             'description' => 'Usuario puede eliminar sus tarjetas de contacto'
+        ]);
+
+        //Permisos lista de compras
+
+        //Paciente
+        Permission::create([
+            'name' => 'shopping_list.create',
+            'description' => 'Usuario puede crear una lista de compras basado en un menu'
+        ]);
+        Permission::create([
+            'name' => 'shopping_list.view',
+            'description' => 'Usuario puede visualizar sus listas de compras'
+        ]);
+        Permission::create([
+            'name' => 'shopping_list.delete',
+            'description' => 'Usuario puede eliminar una lista de compras'
         ]);
 
         //Nutricionista y Usuario Básico
