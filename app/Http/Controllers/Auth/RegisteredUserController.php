@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
@@ -45,6 +44,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return new UserResource($user);
+        return response()->noContent();
     }
 }
