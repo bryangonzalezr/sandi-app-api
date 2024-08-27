@@ -86,25 +86,29 @@ class PermissionsSeeder extends Seeder
         return [
             // SUPERADMIN
             'superadmin' => Role::firstOrCreate([
-                'id'          => 1,
-                'name'        => 'superadmin',
-                'description' => 'SuperAdmin de Sandi-App (todos los permisos implicitos)',
+                'id'           => 1,
+                'name'         => 'superadmin',
+                'display_name' => 'Super Admin',
+                'description'  => 'SuperAdmin de Sandi-App (todos los permisos implicitos)',
             ]),
             // ROLES BASE
             'nutricionista' => Role::firstOrCreate([
-                'id'          => 2,
-                'name'        => 'nutricionista',
-                'description' => 'Usuario Nutricionista (permisos altos)',
+                'id'           => 2,
+                'name'         => 'nutricionista',
+                'display_name' => 'Nutricionista',
+                'description'  => 'Usuario Nutricionista (permisos altos)',
             ]),
             'paciente' => Role::firstOrCreate([
-                'id'          => 3,
-                'name'        => 'paciente',
-                'description' => 'Usuario Paciente (permisos medios)',
+                'id'           => 3,
+                'name'         => 'paciente',
+                'display_name' => 'Paciente',
+                'description'  => 'Usuario Paciente (permisos medios)',
             ]),
             'usuario_basico' => Role::firstOrCreate([
-                'id'          => 4,
-                'name'        => 'usuario_basico',
-                'description' => 'Usuario básico (permisos mínimos)',
+                'id'           => 4,
+                'name'         => 'usuario_basico',
+                'display_name' => 'Usuario Básico',
+                'description'  => 'Usuario básico (permisos mínimos)',
             ]),
         ];
     }
