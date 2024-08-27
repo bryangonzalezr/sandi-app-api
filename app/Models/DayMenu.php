@@ -18,6 +18,14 @@ class DayMenu extends MongoModel
         'total_calories',
     ];
 
+    public function getDaymenu($recipe, $total_calories)
+    {
+        $day_menu = [
+            "recipes" => $recipe,
+            "total_calories" => $total_calories,
+        ];
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

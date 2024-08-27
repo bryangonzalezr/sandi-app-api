@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->constrained('users');
+            $table->unsignedBigInteger('imc');
+            $table->unsignedBigInteger('density');
+            $table->unsignedBigInteger('siri_fat_percentage');
+            $table->unsignedBigInteger('slaughter_fat_percentage');
+            $table->unsignedBigInteger('sum_perimeters');
+            $table->unsignedBigInteger('z_muscular');
+            $table->unsignedBigInteger('m_muscular');
+            $table->unsignedBigInteger('pmb');
+            $table->unsignedBigInteger('amb');
+            $table->unsignedBigInteger('agb');
             $table->timestamps();
         });
     }

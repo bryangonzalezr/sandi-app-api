@@ -14,6 +14,9 @@ class DayMenuResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            "recipes"        => $this->resource['recipe'],
+            "total_calories" => $this->resource['recipe'],
+        ];
     }
 }

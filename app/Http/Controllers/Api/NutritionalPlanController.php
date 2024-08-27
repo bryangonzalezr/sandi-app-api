@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNutritionalPlanRequest;
 use App\Http\Requests\UpdateNutritionalPlanRequest;
+use App\Http\Resources\NutritionalPlanResource;
 use App\Models\NutritionalPlan;
 
 class NutritionalPlanController extends Controller
@@ -14,7 +15,9 @@ class NutritionalPlanController extends Controller
      */
     public function index()
     {
-        //
+        $nutritional_plans = NutritionalPlan::all();
+
+        return NutritionalPlanResource::collection($nutritional_plans);
     }
 
     /**
@@ -22,7 +25,9 @@ class NutritionalPlanController extends Controller
      */
     public function store(StoreNutritionalPlanRequest $request)
     {
-        //
+        $nutritional_plans = NutritionalPlan::create($request->validated());
+
+        return new NutritionalPlanResource($nutritional_plans);
     }
 
     /**
@@ -30,7 +35,7 @@ class NutritionalPlanController extends Controller
      */
     public function show(NutritionalPlan $nutritionalPlan)
     {
-        //
+        return new NutritionalPlanResource($nutritionalPlan);
     }
 
     /**
@@ -38,7 +43,9 @@ class NutritionalPlanController extends Controller
      */
     public function update(UpdateNutritionalPlanRequest $request, NutritionalPlan $nutritionalPlan)
     {
-        //
+        $nutritionalPlan->update($request->validated());
+
+        return new NutritionalPlanResource($nutritionalPlan);
     }
 
     /**
@@ -46,6 +53,10 @@ class NutritionalPlanController extends Controller
      */
     public function destroy(NutritionalPlan $nutritionalPlan)
     {
-        //
+        $nutritionalPlan->delete();
+
+        return response()->json([
+            'message' => 'Nutritional plan deleted successfully',
+        ]);
     }
 }

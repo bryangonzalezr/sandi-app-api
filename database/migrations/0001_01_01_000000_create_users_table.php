@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('sex');
             $table->date('birthdate');
+            $table->integer('age');
             $table->string('phone_number');
             $table->text('description')->nullable();
             $table->text('objectives')->nullable();

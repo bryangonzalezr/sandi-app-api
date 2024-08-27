@@ -21,6 +21,7 @@ class GetRecipeRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'query'             => ['string', 'nullable'],
             'range_ingredients' => ['string', 'nullable'],

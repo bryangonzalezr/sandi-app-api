@@ -14,11 +14,13 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
+        $birthdate = Carbon::createFromFormat('Y-m-d', '2024-01-01');
         $user = User::create([
             'name' => 'Super',
             'last_name' => 'Admin',
             'sex' => 'Masculino',
-            'birthdate' => Carbon::createFromFormat('Y-m-d', '2024-01-01'),
+            'birthdate' => $birthdate,
+            'age' => Carbon::parse($birthdate)->age,
             'phone_number' => '911112222',
             'description' => 'El super administrador de la aplicación',
             'objectives' => 'Super administrar la aplicación',
