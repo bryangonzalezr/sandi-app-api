@@ -2,37 +2,75 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumToArray;
+
 enum Health: string
 {
-    case alcohol_cocktail = 'alcohol-cocktail';
-    case LibreDeAlcohol = 'alcohol-free';
-    case LibreDeCrustaceos = 'crustacean-free';
-    case LibreDeLacteos = 'dairy-free';
-    case LibreDeLactosa = 'egg-free';
-    case LibreDePescado = 'fish-free';
-    case LibreDeGluten = 'gluten-free';
+    use EnumToArray;
+
+    case Alcohol = 'alcohol-free';
+    case Crustaceos = 'crustacean-free';
+    case Lacteos = 'dairy-free';
+    case Huevos = 'egg-free';
+    case Pescado = 'fish-free';
+    case Gluten = 'gluten-free';
     case KetoAmigable = 'keto-friendly';
     case AptoParaRiñones = 'kidney-friendly';
     case Kosher = 'kosher';
-    case low_fat_abs = 'low-fat-abs';
     case BajoEnPotasio = 'low-potassium';
     case BajoEnAzucar = 'low-sugar';
-    case LibreDeLupino = 'lupine-free';
+    case Lupino = 'lupine-free';
     case Mediterraneo = 'mediterranean';
-    case LibreDeMolusco = 'mollusk-free';
-    case LibreDeMostaza = 'mustard-free';
-    case SinAceite = 'no-oil-added';
+    case Molusco = 'mollusk-free';
+    case Mostaza = 'mustard-free';
+    case Aceite = 'no-oil-added';
     case DietaPaleo = 'paleo';
-    case LibreDeMani = 'peanut-free';
+    case Mani = 'peanut-free';
     case Pescetariano = 'pescatarian';
-    case LibreDeCerdo = 'pork-free';
-    case LibreDeCarneRojo = 'red-meat-free';
-    case LibreDeSesamo = 'sesame-free';
-    case LibreDeMarisco = 'shellfish-free';
-    case LibreDeSoya = 'soy-free';
+    case Cerdo = 'pork-free';
+    case CarneRoja = 'red-meat-free';
+    case Sesamo = 'sesame-free';
+    case Marisco = 'shellfish-free';
+    case Soya = 'soy-free';
     case AzucarConsciente = 'sugar-conscious';
-    case SinFrutosSecos = 'tree-nut-free';
+    case FrutosSecos = 'tree-nut-free';
     case Vegano = 'vegan';
     case Vegetariano = 'vegetarian';
-    case LibreDeTrigo = 'wheat-free';
+    case Trigo = 'wheat-free';
+
+    public function translation(): array
+    {
+        return [
+             'LibreDeAlcohol' => ' Libre de Alcohol',
+             'LibreDeCrustaceos' => 'Libre de Crustaceos',
+             'LibreDeLacteos' => 'Libre de Lacteos',
+             'LibreDeLactosa' => 'Libre de Lactosa',
+             'LibreDePescado' => 'Libre de Pescado',
+             'LibreDeGluten' => 'Libre de Gluten',
+             'KetoAmigable' => 'Keto Amigable',
+             'AptoParaRiñones' => 'Apto Para Riñones',
+             'Kosher' => 'kosher',
+             'BajoEnPotasio' => 'low-potassium',
+             'BajoEnAzucar' => 'low-sugar',
+             'LibreDeLupino' => 'lupine-free',
+             'Mediterraneo' => 'mediterranean',
+             'LibreDeMolusco' => 'mollusk-free',
+             'LibreDeMostaza' => 'mustard-free',
+             'SinAceite' => 'no-oil-added',
+             'DietaPaleo' => 'paleo',
+             'LibreDeMani' => 'peanut-free',
+             'Pescetariano' => 'pescatarian',
+             'LibreDeCerdo' => 'pork-free',
+             'LibreDeCarneRoja' => 'red-meat-free',
+             'LibreDeSesamo' => 'sesame-free',
+             'LibreDeMarisco' => 'shellfish-free',
+             'LibreDeSoya' => 'soy-free',
+             'AzucarConsciente' => 'sugar-conscious',
+             'SinFrutosSecos' => 'tree-nut-free',
+             'Vegano' => 'vegan',
+             'Vegetariano' => 'vegetarian',
+             'LibreDeTrigo' => 'wheat-free',
+
+        ];
+    }
 }
