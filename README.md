@@ -8,7 +8,7 @@
 
  1. Clonar el proyecto desde WSL.
  2. Copiar `.env.example` a `.env` (`cp .env.example .env`)
- 3. Llenar `.env`, obligatoriamente los datos para la DB (dejar `DB_HOST=pgsql`).
+ 3. Llenar `.env`, obligatoriamente los datos para la DB (dejar `DB_HOST=pgsql` y `DBM_HOST=mongo`).
  4. Asegurarse que docker está corriendo.
 
 ---
