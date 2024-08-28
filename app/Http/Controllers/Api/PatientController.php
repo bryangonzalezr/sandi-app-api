@@ -19,7 +19,7 @@ class PatientController extends Controller
     {
         $patients = Patient::where('nutritionist_id', Auth::id())->get();
         $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->get();
-        return UserResource::collection($patients);
+        return UserResource::collection($patient_users);
     }
 
     /**
