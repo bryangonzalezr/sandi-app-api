@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\NutritionalPlan;
+use App\Models\NutritionalProfile;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -48,7 +49,7 @@ class TestUsersSeeder extends Seeder
         ]);
         $user->assignRole('paciente');
 
-        $nutritional_plan = NutritionalPlan::create([
+        $nutritional_profile = NutritionalProfile::create([
             'patient_id' => $user->id,
             'height' => 1.63,
             'weight' => 76,
@@ -106,13 +107,13 @@ class TestUsersSeeder extends Seeder
             'civil_status' => 'Soltero(a)',
             'description' => '',
             'objectives' => 'Bajar de peso e intentar ganar musculos',
-            'email' => 'claudia@test.cl',
+            'email' => 'john@test.cl',
             'password' => bcrypt('sandi.,2024'),
         ]);
 
         $user->assignRole('paciente');
 
-        $nutritional_plan = NutritionalPlan::create([
+        $nutritional_profile = NutritionalProfile::create([
             'patient_id' => $user->id,
             'height' => 1.72,
             'weight' => 92,
