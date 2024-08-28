@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('nutritional_plans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->constrained('users');
+            $table->date('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
