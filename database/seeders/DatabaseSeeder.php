@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             UsersSeeder::class,
             ApiMenuSeeder::class,
+            TestUsersSeeder::class,
         ]);
     }
 }
