@@ -36,6 +36,16 @@ Opcionalmente se puede crear el siguiente alias para `sail` en `~/.zshrc` o `~/.
 ```
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 ```
+Generar llave .env
+---
+Ejecutar el comando:
+```
+./vendor/bin/sail php artisan key:generate
+```
+o en su defecto si es que agregaste el alias en el bash:
+```
+sail php artisan key:generate
+```
 
 Migraciones
 ---
