@@ -8,9 +8,11 @@ use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RecipeController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('login', [LoginController::class, 'apiLogin']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 

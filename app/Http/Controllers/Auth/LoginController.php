@@ -9,7 +9,9 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,6 +54,25 @@ class LoginController extends Controller
         Auth::login($user);
 
         return new UserResource($user);
+    }
+
+    public function apiLogin(LoginRequest $request){
+
+        $user = User::where('email',$request['email'])->first();
+        if(!$user || !Hash::check($request['password'],$user->password)){
+            return response()->json([
+                'message' => 'Invalid Credentials'
+            ],401);
+        }
+        $token = $user->createToken('authToken')->plainTextToken;
+        return new JsonResponse(
+            data: [
+                'data' => [
+                    'token' => $token,
+                ]
+            ],
+            status: Response::HTTP_OK,
+        );
     }
 
     public function logout(Request $request)
