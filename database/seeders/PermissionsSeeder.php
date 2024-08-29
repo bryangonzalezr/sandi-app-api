@@ -47,6 +47,7 @@ class PermissionsSeeder extends Seeder
             'contact_cards.view',
             'users.view_own',
             'users.view_patient_users',
+            'users.create_patient_users',
             'users.delete_patient_users',
             'roles.assign_patient_user',
             'roles.retract_patient_user',
@@ -243,12 +244,6 @@ class PermissionsSeeder extends Seeder
 
         //Permisos usuarios
 
-        //SuperAdmin
-        Permission::create([
-            'name' => 'users.create',
-            'description' => 'Usuario puede crear un Usuario'
-        ]);
-
         //Nutricionista, Paciente y Usuario Básico
         Permission::create([
             'name' => 'users.view_own',
@@ -265,6 +260,10 @@ class PermissionsSeeder extends Seeder
         Permission::create([
             'name' => 'users.view_patient_users',
             'description' => 'Usuario puede ver información de sus Usuarios Pacientes'
+        ]);
+        Permission::create([
+            'name' => 'users.create_patient_users',
+            'description' => 'Usuario puede agregar usuarios como Pacientes'
         ]);
         Permission::create([
             'name' => 'users.delete_patient_users',
@@ -298,6 +297,12 @@ class PermissionsSeeder extends Seeder
             'description' => 'Usuario puede eliminar sus tarjetas de contacto'
         ]);
 
+        //Nutricionista y Usuario Básico
+        Permission::create([
+            'name' => 'contact_cards.view',
+            'description' => 'Usuario puede ver información de una tarjeta de contacto'
+        ]);
+
         //Permisos lista de compras
 
         //Paciente
@@ -314,11 +319,7 @@ class PermissionsSeeder extends Seeder
             'description' => 'Usuario puede eliminar una lista de compras'
         ]);
 
-        //Nutricionista y Usuario Básico
-        Permission::create([
-            'name' => 'contact_cards.view',
-            'description' => 'Usuario puede ver información de una tarjeta de contacto'
-        ]);
+
 
 
     }
