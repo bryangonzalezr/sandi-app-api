@@ -15,6 +15,11 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:users.view_own'])->only(['index','show']);
+        $this->middleware(['can:users.update_own'])->only('update');
+    }
     /**
      * Display a listing of the resource.
      */

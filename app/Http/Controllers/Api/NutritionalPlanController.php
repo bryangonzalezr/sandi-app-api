@@ -63,7 +63,7 @@ class NutritionalPlanController extends Controller
         $nutritionalPlan->delete();
 
         return response()->json([
-            'message' => 'Nutritional plan deleted successfully',
+            'message' => 'Plan nutricional archivado satisfactoriamente',
         ]);
     }
 }

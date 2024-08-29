@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Http;
 
 class DayMenuController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:menu.view'])->only(['index','show']);
+        $this->middleware(['can:menu.create'])->only('store');
+        $this->middleware(['can:menu.update'])->only('update');
+        $this->middleware(['can:menu.delete'])->only('delete');
+        $this->middleware(['can:menu.generate'])->only('generateMenu');
+    }
+
     /**
      * Display a listing of the resource.
      */

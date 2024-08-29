@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['can:users.view_patient_users'])->only(['index','show']);
+        $this->middleware(['can:users.create_patient_users'])->only('store');
+        $this->middleware(['can:delete_patient_users'])->only('delete');
+    }
     /**
      * Display a listing of the resource.
      */
