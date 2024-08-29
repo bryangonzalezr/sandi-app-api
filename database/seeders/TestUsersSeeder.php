@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\NutritionalPlan;
 use App\Models\NutritionalProfile;
+use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,7 +18,7 @@ class TestUsersSeeder extends Seeder
     public function run(): void
     {
         $birthdate = Carbon::createFromFormat('Y-m-d', '1988-06-20');
-        $user = User::create([
+        $nutritionist = User::create([
             'name' => 'Belen',
             'last_name' => 'Isuani',
             'sex' => 'Femenino',
@@ -31,7 +32,7 @@ class TestUsersSeeder extends Seeder
             'password' => bcrypt('sandi.,2024'),
         ]);
 
-        $user->assignRole('nutricionista');
+        $nutritionist->assignRole('nutricionista');
 
         $birthdate = Carbon::createFromFormat('Y-m-d', '1990-01-14');
         $user = User::create([
@@ -46,6 +47,10 @@ class TestUsersSeeder extends Seeder
             'objectives' => 'Bajar de peso',
             'email' => 'claudia@test.cl',
             'password' => bcrypt('sandi.,2024'),
+        ]);
+        $patient = Patient::create([
+            'nutritionist_id' => $nutritionist->id,
+            'patient_id' => $user->id,
         ]);
         $user->assignRole('paciente');
 
@@ -111,7 +116,13 @@ class TestUsersSeeder extends Seeder
             'password' => bcrypt('sandi.,2024'),
         ]);
 
+        $patient = Patient::create([
+            'nutritionist_id' => $nutritionist->id,
+            'patient_id' => $user->id,
+        ]);
+
         $user->assignRole('paciente');
+
 
         $nutritional_profile = NutritionalProfile::create([
             'patient_id' => $user->id,

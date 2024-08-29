@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\DayMenuController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\NutritionalPlanController;
 use App\Http\Controllers\Api\NutritionalProfileController;
+use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RecipeController;
 use App\Http\Controllers\Api\UserController;
@@ -37,7 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('perfil-nutricional', NutritionalProfileController::class);
 
     //Rutas Pacientes
-    Route::apiResource('paciente', UserController::class);
+    Route::apiResource('paciente',PatientController::class);
 
     //Rutas Planes Nutricionales
     Route::apiResource('plan-nutricional', NutritionalPlanController::class);

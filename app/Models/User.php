@@ -10,11 +10,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use MongoDB\Laravel\Eloquent\HybridRelations;
 use Spatie\Permission\Traits\HasRoles;
+use MongoDB\Laravel\Relations\HasOne;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, SoftDeletes, HasApiTokens;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, HasApiTokens ,HybridRelations;
+
+    protected $connection = 'pgsql';
 
     /**
      * The attributes that are mass assignable.

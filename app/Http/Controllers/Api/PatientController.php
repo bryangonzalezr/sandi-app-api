@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
+use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
 use App\Models\Patient;
 use App\Models\User;
@@ -44,9 +45,10 @@ class PatientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Patient $patient)
+    public function show(Patient $paciente)
     {
-        return new UserResource($patient);
+        $patient = User::with('nutritionalProfile')->find($paciente->patient_id);
+        return new PatientResource($patient);
     }
 
     /**
