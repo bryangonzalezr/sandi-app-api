@@ -106,7 +106,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('receta/{recipe}', [RecipeController::class, 'show']);
     Route::post('receta', [RecipeController::class, 'store']);
     Route::put('receta/{recipe}', [RecipeController::class, 'update']);
-    Route::delete('receta/{recipe}', [RecipeController::class, 'delete']);
+    Route::delete('receta/{recipe}', [RecipeController::class, 'destroy']);
     Route::post('receta/generar', [RecipeController::class, 'getRecipeFromApi']);
 
     //Rutas DayMenus
@@ -114,7 +114,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('menu-diario/{dayMenu}', [DayMenuController::class, 'show']);
     Route::post('menu-diario', [DayMenuController::class, 'store']);
     Route::put('menu-diario/{dayMenu}', [DayMenuController::class, 'update']);
-    Route::delete('menu-diario/{dayMenu}', [DayMenuController::class, 'delete']);
+    Route::delete('menu-diario/{dayMenu}', [DayMenuController::class, 'destroy']);
     Route::post('menu-diario/generar', [DayMenuController::class, 'generateDayMenu']);
 
     //Rutas Menus
@@ -127,41 +127,41 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('perfil-nutricional/{nutritionalProfile}', [NutritionalProfileController::class, 'show']);
     Route::post('perfil-nutricional', [NutritionalProfileController::class, 'store']);
     Route::put('perfil-nutricional/{nutritionalProfile}', [NutritionalProfileController::class, 'update']);
-    Route::delete('perfil-nutricional/{nutritionalProfile}', [NutritionalProfileController::class, 'delete']);
+    Route::delete('perfil-nutricional/{nutritionalProfile}', [NutritionalProfileController::class, 'destroy']);
 
     //Rutas Pacientes
     Route::get('pacientes', [PatientController::class, 'index']);
     Route::get('paciente/{patient}', [PatientController::class, 'show']);
     Route::post('paciente', [PatientController::class, 'store']);
     Route::put('paciente/{patient}', [PatientController::class, 'update']);
-    Route::delete('paciente/{patient}', [PatientController::class, 'delete']);
+    Route::delete('paciente/{patient}', [PatientController::class, 'destroy']);
 
     //Rutas Planes Nutricionales
     Route::get('planes-nutricionales', [NutritionalPlanController::class, 'index']);
     Route::get('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'show']);
     Route::post('plan-nutricional', [NutritionalPlanController::class, 'store']);
     Route::put('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'update']);
-    Route::delete('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'delete']);
+    Route::delete('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'destroy']);
 
     //Rutas Progreso
     Route::get('progresos', [ProgressController::class, 'index']);
     Route::get('progreso/{progress}', [ProgressController::class, 'show']);
     Route::post('progreso', [ProgressController::class, 'store']);
     Route::put('progreso/{progress}', [ProgressController::class, 'update']);
-    Route::delete('progreso/{progress}', [ProgressController::class, 'delete']);
+    Route::delete('progreso/{progress}', [ProgressController::class, 'destroy']);
 
     //Rutas de Consultas
     Route::get('consultas', [VisitController::class, 'index']);
     Route::get('consulta/{visit}', [VisitController::class, 'show']);
     Route::post('consulta', [VisitController::class, 'store']);
     Route::put('consulta/{visit}', [VisitController::class, 'update']);
-    Route::delete('consulta/{visit}', [VisitController::class, 'delete']);
+    Route::delete('consulta/{visit}', [VisitController::class, 'destroy']);
 
     //Rutas Tarjetas de contacto
     Route::get('tarjetas', [ContactCardController::class, 'index']);
     Route::get('tarjeta/{contactCard}', [ContactCardController::class, 'show']);
     Route::post('tarjeta', [ContactCardController::class, 'store']);
     Route::put('tarjeta/{contactCard}', [ContactCardController::class, 'update']);
-    Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'delete']);
+    Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'destroy']);
 
 });
