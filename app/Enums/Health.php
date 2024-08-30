@@ -17,8 +17,8 @@ enum Health: string
     case KetoAmigable = 'keto-friendly';
     case AptoParaRiñones = 'kidney-friendly';
     case Kosher = 'kosher';
-    case BajoEnPotasio = 'low-potassium';
-    case BajoEnAzucar = 'low-sugar';
+    // case BajoEnPotasio = 'low-potassium';
+    // case BajoEnAzucar = 'low-sugar';
     case Lupino = 'lupine-free';
     case Mediterraneo = 'mediterranean';
     case Molusco = 'mollusk-free';
@@ -41,36 +41,35 @@ enum Health: string
     public function translation(): array
     {
         return [
-             'LibreDeAlcohol' => ' Libre de Alcohol',
-             'LibreDeCrustaceos' => 'Libre de Crustaceos',
-             'LibreDeLacteos' => 'Libre de Lacteos',
-             'LibreDeLactosa' => 'Libre de Lactosa',
-             'LibreDePescado' => 'Libre de Pescado',
-             'LibreDeGluten' => 'Libre de Gluten',
+             'Alcohol' => ' Libre de Alcohol',
+             'Crustaceos' => 'Libre de Crustaceos',
+             'Lacteos' => 'Libre de Lacteos',
+             'Lactosa' => 'Libre de Lactosa',
+             'Pescado' => 'Libre de Pescado',
+             'Gluten' => 'Libre de Gluten',
              'KetoAmigable' => 'Keto Amigable',
              'AptoParaRiñones' => 'Apto Para Riñones',
-             'Kosher' => 'kosher',
-             'BajoEnPotasio' => 'low-potassium',
-             'BajoEnAzucar' => 'low-sugar',
-             'LibreDeLupino' => 'lupine-free',
-             'Mediterraneo' => 'mediterranean',
-             'LibreDeMolusco' => 'mollusk-free',
-             'LibreDeMostaza' => 'mustard-free',
-             'SinAceite' => 'no-oil-added',
-             'DietaPaleo' => 'paleo',
-             'LibreDeMani' => 'peanut-free',
-             'Pescetariano' => 'pescatarian',
-             'LibreDeCerdo' => 'pork-free',
-             'LibreDeCarneRoja' => 'red-meat-free',
-             'LibreDeSesamo' => 'sesame-free',
-             'LibreDeMarisco' => 'shellfish-free',
-             'LibreDeSoya' => 'soy-free',
-             'AzucarConsciente' => 'sugar-conscious',
-             'SinFrutosSecos' => 'tree-nut-free',
-             'Vegano' => 'vegan',
-             'Vegetariano' => 'vegetarian',
-             'LibreDeTrigo' => 'wheat-free',
-
+             'Kosher' => 'Kosher',
+            //  'BajoEnPotasio' => 'Bajo en Potasio',
+            //  'BajoEnAzucar' => 'Bajo en Azucar',
+             'Lupino' => 'Libre de Lupino',
+             'Mediterraneo' => 'Mediterraneo',
+             'Molusco' => 'Libre de Molusco',
+             'Mostaza' => 'Libre de Mostaza',
+             'Aceite' => 'Sin Aceite',
+             'DietaPaleo' => 'Dieta Paleo',
+             'Mani' => 'Libre de Mani',
+             'Pescetariano' => 'Pescatariano',
+             'Cerdo' => 'Libre de Cerdo',
+             'CarneRoja' => 'Libre de Carne Roja',
+             'Sesamo' => 'Libre de Sesamo',
+             'Marisco' => 'Libre de Marisco',
+             'Soya' => 'Libre de Soya',
+             'AzucarConsciente' => 'Azucar Consciente',
+             'FrutosSecos' => 'Sin Frutos Secos',
+             'Vegano' => 'Vegano',
+             'Vegetariano' => 'Vegetariano',
+             'Trigo' => 'Libre de Trigo',
         ];
     }
 }
