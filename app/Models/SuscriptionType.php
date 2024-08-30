@@ -10,6 +10,8 @@ class SuscriptionType extends Model
 {
     use HasFactory;
 
+    protected $connection = 'pgsql';
+
     protected $fillable = [
         'name',
         'price',

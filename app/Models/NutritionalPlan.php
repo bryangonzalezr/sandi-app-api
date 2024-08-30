@@ -9,4 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class NutritionalPlan extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $connection = 'pgsql';
 }

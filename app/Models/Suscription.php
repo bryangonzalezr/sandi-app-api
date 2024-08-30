@@ -11,6 +11,8 @@ class Suscription extends Model
 
     protected $table = 'suscriptions';
 
+    protected $connection = 'pgsql';
+
     protected $fillable = [
         'user_id',
         'suscription_type_id',
