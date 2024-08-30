@@ -6,11 +6,13 @@ use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\NutritionalProfileResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -18,6 +20,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware(['can:users.view_own'])->only(['index','show']);
+        $this->middleware(['can:nutritional_profile.view_own'])->only('nutritionalProfile');
         $this->middleware(['can:users.update_own'])->only('update');
     }
     /**
@@ -30,30 +33,21 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    /* public function store(StoreUserRequest $request)
+    public function nutritionalProfile(User $user)
     {
-        $civil_status = $request->sex == UserSex::Masculino ? 'Soltero' : 'Soltera';
-        $user = User::create([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'sex' => $request->user_sex,
-            'birthdate' => $request->birthdate,
-            'age' => Carbon::parse($request->birthdate)->age,
-            'phone_number' => $request->phone_number,
-            'civil_status' => $civil_status,
-            'description' => $request->description,
-            'objectives' => $request->objectives,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        if (Auth::user()->id != $user->id) {
+            return response()->json(
+                [
+                    'message' => 'No tienes permisos para ver este recurso',
+                ],
+                403
+            );
+        }else{
+            $nutritional_profile = $user->nutritionalProfile;
+        }
 
-        $user->assignRole($request->role);
-
-        return new UserResource($user);
-    } */
+        return new NutritionalProfileResource($nutritional_profile);
+    }
 
     /**
      * Display the specified resource.
