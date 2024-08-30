@@ -34,6 +34,8 @@ class MenuController extends Controller
                 $query->whereBetween('timespan', [28, 31]);
             }
         })->get();
+
+        return MenuResource::collection($menus);
     }
 
     /**
@@ -42,6 +44,8 @@ class MenuController extends Controller
     public function store(StoreMenuRequest $request)
     {
         $menu = Menu::create($request->validated());
+
+        return new MenuResource($menu);
     }
 
     /**
