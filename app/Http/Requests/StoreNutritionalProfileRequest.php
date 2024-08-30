@@ -27,14 +27,7 @@ class StoreNutritionalProfileRequest extends FormRequest
     {
         return [
             'patient_id' => ['required', 'integer', 'exists:users,id'],
-            'height' => ['required', 'numeric'],
-
-            //Peso
-            'weight' => ['required', 'array'],
-            'weight.peso_real' => ['required', 'numeric'],
-            'weight.peso_ideal' => ['required', 'numeric'],
-            'weight.peso_máximo' => ['required', 'numeric'],
-            'weight.peso_ajustado' => ['required', 'numeric'],
+            'description' => ['nullable', 'string'],
 
             // Actividad física
             'physical_activity' => ['required', 'array'],
@@ -91,6 +84,29 @@ class StoreNutritionalProfileRequest extends FormRequest
             'nutritional_anamnesis.plan_anterior' => ['required', 'boolean'],
             'nutritional_anamnesis.agua' => ['required', 'boolean'],
             'nutritional_anamnesis.observaciones' => ['nullable', 'string'],
+
+            // Antropometría
+            'height' => ['required', 'numeric'],
+
+            //Peso
+            'weight' => ['required', 'array'],
+            'weight.peso_real' => ['required', 'numeric'],
+            'weight.peso_ideal' => ['required', 'numeric'],
+            'weight.peso_máximo' => ['required', 'numeric'],
+            'weight.peso_ajustado' => ['required', 'numeric'],
+
+            'bicipital_skinfold' => ['required', 'numeric'],
+            'tricipital_skinfold' => ['required', 'numeric'],
+            'subescapular_skinfold' => ['required', 'numeric'],
+            'supraspinal_skinfold' => ['required', 'numeric'],
+            'suprailiac_skinfold' => ['required', 'numeric'],
+            'pb_relaj' => ['required', 'numeric'],
+            'pb_contra' => ['required', 'numeric'],
+            'forearm' => ['required', 'numeric'],
+            'thigh' => ['required', 'numeric'],
+            'calf' => ['required', 'numeric'],
+            'waist' => ['required', 'numeric'],
+            'thorax' => ['required', 'numeric'],
         ];
     }
 }

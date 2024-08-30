@@ -15,20 +15,6 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->foreignId('patient_id')->constrained('users');
-            $table->unsignedBigInteger('height');
-            $table->unsignedBigInteger('weight');
-            $table->unsignedBigInteger('bicipital_skinfold')->nullable();
-            $table->unsignedBigInteger('tricipital_skinfold')->nullable();
-            $table->unsignedBigInteger('subescapular_skinfold')->nullable();
-            $table->unsignedBigInteger('supraspinal_skinfold')->nullable();
-            $table->unsignedBigInteger('suprailiac_skinfold')->nullable();
-            $table->unsignedBigInteger('pb_relaj')->nullable();
-            $table->unsignedBigInteger('pb_contra')->nullable();
-            $table->unsignedBigInteger('forearm')->nullable();
-            $table->unsignedBigInteger('thigh')->nullable();
-            $table->unsignedBigInteger('calf')->nullable();
-            $table->unsignedBigInteger('waist')->nullable();
-            $table->unsignedBigInteger('thorax')->nullable();
             $table->timestamps();
         });
     }

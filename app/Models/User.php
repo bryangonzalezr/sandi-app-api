@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\CivilStatus;
 use App\Enums\UserSex;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,7 +34,6 @@ class User extends Authenticatable
         'age',
         'phone_number',
         'civil_status',
-        'description',
         'objectives',
         'email',
         'password',
@@ -60,6 +60,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'sex' => UserSex::class,
+            'civil_status' => CivilStatus::class,
         ];
     }
 

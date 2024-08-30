@@ -23,7 +23,6 @@ class UsersSeeder extends Seeder
             'age' => Carbon::parse($birthdate)->age,
             'phone_number' => '911112222',
             'civil_status' => 'Viudo(a)',
-            'description' => 'El super administrador de la aplicación',
             'objectives' => 'Super administrar la aplicación',
             'email' => 'sandi@test.cl',
             'password' => bcrypt('sandi.,2024'),

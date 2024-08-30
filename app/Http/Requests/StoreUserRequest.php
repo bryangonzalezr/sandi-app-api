@@ -32,7 +32,6 @@ class StoreUserRequest extends FormRequest
             'birthdate' => ['required', 'date'],
             'phone_number' => ['required', 'string'],
             'civil_status' => ['required', Rule::enum(CivilStatus::class)],
-            'description' => ['nullable', 'string'],
             'objectives' => ['nullable', 'string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::default()],

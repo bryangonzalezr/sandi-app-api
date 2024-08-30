@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('age');
             $table->string('phone_number');
             $table->string('civil_status');
-            $table->text('description')->nullable();
             $table->text('objectives')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
