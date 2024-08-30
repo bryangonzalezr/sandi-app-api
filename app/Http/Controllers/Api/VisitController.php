@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreNutritionalProfileRequest;
 use App\Http\Requests\StoreVisitRequest;
 use App\Http\Requests\UpdateVisitRequest;
 use App\Http\Resources\VisitResource;
+use App\Models\NutritionalProfile;
+use App\Models\Progress;
 use App\Models\Visit;
 
 class VisitController extends Controller
@@ -23,9 +26,24 @@ class VisitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVisitRequest $request)
+    public function store(StoreVisitRequest $visit, StoreNutritionalProfileRequest $request)
     {
-        //
+        $visit = Visit::create([
+            'patient_id' => $request->patient_id,
+            'date' => $visit->date,
+        ]);
+
+        $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
+        $nutritional_profile->update($request->validated());
+
+        $imc = $request->weight / ($request->height * $request->height);
+        $progress = Progress::create([
+            'patient_id' => $request->patient_id,
+            'imc' => $imc,
+            ''
+        ]);
+
+        return new VisitResource($visit);
     }
 
     /**
