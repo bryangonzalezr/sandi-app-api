@@ -35,8 +35,8 @@ class StoreNutritionalProfileRequest extends FormRequest
             'physical_activity.tiempo' => ['required', 'array'],
             'physical_activity.tiempo.cantidad' => ['required', 'integer'],
             'physical_activity.tiempo.unidad' => ['required', Rule::enum(TimeUnit::class)],
-            'physical_activity.dias_semana' => ['required_if:physical_activity.*.actividad,true', 'integer'],
-            'physical_activity.entrenamiento' => ['required_if:physical_activity.*.actividad,true', 'array'],
+            'physical_activity.dias_semana' => ['required_if:physical_activity.actividad,true', 'integer'],
+            'physical_activity.entrenamiento' => ['required_if:physical_activity.actividad,true', 'array'],
             'physical_activity.entrenamiento.duracion' => ['required', 'array'],
             'physical_activity.entrenamiento.duracion.cantidad' => ['required', 'integer'],
             'physical_activity.entrenamiento.duracion.unidad' => ['required', Rule::enum(TimeUnit::class)],
@@ -95,11 +95,14 @@ class StoreNutritionalProfileRequest extends FormRequest
             'weight.peso_máximo' => ['required', 'numeric'],
             'weight.peso_ajustado' => ['required', 'numeric'],
 
+            //Pliegues
             'bicipital_skinfold' => ['required', 'numeric'],
             'tricipital_skinfold' => ['required', 'numeric'],
             'subescapular_skinfold' => ['required', 'numeric'],
             'supraspinal_skinfold' => ['required', 'numeric'],
             'suprailiac_skinfold' => ['required', 'numeric'],
+
+            // Perimetros
             'pb_relaj' => ['required', 'numeric'],
             'pb_contra' => ['required', 'numeric'],
             'forearm' => ['required', 'numeric'],
