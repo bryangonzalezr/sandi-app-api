@@ -56,6 +56,7 @@ class PermissionsSeeder extends Seeder
         $roles['paciente']->givePermissionTo([
             'nutritional_plan.view_own',
             'nutritional_profile.view_own',
+            'nutritional_profile.create',
             'recipe.create',
             'recipe.view',
             'recipe.delete',

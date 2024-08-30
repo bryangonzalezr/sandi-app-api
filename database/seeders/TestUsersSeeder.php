@@ -66,22 +66,14 @@ class TestUsersSeeder extends Seeder
                 ],
             ],
             'habits' => [
-                'alcohol' => [
-                    'actividad' => 'Si',
-                    'comentario' => 'Tomo una copa de vino ocasionalmente con amigas',
-                ],
-                'tabaco'  => [
-                    'actividad' => 'Si',
-                    'comentario' => 'Fumo 5 cigarros al día',
-                ],
+                'alcohol' =>  true,
+                'tabaco'  => true,
+                'comentario' => 'Tomo una copa de vino ocasionalmente con amigas y fumo 5 cigarros al día',
             ],
             'allergies' => [
-                'alergia' => 'Si',
-                'alergias' => [
-                    'Maní',
-                    'Frutos secos',
-                    'Mariscos',
-                ],
+                'Maní',
+                'Frutos secos',
+                'Mariscos',
             ],
             'intolerances' => [
                 'intolerancia' => 'Si',
@@ -93,11 +85,8 @@ class TestUsersSeeder extends Seeder
             'subjective_assessment' => [],
             'nutritional_anamnesis' => [
                 'plan_anterior' => 'No',
-                'agua' => [
-                    'toma_agua' => 'Si',
-                    'cantidad' => 'Baja',
-                ],
-                'observaciones' => []
+                'agua' => true,
+                'observaciones' => 'Toma pocas cantidades de agua',
             ],
         ]);
 
@@ -136,14 +125,9 @@ class TestUsersSeeder extends Seeder
                 ],
             ],
             'habits' => [
-                'alcohol' => [
-                    'actividad' => 'No',
-                    'comentario' => 'No tomo alcohol',
-                ],
-                'tabaco'  => [
-                    'actividad' => 'Si',
-                    'comentario' => 'Fumador social',
-                ],
+                'alcohol' =>  false,
+                'tabaco'  => true,
+                'comentario' => 'No bebo alcohol, pero soy fumador social',
             ],
             'allergies' => [
                 'alergia' => 'Si',
@@ -164,12 +148,9 @@ class TestUsersSeeder extends Seeder
             'family_antecedents' => [],
             'subjective_assessment' => [],
             'nutritional_anamnesis' => [
-                'plan_anterior' => 'No',
-                'agua' => [
-                    'toma_agua' => 'Si',
-                    'cantidad' => 'Alta',
-                ],
-                'observaciones' => [],
+                'plan_anterior' => false,
+                'agua' => true,
+                'observaciones' => 'Toma grandes cantidades de agua',
             ],
         ]);
 
