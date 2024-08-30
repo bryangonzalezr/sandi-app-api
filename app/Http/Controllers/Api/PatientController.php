@@ -45,9 +45,9 @@ class PatientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Patient $paciente)
+    public function show(Patient $patient)
     {
-        $patient = User::with('nutritionalProfile')->find($paciente->patient_id);
+        $patient = User::with('nutritionalProfile')->find($patient->patient_id);
         return new PatientResource($patient);
     }
 
