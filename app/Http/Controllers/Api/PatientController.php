@@ -66,7 +66,8 @@ class PatientController extends Controller
      */
     public function destroy(User $patient)
     {
-        $patient->delete();
+        $patient_user = Patient::where('patient_id', $patient->id)->first();
+        $patient_user->delete();
 
         return response()->json([
             'message' => 'Paciente desvinculado satisfactoriamente'

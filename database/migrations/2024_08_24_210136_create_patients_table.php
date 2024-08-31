@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('nutritionist_id')->constrained('users');
             $table->foreignId('patient_id')->constrained('users');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
