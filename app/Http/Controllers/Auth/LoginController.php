@@ -38,8 +38,6 @@ class LoginController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
         return response()->json([
             'message' => 'User Created ',
         ]);
