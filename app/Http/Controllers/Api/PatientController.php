@@ -39,16 +39,18 @@ class PatientController extends Controller
             'patient_id' => $request->patient_id,
         ]);
 
-        return new UserResource($patient);
+        $patient_user = User::find($request->patient_id);
+
+        return new UserResource($patient_user);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Patient $patient)
+    public function show(User $patient)
     {
-        $patient = User::with('nutritionalProfile')->find($patient->patient_id);
-        return new PatientResource($patient);
+        $patient_user = User::with('nutritionalProfile')->find($patient->id);
+        return new PatientResource($patient_user);
     }
 
     /**
@@ -62,7 +64,7 @@ class PatientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Patient $patient)
+    public function destroy(User $patient)
     {
         $patient->delete();
 
