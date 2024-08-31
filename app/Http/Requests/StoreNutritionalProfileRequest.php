@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Health;
+use App\Enums\PatientType;
 use App\Enums\PhysicalActivity;
 use App\Enums\TimeUnit;
 use Illuminate\Foundation\Http\FormRequest;
@@ -63,6 +64,7 @@ class StoreNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.cirugias' => ['nullable', 'array'],
             'morbid_antecedents.cirugias.*' => ['nullable', 'string'],
             'morbid_antecedents.otros' => ['nullable', 'string'],
+            'patient_type' => ['required', Rule::enum(PatientType::class)],
 
             // Antecedentes familiares
             'family_antecedents' => ['required', 'array'],
@@ -88,7 +90,6 @@ class StoreNutritionalProfileRequest extends FormRequest
             // Antropometría
             'height' => ['required', 'numeric'],
             'weight' => ['required', 'array'],
-
 
             //Pliegues
             'bicipital_skinfold' => ['required', 'numeric'],

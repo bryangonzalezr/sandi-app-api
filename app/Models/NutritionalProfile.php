@@ -14,6 +14,7 @@ class NutritionalProfile extends MongoModel
 
     protected $fillable  = [
         'patient_id',
+        'nutritional_state',
         'description',
         'height',
         'weight',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\NutritionalState;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNutritionalProfileRequest;
 use App\Http\Requests\StoreVisitRequest;
@@ -75,6 +76,12 @@ class VisitController extends Controller
         if ($response[0] == 'error') {
             logger()->error($output);
         } elseif ($response[0] == 'ok'){
+            if(NutritionalState::tryFrom($response[10])){
+                $nutritional_profile->update([
+                    'nutritional_state' => $response[10],
+                ]);
+            }
+
             $progress = Progress::create([
                 'patient_id'          => $request->patient_id,
                 'imc'                 => floatval($response[1]),
@@ -86,6 +93,7 @@ class VisitController extends Controller
                 'pmb'                 => floatval($response[7]),
                 'amb'                 => floatval($response[8]),
                 'agb'                 => floatval($response[9]),
+                'nutritional_state'   => $response[10],
             ]);
         }
 

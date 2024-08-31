@@ -11,8 +11,17 @@ def handleInput():
     height = float(arguments.pop())
     weight = float(arguments.pop())
 
-
     return (arguments, weight, height, sex, age)
+
+def nutritionalState(imc):
+    if imc < 18.5:
+        return "Enflaquecido"
+    elif imc < 25:
+        return "Normal"
+    elif imc < 30:
+        return "Sobrepeso"
+    elif imc >= 30:
+        return "Obesidad"
 
 def density(age, sex, sum_skinfolds) -> float:
     density_by_age = 0
@@ -106,8 +115,8 @@ def main():
         user_perimeters = np.array([values[8], values[9], values[10], values[11], values[12], values[13]])
 
         imc, density, fat_percentage, z_muscular, masa_muscular, muscular_percentage, pmb, amb, agb = antropometry(skinfold, user_perimeters, weight, height, sex, age)
-
-        print("ok," + str(imc) + "," + str(density) + "," + str(fat_percentage) + "," + str(z_muscular) + "," + str(masa_muscular) + "," + str(muscular_percentage) + "," + str(pmb) + "," + str(amb) + "," + str(agb))
+        nutritional_state = nutritionalState(imc)
+        print("ok," + str(imc) + "," + str(density) + "," + str(fat_percentage) + "," + str(z_muscular) + "," + str(masa_muscular) + "," + str(muscular_percentage) + "," + str(pmb) + "," + str(amb) + "," + str(agb) + "," + nutritional_state)
 
     except Exception as error:
         print("error,"+str(error))
