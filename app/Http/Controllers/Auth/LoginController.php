@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function register(StoreUserRequest $request, UserNutritionalProfileRequest $nut_profile){
+    public function register(StoreUserRequest $request){
 
         $user = User::create([
             'name' => $request->name,
