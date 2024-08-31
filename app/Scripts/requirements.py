@@ -1,0 +1,173 @@
+import sys
+import numpy as np
+
+def handleInput():
+    arguments = sys.argv
+    if (len(arguments) < 7):
+        raise Exception("Faltan parámetros")
+    del arguments[0]
+    age = int(arguments.pop())
+    sex = arguments.pop()
+    height = float(arguments.pop())
+    weight = float(arguments.pop())
+    patient_type = arguments.pop()
+    physical_activity = arguments.pop()
+    nutritional_state = arguments.pop()
+    rest_factor = arguments.pop()
+    pathology = arguments.pop()
+    method = arguments.pop()
+
+    return (method, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
+
+def idealWeight(height, sex):
+    if (sex == "Masculino"):
+        ideal_weight = 22.5 * (height ** 2)
+        return ideal_weight
+    elif (sex == "Femenino"):
+        ideal_weight = 21.5 * (height ** 2)
+        return ideal_weight
+
+def adjustedWeight(weight, ideal_weight):
+    adjusted_weight = ideal_weight + (0.25 * (weight - ideal_weight))
+    return adjusted_weight
+
+def normalGet(weight, height, nutritional_state, physical_activity, ideal_weight):
+    energetic_requirement = {
+        "Enflaquecido": {"Leve": 35, "Moderada": 40, "Pesada": 45},
+        "Normal": {"Leve": 30, "Moderada": 35, "Pesada": 40},
+        "Sobrepeso": {"Leve": 25, "Moderada": 30, "Pesada": 35},
+        "Obesidad": {"Leve": 25, "Moderada": 30, "Pesada": 35}
+    }
+
+    weights = {
+        "Enflaquecido": weight,
+        "Normal": weight,
+        "Sobrepeso": ideal_weight,
+        "Obesidad": adjustedWeight(weight, ideal_weight)
+    }
+
+    get = energetic_requirement[nutritional_state][physical_activity] * weights[nutritional_state]
+    return get
+
+def faoGet(weight, physical_activity, age, sex):
+
+    coefficients = {
+        "Masculino": [
+            (3, 60.9, -54),
+            (10, 22.7, 495),
+            (18, 17.5, 651),
+            (30, 15.3, 679),
+            (60, 11.6, 879),
+            (float('inf'), 13.5, 487)
+        ],
+        "Femenino": [
+            (3, 61, -51),
+            (10, 22.5, 499),
+            (18, 12.2, 746),
+            (30, 14.7, 496),
+            (60, 8.7, 829),
+            (float('inf'), 10.5, 596)
+        ]
+    }
+
+    for age_limit, coefficient1, coefficient2 in coefficients[sex]:
+        if age <= age_limit:
+            geb = coefficient1 * weight + coefficient2
+            break
+
+    activity_factor = {
+        "Leve": geb * 1.1,
+        "Moderada": geb * 1.3,
+        "Pesada": geb * 1.5,
+    }
+
+    eta = geb * 0.1
+    get = geb + activity_factor[physical_activity] + eta
+    return get
+
+def harrisBenedictGet(weight, height, age, sex, rest_factor, pathology):
+    if sex == "Masculino":
+        ger = 66.47 + (13.74 * weight) + (5.03 * height * 100) - (6.75 * age)
+    elif sex == "Femenino":
+        ger = 655.1 + (9.56 * weight) + (1.85 * height * 100) - (4.68 * age)
+
+    fr = {
+        "Absoluto": 1.1,
+        "Relativo": 1.2,
+        "Ambulatorio": 1.3,
+    }
+
+    fp = {
+        "Hipometabolismo": {"Hombre": 0.87, "Mujer": 0.81},
+        "Tumor": {"Hombre": 1.15, "Mujer": 1.25},
+        "Leucemia / Linfoma": {"Hombre": 1.19, "Mujer": 1.27},
+        "Enfermedad Inflamatoria Intestinal": {"Hombre": 1.07, "Mujer": 1.12},
+        "Quemadura": {"Hombre": 1.52, "Mujer": 1.64},
+        "Enfermedad Pancreática": {"Hombre": 1.13, "Mujer": 1.51},
+        "Cirugía General": {"Hombre": 1.2, "Mujer": 1.39},
+        "Transplante": {"Hombre": 1.19, "Mujer": 1.27},
+        "Infección": {"Hombre": 1.33, "Mujer": 1.27},
+        "Sepsis / Abscesos": {"Hombre": 1.12, "Mujer": 1.39},
+        "Ventilación Mecánica": {"Hombre": 1.34, "Mujer": 1.32},
+        "Cirugía Menor": 1.2,
+        "Cirugía Mayor": 1.4,
+        "Sepsis": 1.3,
+        'Quemadura 20%': 1.5,
+        'Quemadura 40%': 1.85,
+        'Quemadura 100%': 2.05,
+        "Politraumatismo": 1.5,
+        "Politraumatismo y Sepsis": 1.6,
+        "Desnutrición Leve": 1.15,
+        "Desnutrición Moderada": 1.25,
+        "Desnutrición Severa": 1.40,
+        "Desnutrición sin estrés": 0.85
+    }
+
+    if pathology in fp:
+        if sex in fp.values():
+            get = ger * fr[rest_factor] * fp[pathology][sex]
+        else:
+            get = ger * fr[rest_factor] * fp[pathology]
+
+def calculateGet(method, nutritional_state, physical_activity, patient_type, weight, height, sex, age):
+    if (patient_type == "Ambulatorio"):
+        if (method == "Normal"):
+            get = normalGet(weight, height, nutritional_state, physical_activity, idealWeight(height))
+        elif (method == "FAO/OMS/ONU"):
+            get = faoGet(weight, physical_activity, age, sex)
+    else:
+        if (method == "Factorial"):
+            get = 0
+        elif (method == "Harris-Benedict"):
+            get = 0
+
+def macronutrients(get, weight, ideal_weight, nutritional_state):
+    weights = {
+        "Enflaquecido": weight,
+        "Normal": weight,
+        "Sobrepeso": ideal_weight,
+        "Obesidad": adjustedWeight(weight, ideal_weight)
+    }
+
+    protein = (get * 0.2 * weights[nutritional_state]) / 4
+    lipids = (get * 0.26 * weights[nutritional_state]) / 4
+    carbohydrates = (get * 0.54 * weights[nutritional_state]) / 4
+    return protein, lipids, carbohydrates
+
+def waterConsumption(get):
+    water = get * 1.3
+    return water
+
+def main():
+    try:
+        method, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age = handleInput()
+        get = calculateGet(method, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
+        protein, lipids, carbohydrates = macronutrients(get, weight, idealWeight(height), nutritional_state)
+        water = waterConsumption(get)
+        #print("ok," + str(imc) + "," + str(density) + "," + str(fat_percentage) + "," + str(z_muscular) + "," + str(masa_muscular) + "," + str(muscular_percentage) + "," + str(pmb) + "," + str(amb) + "," + str(agb))
+
+    except Exception as error:
+        print("error,"+str(error))
+
+if __name__ == '__main__':
+    main()
