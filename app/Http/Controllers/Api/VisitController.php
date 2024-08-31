@@ -43,7 +43,7 @@ class VisitController extends Controller
             $nutritional_profile->update($request->validated());
         }
 
-        $script_path = app_path('Scripts') . '/script.py';
+        $script_path = app_path('Scripts') . '/progress.py';
         $params = [
             $script_path,   // Ruta del script
             $request->input('bicipital_skinfold'),
