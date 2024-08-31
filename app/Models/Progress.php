@@ -12,11 +12,13 @@ class Progress extends Model
     protected $fillable = [
         'patient_id',
         'imc',
-        'dencity',
-        'siri_fat_percentage',
-        'slaughter_fat_percentage',
-        'muscle_mass',
-        'brachial_fat_area',
-        'arm_muscle_area',
+        'density',
+        'fat_percentage',
+        'z_muscular',
+        'muscular_mass',
+        'muscular_percentage',
+        'pmb',
+        'amb',
+        'agb',
     ];
 }

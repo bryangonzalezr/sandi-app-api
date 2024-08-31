@@ -60,8 +60,8 @@ class StoreNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.hta' => ['required', 'boolean'],
             'morbid_antecedents.tiroides' => ['required', 'boolean'],
             'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
-            'morbid_antecedents.cirugias' => ['required', 'array'],
-            'morbid_antecedents.cirugias.*' => ['required', 'string'],
+            'morbid_antecedents.cirugias' => ['nullable', 'array'],
+            'morbid_antecedents.cirugias.*' => ['nullable', 'string'],
             'morbid_antecedents.otros' => ['nullable', 'string'],
 
             // Antecedentes familiares
@@ -87,20 +87,18 @@ class StoreNutritionalProfileRequest extends FormRequest
 
             // Antropometría
             'height' => ['required', 'numeric'],
-
-            //Peso
             'weight' => ['required', 'array'],
-            'weight.peso_real' => ['required', 'numeric'],
-            'weight.peso_ideal' => ['required', 'numeric'],
-            'weight.peso_máximo' => ['required', 'numeric'],
-            'weight.peso_ajustado' => ['required', 'numeric'],
+
 
             //Pliegues
             'bicipital_skinfold' => ['required', 'numeric'],
             'tricipital_skinfold' => ['required', 'numeric'],
-            'subescapular_skinfold' => ['required', 'numeric'],
+            'subscapular_skinfold' => ['required', 'numeric'],
             'supraspinal_skinfold' => ['required', 'numeric'],
             'suprailiac_skinfold' => ['required', 'numeric'],
+            'thigh_skinfold' => ['required', 'numeric'],
+            'calf_skinfold' => ['required', 'numeric'],
+            'abdomen_skinfold' => ['required', 'numeric'],
 
             // Perimetros
             'pb_relaj' => ['required', 'numeric'],
