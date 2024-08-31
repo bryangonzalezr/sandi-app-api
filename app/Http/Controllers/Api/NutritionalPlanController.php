@@ -7,6 +7,7 @@ use App\Http\Requests\StoreNutritionalPlanRequest;
 use App\Http\Requests\UpdateNutritionalPlanRequest;
 use App\Http\Resources\NutritionalPlanResource;
 use App\Models\NutritionalPlan;
+use App\Models\NutritionalProfile;
 
 class NutritionalPlanController extends Controller
 {
@@ -32,6 +33,9 @@ class NutritionalPlanController extends Controller
      */
     public function store(StoreNutritionalPlanRequest $request)
     {
+        // Calculos Requerimientos
+        $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
+        $script_path = app_path('Scripts') . '/requirements.py';
         $nutritional_plans = NutritionalPlan::create($request->validated());
 
         return new NutritionalPlanResource($nutritional_plans);
