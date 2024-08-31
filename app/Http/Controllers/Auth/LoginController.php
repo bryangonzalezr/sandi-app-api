@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UserNutritionalProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Models\NutritionalProfile;
 use App\Models\User;
