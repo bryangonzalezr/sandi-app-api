@@ -3,7 +3,7 @@ import numpy as np
 
 def handleInput():
     arguments = sys.argv
-    if (len(arguments) < 7):
+    if (len(arguments) < 19):
         raise Exception("Faltan parámetros")
     del arguments[0]
     age = int(arguments.pop())
