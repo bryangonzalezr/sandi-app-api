@@ -35,6 +35,7 @@ class StoreUserRequest extends FormRequest
             'objectives' => ['nullable', 'string'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::default()],
+            'password_confirmation' => ['required', 'string'],
             'role' => ['required', 'string'],
         ];
     }

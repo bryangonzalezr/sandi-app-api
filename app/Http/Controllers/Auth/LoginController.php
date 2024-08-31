@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\NutritionalProfile;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
@@ -17,12 +18,12 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function register(StoreUserRequest $request){
+    public function register(StoreUserRequest $request, UserNutritionalProfileRequest $nut_profile){
 
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
-            'sex' => $request->user_sex,
+            'sex' => $request->sex,
             'birthdate' => $request->birthdate,
             'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
@@ -30,9 +31,17 @@ class LoginController extends Controller
             'description' => $request->description,
             'objectives' => $request->objectives,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
         $user->assignRole($request->role);
+
+        $nutritionalProfile = NutritionalProfile::create([
+            'patient_id' => $user->id,
+            'habits' => $nut_profile->habits,
+            'physical_activity' => $nut_profile->physical_activity,
+            'allergies' => $nut_profile->allergies,
+            'nutritional_anamnesis' => $nut_profile->nutritional_anamnesis,
+        ]);
         event(new Registered($user));
 
         Auth::login($user);
