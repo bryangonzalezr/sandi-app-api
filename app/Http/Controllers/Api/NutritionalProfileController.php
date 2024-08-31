@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNutritionalProfileRequest;
 use App\Http\Requests\UpdateNutritionalProfileRequest;
+use App\Http\Requests\UserNutritionalProfileRequest;
 use App\Http\Resources\NutritionalProfileResource;
 use App\Models\NutritionalProfile;
 
@@ -30,9 +31,15 @@ class NutritionalProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreNutritionalProfileRequest $request)
+    public function store(UserNutritionalProfileRequest $nut_profile)
     {
-        $nutritional_profile = NutritionalProfile::create($request->validated());
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $nut_profile->patient_id,
+            'habits' => $nut_profile->habits,
+            'physical_activity' => $nut_profile->physical_activity,
+            'allergies' => $nut_profile->allergies,
+            'nutritional_anamnesis' => $nut_profile->nutritional_anamnesis,
+        ]);
 
         return new NutritionalProfileResource($nutritional_profile);
     }
