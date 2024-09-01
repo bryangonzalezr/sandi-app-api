@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('food_indicators', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nutritionist_id')->constrained('users');
-            $table->foreignId('patient_id')->constrained('users');
-            $table->boolean('first_visit')->default(false);
+            $table->string('food');
+            $table->float('calorias');
+            $table->float('cho');
+            $table->float('lipidos');
+            $table->float('proteinas');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('food_indicators');
     }
 };

@@ -9,6 +9,7 @@ use App\Http\Requests\StoreVisitRequest;
 use App\Http\Requests\UpdateVisitRequest;
 use App\Http\Resources\VisitResource;
 use App\Models\NutritionalProfile;
+use App\Models\Patient;
 use App\Models\Progress;
 use App\Models\User;
 use App\Models\Visit;
@@ -28,25 +29,23 @@ class VisitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVisitRequest $visit, StoreNutritionalProfileRequest $request)
+    public function store(StoreVisitRequest $visit)
     {
+
         $visit = Visit::create([
-            'patient_id' => $request->patient_id,
+            'patient_id' => $visit->patient_id,
             'date' => $visit->date,
         ]);
-
-        $patient = User::where('id', $request->patient_id)->first();
+        $request = app(StoreNutritionalProfileRequest::class, $visit->patient_id);
+        $patient_user = User::where('id', $request->patient_id)->first();
 
         $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
-        if (!$nutritional_profile) {
-            $nutritional_profile = NutritionalProfile::create($request->validated());
-        }else{
-            $nutritional_profile->update($request->validated());
-        }
 
-        $script_path = app_path('Scripts') . '/progress.py';
+        $nutritional_profile->update($request->validated());
+
+        $progress_path = app_path('Scripts') . '/progress.py';
         $params = [
-            $script_path,   // Ruta del script
+            $progress_path,   // Ruta del script
             $request->input('bicipital_skinfold'),
             $request->input('tricipital_skinfold'),
             $request->input('subscapular_skinfold'),
@@ -65,12 +64,12 @@ class VisitController extends Controller
             $request->input('thorax'),
             $request->input('weight'),
             $request->input('height'),
-            $patient->sex,
-            $patient->age,
+            $patient_user->sex,
+            $patient_user->age,
         ];
 
         $output = [];
-        $response = exec('python ' . $script_path . implode(' ', $params). ' 2>&1', $output);
+        $response = exec('python ' . implode(' ', $params) . ' 2>&1', $output);
         $response = explode(',', $response);
 
         if ($response[0] == 'error') {
@@ -82,8 +81,9 @@ class VisitController extends Controller
                 ]);
             }
 
-            $progress = Progress::create([
+            $progress = Progress::updateOrCreate([
                 'patient_id'          => $request->patient_id,
+            ], [
                 'imc'                 => floatval($response[1]),
                 'density'             => floatval($response[2]),
                 'fat_percentage'      => floatval($response[3]),

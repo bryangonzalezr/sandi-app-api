@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PatientType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use MongoDB\Laravel\Eloquent\Model as MongoModel;
@@ -11,6 +12,10 @@ class NutritionalProfile extends MongoModel
     use HasFactory;
 
     protected $connection = 'mongodb';
+
+    protected $casts = [
+        'patient_type' => PatientType::class,
+    ];
 
     protected $fillable  = [
         'patient_id',
@@ -23,6 +28,7 @@ class NutritionalProfile extends MongoModel
         'allergies',
         'intolerances',
         'morbid_antecedents',
+        'patient_type',
         'family_antecedents',
         'digestion',
         'subjective_assessment',

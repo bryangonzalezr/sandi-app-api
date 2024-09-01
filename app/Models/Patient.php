@@ -13,6 +13,7 @@ class Patient extends Model
     protected $fillable = [
         'nutritionist_id',
         'patient_id',
+        'first_visit',
     ];
 
     public function nutritionist()

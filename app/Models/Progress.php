@@ -20,5 +20,6 @@ class Progress extends Model
         'pmb',
         'amb',
         'agb',
+        'nutritional_state',
     ];
 }

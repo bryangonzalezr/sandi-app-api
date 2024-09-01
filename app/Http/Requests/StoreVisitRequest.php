@@ -23,7 +23,8 @@ class StoreVisitRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-           /* 'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'patient_id' => ['required', 'integer', 'exists:users,id']
+           /*
              'height' => ['required', 'numeric'],
             'weight' => ['required', 'numeric'],
             'bicipital_skinfold' => ['required', 'numeric'],
