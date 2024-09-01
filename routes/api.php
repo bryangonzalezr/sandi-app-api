@@ -72,7 +72,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas Progreso
     Route::get('progresos', [ProgressController::class, 'index']);
-    Route::get('progreso/{progress}', [ProgressController::class, 'show']);
+    Route::get('progreso/{patient}', [ProgressController::class, 'show']);
     Route::post('progreso', [ProgressController::class, 'store']);
     Route::put('progreso/{progress}', [ProgressController::class, 'update']);
     Route::delete('progreso/{progress}', [ProgressController::class, 'destroy']);
