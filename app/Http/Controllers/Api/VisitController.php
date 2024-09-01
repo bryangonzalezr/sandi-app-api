@@ -36,7 +36,8 @@ class VisitController extends Controller
             'patient_id' => $visit->patient_id,
             'date' => $visit->date,
         ]);
-        $request = app(StoreNutritionalProfileRequest::class, $visit->patient_id);
+        $patient_table = Patient::where('id', $visit->patient_id)->first();
+        $request = app(StoreNutritionalProfileRequest::class, ['first_visit' => $patient_table->first_visit]);
         $patient_user = User::where('id', $request->patient_id)->first();
 
         $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();

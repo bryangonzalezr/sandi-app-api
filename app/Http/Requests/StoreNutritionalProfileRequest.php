@@ -13,12 +13,14 @@ use Illuminate\Validation\Rule;
 
 class StoreNutritionalProfileRequest extends FormRequest
 {
-    protected $patient_id;
+    protected $first_visit;
 
-    public function __construct($patient_id)
+    public function __construct($first_visit)
     {
-        $this->patient_id = $patient_id;
+        parent::__construct();
+        $this->first_visit = $first_visit;
     }
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -34,25 +36,24 @@ class StoreNutritionalProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $patient = Patient::find($this->patient_id);
-        if (!$patient->first_visit){
+        if (!$this->first_visit){
             $validations = [
                 'description' => ['nullable', 'string'],
 
                 // Actividad física
                 'physical_activity' => ['required', 'array'],
                 'physical_activity.actividad' => ['required', 'boolean'],
-                'physical_activity.tiempo' => ['required', 'array'],
-                'physical_activity.tiempo.cantidad' => ['required', 'integer'],
-                'physical_activity.tiempo.unidad' => ['required', Rule::enum(TimeUnit::class)],
-                'physical_activity.dias_semana' => ['required_if:physical_activity.actividad,true', 'integer'],
-                'physical_activity.entrenamiento' => ['required_if:physical_activity.actividad,true', 'array'],
-                'physical_activity.entrenamiento.duracion' => ['required', 'array'],
-                'physical_activity.entrenamiento.duracion.cantidad' => ['required', 'integer'],
-                'physical_activity.entrenamiento.duracion.unidad' => ['required', Rule::enum(TimeUnit::class)],
-                'physical_activity.entrenamiento.tipo' => ['required', 'string'],
-                'physical_activity.entrenamiento.horarios' => ['required', 'array'],
-                'physical_activity.entrenamiento.horarios.*' => ['required', 'string'],
+                'physical_activity.tiempo' => ['nullable', 'array'],
+                'physical_activity.tiempo.cantidad' => ['nullable', 'integer'],
+                'physical_activity.tiempo.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
+                'physical_activity.dias_semana' => ['nullable', 'integer'],
+                'physical_activity.entrenamiento' => ['nullable', 'array'],
+                'physical_activity.entrenamiento.duracion' => ['nullable', 'array'],
+                'physical_activity.entrenamiento.duracion.cantidad' => ['nullable', 'integer'],
+                'physical_activity.entrenamiento.duracion.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
+                'physical_activity.entrenamiento.tipo' => ['nullable', 'string'],
+                'physical_activity.entrenamiento.horarios' => ['nullable', 'array'],
+                'physical_activity.entrenamiento.horarios.*' => ['nullable', 'string'],
                 'physical_activity.status' => ['required', Rule::enum(PhysicalActivity::class)],
 
                 // Hábitos
@@ -62,7 +63,7 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'habits.comentario' => ['nullable', 'string'],
 
                 'allergies' => ['required', 'array'],
-                'allergies.*' => ['required', Rule::enum(Health::class)],
+                'allergies.*' => ['nullable', Rule::enum(Health::class)],
 
                 // Antecedentes morbidos
                 'morbid_antecedents' => ['required', 'array'],
@@ -103,23 +104,23 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'weight' => ['required', 'numeric'],
 
                 //Pliegues
-                'bicipital_skinfold' => ['required', 'numeric'],
-                'tricipital_skinfold' => ['required', 'numeric'],
-                'subscapular_skinfold' => ['required', 'numeric'],
-                'supraspinal_skinfold' => ['required', 'numeric'],
-                'suprailiac_skinfold' => ['required', 'numeric'],
-                'thigh_skinfold' => ['required', 'numeric'],
-                'calf_skinfold' => ['required', 'numeric'],
-                'abdomen_skinfold' => ['required', 'numeric'],
+                'bicipital_skinfold' => ['nullable', 'numeric'],
+                'tricipital_skinfold' => ['nullable', 'numeric'],
+                'subscapular_skinfold' => ['nullable', 'numeric'],
+                'supraspinal_skinfold' => ['nullable', 'numeric'],
+                'suprailiac_skinfold' => ['nullable', 'numeric'],
+                'thigh_skinfold' => ['nullable', 'numeric'],
+                'calf_skinfold' => ['nullable', 'numeric'],
+                'abdomen_skinfold' => ['nullable', 'numeric'],
 
                 // Perimetros
-                'pb_relaj' => ['required', 'numeric'],
-                'pb_contra' => ['required', 'numeric'],
-                'forearm' => ['required', 'numeric'],
-                'thigh' => ['required', 'numeric'],
-                'calf' => ['required', 'numeric'],
-                'waist' => ['required', 'numeric'],
-                'thorax' => ['required', 'numeric'],
+                'pb_relaj' => ['nullable', 'numeric'],
+                'pb_contra' => ['nullable', 'numeric'],
+                'forearm' => ['nullable', 'numeric'],
+                'thigh' => ['nullable', 'numeric'],
+                'calf' => ['nullable', 'numeric'],
+                'waist' => ['nullable', 'numeric'],
+                'thorax' => ['nullable', 'numeric'],
             ];
         } else{
             $validations = [
