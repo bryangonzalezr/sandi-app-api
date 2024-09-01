@@ -15,9 +15,13 @@ def handleInput():
     nutritional_state = arguments.pop()
     rest_factor = arguments.pop()
     pathology = arguments.pop()
+    dislipidemia = arguments.pop()
+    tiroides = arguments.pop()
+    hta = arguments.pop()
+    dm2 = arguments.pop()
     method = arguments.pop()
 
-    return (method, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
+    return (method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
 
 def idealWeight(height, sex):
     if (sex == "Masculino"):
@@ -98,17 +102,17 @@ def harrisBenedictGet(weight, height, age, sex, rest_factor, pathology):
     }
 
     fp = {
-        "Hipometabolismo": {"Hombre": 0.87, "Mujer": 0.81},
-        "Tumor": {"Hombre": 1.15, "Mujer": 1.25},
-        "Leucemia / Linfoma": {"Hombre": 1.19, "Mujer": 1.27},
-        "Enfermedad Inflamatoria Intestinal": {"Hombre": 1.07, "Mujer": 1.12},
-        "Quemadura": {"Hombre": 1.52, "Mujer": 1.64},
-        "Enfermedad Pancreática": {"Hombre": 1.13, "Mujer": 1.51},
-        "Cirugía General": {"Hombre": 1.2, "Mujer": 1.39},
-        "Transplante": {"Hombre": 1.19, "Mujer": 1.27},
-        "Infección": {"Hombre": 1.33, "Mujer": 1.27},
-        "Sepsis / Abscesos": {"Hombre": 1.12, "Mujer": 1.39},
-        "Ventilación Mecánica": {"Hombre": 1.34, "Mujer": 1.32},
+        "Hipometabolismo": {"Masculino": 0.87, "Femenino": 0.81},
+        "Tumor": {"Masculino": 1.15, "Femenino": 1.25},
+        "Leucemia / Linfoma": {"Masculino": 1.19, "Femenino": 1.27},
+        "Enfermedad Inflamatoria Intestinal": {"Masculino": 1.07, "Femenino": 1.12},
+        "Quemadura": {"Masculino": 1.52, "Femenino": 1.64},
+        "Enfermedad Pancreática": {"Masculino": 1.13, "Femenino": 1.51},
+        "Cirugía General": {"Masculino": 1.2, "Femenino": 1.39},
+        "Transplante": {"Masculino": 1.19, "Femenino": 1.27},
+        "Infección": {"Masculino": 1.33, "Femenino": 1.27},
+        "Sepsis / Abscesos": {"Masculino": 1.12, "Femenino": 1.39},
+        "Ventilación Mecánica": {"Masculino": 1.34, "Femenino": 1.32},
         "Cirugía Menor": 1.2,
         "Cirugía Mayor": 1.4,
         "Sepsis": 1.3,
@@ -125,21 +129,43 @@ def harrisBenedictGet(weight, height, age, sex, rest_factor, pathology):
 
     if pathology in fp:
         if sex in fp.values():
-            get = ger * fr[rest_factor] * fp[pathology][sex]
+            return get = ger * fr[rest_factor] * fp[pathology][sex]
         else:
-            get = ger * fr[rest_factor] * fp[pathology]
+            return get = ger * fr[rest_factor] * fp[pathology]
 
-def calculateGet(method, nutritional_state, physical_activity, patient_type, weight, height, sex, age):
+def factorialGet(weight, height, nutritional_state, physical_activity, pathology, ideal_weight):
+    energetic_requirement = {
+        "Enflaquecido": {"Leve": 35, "Moderada": 40, "Pesada": 45},
+        "Normal": {"Leve": 30, "Moderada": 35, "Pesada": 40},
+        "Sobrepeso": {"Leve": 25, "Moderada": 30, "Pesada": 35},
+        "Obesidad": {"Leve": 25, "Moderada": 30, "Pesada": 35}
+    }
+
+    weights = {
+        "Enflaquecido": weight,
+        "Normal": weight,
+        "Sobrepeso": ideal_weight,
+        "Obesidad": adjustedWeight(weight, ideal_weight)
+    }
+
+    if ($pathology == "Edema Severo" or $pathology == "Ascitis"):
+        return get = energetic_requirement[nutritional_state][physical_activity] * adjustedWeight(weight, ideal_weight)
+    elif ($pathology == "Desnutrición Leve" or $pathology == "Desnutrición Moderada" or $pathology == "Desnutrición Severa" or $pathology == "Desnutrición sin estrés"):
+        return get = energetic_requirement[nutritional_state][physical_activity] * weight
+    else:
+        return get = energetic_requirement[nutritional_state][physical_activity] * weights[nutritional_state]
+
+def calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age):
     if (patient_type == "Ambulatorio"):
         if (method == "Normal"):
-            get = normalGet(weight, height, nutritional_state, physical_activity, idealWeight(height))
+            return get = normalGet(weight, height, nutritional_state, physical_activity, idealWeight(height))
         elif (method == "FAO/OMS/ONU"):
-            get = faoGet(weight, physical_activity, age, sex)
+            return get = faoGet(weight, physical_activity, age, sex)
     else:
         if (method == "Factorial"):
-            get = 0
+            return get = factorialGet(weight, height, nutritional_state, physical_activity, pathology, idealWeight(height))
         elif (method == "Harris-Benedict"):
-            get = 0
+            return get = harrisBenedictGet(weight, height, age, sex, rest_factor, pathology)
 
 def macronutrients(get, weight, ideal_weight, nutritional_state):
     weights = {
@@ -160,14 +186,14 @@ def waterConsumption(get):
 
 def main():
     try:
-        method, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age = handleInput()
-        get = calculateGet(method, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
+        method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age = handleInput()
+        get = calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
         protein, lipids, carbohydrates = macronutrients(get, weight, idealWeight(height), nutritional_state)
         water = waterConsumption(get)
-        #print("ok," + str(imc) + "," + str(density) + "," + str(fat_percentage) + "," + str(z_muscular) + "," + str(masa_muscular) + "," + str(muscular_percentage) + "," + str(pmb) + "," + str(amb) + "," + str(agb))
+        print("ok," + str(get) + "," + str(protein) + "," + str(lipids) + "," + str(carbohydrates) + "," + str(water))
 
     except Exception as error:
-        print("error,"+str(error))
+        print("error," + str(error))
 
 if __name__ == '__main__':
     main()
