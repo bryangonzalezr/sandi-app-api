@@ -121,6 +121,6 @@ class User extends Authenticatable
 
     public function progress()
     {
-        return $this->hasOne(Progress::class);
+        return $this->hasMany(Progress::class);
     }
 }

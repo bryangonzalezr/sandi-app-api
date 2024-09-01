@@ -22,4 +22,9 @@ class Progress extends Model
         'agb',
         'nutritional_state',
     ];
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id');
+    }
 }

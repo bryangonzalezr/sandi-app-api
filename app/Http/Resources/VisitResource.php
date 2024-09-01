@@ -14,6 +14,10 @@ class VisitResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'patient' => $this->patient,
+            'date' => $this->date,
+            'progresses' => $this->patient->progress,
+        ];
     }
 }
