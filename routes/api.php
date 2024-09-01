@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\NutritionalPlanController;
 use App\Http\Controllers\Api\NutritionalProfileController;
 use App\Http\Controllers\Api\NutritionalRequirementController;
 use App\Http\Controllers\Api\PatientController;
+use App\Http\Controllers\Api\PortionController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RecipeController;
 use App\Http\Controllers\Api\UserController;
@@ -92,6 +93,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Ruta de Indicadores de Alimentos
     Route::get('indicadores-alimentos', [NutritionalRequirementController::class, 'index']);
+
+    //Rutas de Porciones
+    Route::get('porciones', [PortionController::class, 'index']);
+    Route::get('porcion/{portion}', [PortionController::class, 'show']);
+    Route::post('porcion', [PortionController::class, 'store']);
+    Route::put('porcion/{portion}', [PortionController::class, 'update']);
+    Route::delete('porcion/{portion}', [PortionController::class, 'destroy']);
 
     //Rutas Tarjetas de contacto
     Route::get('tarjetas', [ContactCardController::class, 'index']);
