@@ -65,7 +65,7 @@ class VisitController extends Controller
             $request->input('thorax'),
             $request->input('weight'),
             $request->input('height'),
-            $patient_user->sex,
+            $patient_user->sex->value,
             $patient_user->age,
         ];
 
@@ -81,6 +81,10 @@ class VisitController extends Controller
                     'nutritional_state' => $response[10],
                 ]);
             }
+
+            $patient_table->update([
+                'first_visit' => true,
+            ]);
 
             $progress = Progress::updateOrCreate([
                 'patient_id'          => $request->patient_id,
