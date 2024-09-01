@@ -41,13 +41,7 @@ class RegisteredUserController extends Controller
 
         $user->assignRole($request->role);
 
-        $nutritionalProfile = NutritionalProfile::create([
-            'patient_id' => $user->id,
-            'habits' => $nut_profile->habits,
-            'physical_activity' => $nut_profile->physical_activity,
-            'allergies' => $nut_profile->allergies,
-            'nutritional_anamnesis' => $nut_profile->nutritional_anamnesis,
-        ]);
+
 
         event(new Registered($user));
 
