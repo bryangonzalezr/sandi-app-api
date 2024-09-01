@@ -49,7 +49,7 @@ class NutritionalProfileController extends Controller
      */
     public function show(NutritionalProfile $nutritionalProfile)
     {
-        $nutritional_profile = NutritionalProfile::find($nutritionalProfile);
+        $nutritional_profile = NutritionalProfile::find($nutritionalProfile->_id);
 
         return new NutritionalProfileResource($nutritional_profile);
     }
