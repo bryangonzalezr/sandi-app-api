@@ -16,6 +16,7 @@ class PatientResource extends JsonResource
     {
         return [
             'user' => new UserResource($this),
+            'first_visit' => $this->first_visit,
             'nutritional_profile' => new NutritionalProfileResource($this->nutritionalProfile),
             'nutritional_plan' => new NutritionalPlanResource($this->nutritionalPlan),
         ];
