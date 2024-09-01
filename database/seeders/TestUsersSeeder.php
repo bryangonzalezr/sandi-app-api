@@ -57,7 +57,7 @@ class TestUsersSeeder extends Seeder
             'height' => 1.63,
             'weight' => 76,
             'physical_activity' => [
-                'actividad' => 'No',
+                'actividad' => true,
                 'tiempo' => [
                     'cantidad' => 7,
                     'unidad' => 'años'
@@ -78,6 +78,14 @@ class TestUsersSeeder extends Seeder
                 'intolerancias' => [
                     'Carnes rojas',
                 ],
+            ],
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'cirugias' => [],
+                'otros' => null,
             ],
             'family_antecedents' => [],
             'subjective_assessment' => [],
@@ -115,7 +123,7 @@ class TestUsersSeeder extends Seeder
             'height' => 1.72,
             'weight' => 92,
             'physical_activity' => [
-                'actividad' => 'No',
+                'actividad' => true,
                 'tiempo' => [
                     'cantidad' => 2,
                     'unidad' => 'años'
@@ -127,7 +135,7 @@ class TestUsersSeeder extends Seeder
                 'comentario' => 'No bebo alcohol, pero soy fumador social',
             ],
             'allergies' => [
-                'alergia' => 'Si',
+                'alergia' => true,
                 'alergias' => [
                     'Maní',
                     'Frutos secos',
@@ -135,12 +143,20 @@ class TestUsersSeeder extends Seeder
                 ],
             ],
             'intolerances' => [
-                'intolerancia' => 'Si',
+                'intolerancia' => true,
                 'intolerancias' => [
                     'Lactosa',
                     'Mariscos',
                     'Carnes',
                 ],
+            ],
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'cirugias' => [],
+                'otros' => null,
             ],
             'family_antecedents' => [],
             'subjective_assessment' => [],
@@ -150,6 +166,5 @@ class TestUsersSeeder extends Seeder
                 'observaciones' => 'Toma grandes cantidades de agua',
             ],
         ]);
-
     }
 }
