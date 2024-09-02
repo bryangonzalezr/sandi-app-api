@@ -99,14 +99,8 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('DBM_HOST', '127.0.0.1'),
-            'port' => env('DBM_PORT', 27017),
+            'dsn' => env('DBM_URI', 'mongodb+srv://username:password@<atlas-cluster-uri>/myappdb?retryWrites=true&w=majority'),
             'database' => env('DBM_DATABASE', 'homestead'),
-            'username' => env('DBM_USERNAME', 'homestead'),
-            'password' => env('DBM_PASSWORD', 'secret'),
-            'options' => [
-                'appname' => 'homestead',
-            ],
         ],
 
     ],
