@@ -63,7 +63,7 @@ class NutritionalRequirementController extends Controller
         ];
 
         $output = [];
-        $response = exec('python ' . implode(' ', $params) . ' 2>&1', $output);
+        $response = exec('python3 ' . implode(' ', $params) . ' 2>&1', $output);
         $response = explode(',', $response);
 
         if ($response[0] == 'error') {

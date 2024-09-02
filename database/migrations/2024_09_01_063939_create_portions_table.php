@@ -27,7 +27,7 @@ return new class extends Migration
             $table->bigInteger('alim_ricos_lipidos');
             $table->bigInteger('azucares');
             $table->unsignedBigInteger('total');
-            $table->unsignedBigInteger('appropriate share');
+            $table->unsignedBigInteger('appropriate_share');
             $table->foreignId('patient_id')->constrained('users');
             $table->timestamps();
         });

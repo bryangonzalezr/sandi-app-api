@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'civil_status' => $this->civil_status,
             'objectives' => $this->objectives,
+            'nutritional_profile' => new NutritionalProfileResource($this->nutritionalProfile ?? null),
         ];
     }
 }

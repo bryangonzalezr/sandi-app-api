@@ -22,7 +22,20 @@ class StorePortionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'patient_id' => ['required', 'numeric', 'exists:users,id'],
+            'cereales' => ['required', 'numeric'],
+            'verduras_gral' => ['required', 'numeric'],
+            'verduras_libre_cons' => ['required', 'numeric'],
+            'frutas' => ['required', 'numeric'],
+            'carnes_ag' => ['required', 'numeric'],
+            'carnes_bg' => ['required', 'numeric'],
+            'legumbres' => ['required', 'numeric'],
+            'lacteos_ag' => ['required', 'numeric'],
+            'lacteos_bg' => ['required', 'numeric'],
+            'lacteos_mg' => ['required', 'numeric'],
+            'aceites_grasas' => ['required', 'numeric'],
+            'alim_ricos_lipidos' => ['required', 'numeric'],
+            'azucares' => ['required', 'numeric'],
         ];
     }
 }

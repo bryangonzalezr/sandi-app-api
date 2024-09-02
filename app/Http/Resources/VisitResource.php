@@ -15,7 +15,7 @@ class VisitResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'patient' => $this->patient,
+            'patient' => new UserResource($this->patient),
             'date' => $this->date,
             'progresses' => $this->patient->progresses,
         ];
