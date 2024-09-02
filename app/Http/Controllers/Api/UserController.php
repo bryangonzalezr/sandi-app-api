@@ -66,7 +66,7 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'last_name' => $request->last_name,
-            'sex' => $request->user_sex,
+            'sex' => $request->sex,
             'birthdate' => $request->birthdate,
             'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
