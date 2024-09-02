@@ -23,6 +23,7 @@ return new class extends Migration
             $table->float('pmb'); // Perimetro Muscular Braquial
             $table->float('amb'); // Area Muscular Braquial
             $table->float('agb'); // Area Grasa Braquial
+            $table->string('nutritional_state');
             $table->timestamps();
         });
     }
