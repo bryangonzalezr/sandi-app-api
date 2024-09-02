@@ -18,6 +18,11 @@ RUN apt-get update && apt-get install -y \
 # Instala la extensión de MongoDB
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
+# Intala python3 y pip
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+RUN pip install numpy
+
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
