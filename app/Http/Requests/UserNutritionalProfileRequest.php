@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\Health;
+use App\Enums\Pathology;
+use App\Enums\PatientType;
 use App\Enums\PhysicalActivity;
 use App\Enums\TimeUnit;
 use Illuminate\Foundation\Http\FormRequest;
@@ -49,8 +51,36 @@ class UserNutritionalProfileRequest extends FormRequest
             'habits.tabaco' => ['required', 'boolean'],
             'habits.comentario' => ['nullable', 'string'],
 
-            'allergies' => ['required', 'array'],
-            'allergies.*' => ['required', Rule::enum(Health::class)],
+            'allergies' => ['nullable', 'array'],
+            'allergies.*' => ['nullable', Rule::enum(Health::class)],
+
+            // Antecedentes morbidos
+            'morbid_antecedents' => ['required', 'array'],
+            'morbid_antecedents.dm2' => ['required', 'boolean'],
+            'morbid_antecedents.hta' => ['required', 'boolean'],
+            'morbid_antecedents.tiroides' => ['required', 'boolean'],
+            'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
+            'morbid_antecedents.cirugias' => ['nullable', 'array'],
+            'morbid_antecedents.cirugias.*' => ['nullable', 'string'],
+            'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
+            // 'morbid_antecedents.otros' => ['nullable', 'array'],
+            // 'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
+            'patient_type' => ['required', Rule::enum(PatientType::class)],
+
+            // Antecedentes familiares
+            'family_antecedents' => ['required', 'array'],
+            'family_antecedents.dm2' => ['required', 'boolean'],
+            'family_antecedents.hta' => ['required', 'boolean'],
+            'family_antecedents.cancer' => ['required', 'boolean'],
+            'family_antecedents.dislipidemia' => ['required', 'boolean'],
+            'family_antecedents.otros' => ['nullable', 'string'],
+
+            // Valoración subjetiva
+            'subjective_assessment' => ['required', 'array'],
+            'subjective_assessment.sintomas' => ['required', 'boolean'],
+            'subjective_assessment.peso_habitual' => ['required', 'numeric'],
+            'subjective_assessment.variacion_peso' => ['required', 'numeric'],
+            'subjective_assessment.apetito' => ['required', 'string'],
 
             // Anamnesis alimentaria
             'nutritional_anamnesis' => ['required', 'array'],

@@ -35,9 +35,13 @@ class NutritionalProfileController extends Controller
     {
         $nutritional_profile = NutritionalProfile::create([
             'patient_id' => $nut_profile->patient_id,
-            'habits' => $nut_profile->habits,
             'physical_activity' => $nut_profile->physical_activity,
+            'habits' => $nut_profile->habits,
             'allergies' => $nut_profile->allergies,
+            'morbid_antecedents' => $nut_profile->morbid_antecedents,
+            'patient_type' => $nut_profile->patient_type,
+            'family_antecedents' => $nut_profile->family_antecedents,
+            'subjective_assessment' => $nut_profile->subjective_assessment,
             'nutritional_anamnesis' => $nut_profile->nutritional_anamnesis,
         ]);
 

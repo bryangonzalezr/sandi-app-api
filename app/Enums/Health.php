@@ -41,7 +41,7 @@ enum Health: string
     public function translation(): array
     {
         return [
-             'Alcohol' => ' Libre de Alcohol',
+             'Alcohol' => 'Libre de Alcohol',
              'Crustaceos' => 'Libre de Crustaceos',
              'Lacteos' => 'Libre de Lacteos',
              'Lactosa' => 'Libre de Lactosa',

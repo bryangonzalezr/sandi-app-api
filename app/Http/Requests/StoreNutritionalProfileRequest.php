@@ -36,7 +36,6 @@ class StoreNutritionalProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (!$this->first_visit){
             $validations = [
                 'description' => ['nullable', 'string'],
 
@@ -122,35 +121,7 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'waist' => ['nullable', 'numeric'],
                 'thorax' => ['nullable', 'numeric'],
             ];
-        } else{
-            $validations = [
 
-                'description' => ['nullable', 'string'],
-
-                // Antropometría
-                'height' => ['required', 'numeric'],
-                'weight' => ['required', 'numeric'],
-
-                //Pliegues
-                'bicipital_skinfold' => ['required', 'numeric'],
-                'tricipital_skinfold' => ['required', 'numeric'],
-                'subscapular_skinfold' => ['required', 'numeric'],
-                'supraspinal_skinfold' => ['required', 'numeric'],
-                'suprailiac_skinfold' => ['required', 'numeric'],
-                'thigh_skinfold' => ['required', 'numeric'],
-                'calf_skinfold' => ['required', 'numeric'],
-                'abdomen_skinfold' => ['required', 'numeric'],
-
-                // Perimetros
-                'pb_relaj' => ['required', 'numeric'],
-                'pb_contra' => ['required', 'numeric'],
-                'forearm' => ['required', 'numeric'],
-                'thigh' => ['required', 'numeric'],
-                'calf' => ['required', 'numeric'],
-                'waist' => ['required', 'numeric'],
-                'thorax' => ['required', 'numeric'],
-            ];
-        }
         return $validations;
     }
 }
