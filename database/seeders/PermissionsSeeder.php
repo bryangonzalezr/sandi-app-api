@@ -46,6 +46,7 @@ class PermissionsSeeder extends Seeder
             'contact_cards.delete',
             'contact_cards.view',
             'users.view_own',
+            'users.update_own',
             'users.view_patient_users',
             'users.create_patient_users',
             'users.delete_patient_users',
@@ -65,6 +66,7 @@ class PermissionsSeeder extends Seeder
             'menu.view',
             'menu.delete',
             'users.view_own',
+            'users.update_own',
             'shopping_list.create',
             'shopping_list.view',
             'shopping_list.delete',
@@ -76,6 +78,7 @@ class PermissionsSeeder extends Seeder
             'recipe.delete',
             'recipe.generate',
             'users.view_own',
+            'users.update_own',
             'contact_cards.view',
         ]);
     }

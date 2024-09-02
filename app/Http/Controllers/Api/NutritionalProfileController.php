@@ -53,9 +53,7 @@ class NutritionalProfileController extends Controller
      */
     public function show(NutritionalProfile $nutritionalProfile)
     {
-        $nutritional_profile = NutritionalProfile::find($nutritionalProfile->_id);
-
-        return new NutritionalProfileResource($nutritional_profile);
+        return new NutritionalProfileResource($nutritionalProfile);
     }
 
     /**
@@ -63,7 +61,16 @@ class NutritionalProfileController extends Controller
      */
     public function update(UpdateNutritionalProfileRequest $request, NutritionalProfile $nutritionalProfile)
     {
-        $nutritionalProfile->update($request->validated());
+        $nutritionalProfile->update([
+            'physical_activity' => $request->physical_activity,
+            'habits' => $request->habits,
+            'allergies' => $request->allergies,
+            'morbid_antecedents' => $request->morbid_antecedents,
+            'patient_type' => $request->patient_type,
+            'family_antecedents' => $request->family_antecedents,
+            'subjective_assessment' => $request->subjective_assessment,
+            'nutritional_anamnesis' => $request->nutritional_anamnesis,
+        ]);
 
         return new NutritionalProfileResource($nutritionalProfile);
     }
