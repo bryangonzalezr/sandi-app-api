@@ -69,6 +69,7 @@ class LoginController extends Controller
         return new JsonResponse(
             data: [
                 'data' => [
+                    'user' => $user,
                     'token' => $token,
                 ]
             ],
