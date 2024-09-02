@@ -28,6 +28,7 @@ class NutritionalPlanController extends Controller
         return NutritionalPlanResource::collection($nutritional_plans);
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
@@ -35,7 +36,9 @@ class NutritionalPlanController extends Controller
     {
         // Calculos Requerimientos
         $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
-        $script_path = app_path('Scripts') . '/requirements.py';
+        $morbid_antecedents = $nutritional_profile->morbid_antecedents;
+
+
         $nutritional_plans = NutritionalPlan::create($request->validated());
 
         return new NutritionalPlanResource($nutritional_plans);

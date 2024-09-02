@@ -8,7 +8,5 @@ enum PatientType: string
 {
     use EnumToArray;
     case Ambulatorio = 'Ambulatorio';
-    case Hospitalizado = 'Hospitalizado';
     case Enfermo = 'Enfermo';
-    case Sano = 'Sano';
 }

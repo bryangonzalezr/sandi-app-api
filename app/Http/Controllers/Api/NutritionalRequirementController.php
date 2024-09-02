@@ -69,7 +69,7 @@ class NutritionalRequirementController extends Controller
         if ($response[0] == 'error') {
             logger()->error($output);
         } elseif ($response[0] == 'ok'){
-            $nutritionalRequirement = NutritionalRequirement::updateOrCreate([
+            $nutritionalRequirement = NutritionalRequirement::create([
                 'patient_id'    => $request->patient_id,
             ], [
                 'get'           => floatval($response[1]),
