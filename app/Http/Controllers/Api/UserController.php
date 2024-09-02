@@ -72,8 +72,6 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'description' => $request->description,
             'objectives' => $request->objectives,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
         ]);
 
         $nutritional_profile = NutritionalProfile::where('patient_id', $user->id)->first();
