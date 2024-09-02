@@ -17,7 +17,7 @@ class VisitResource extends JsonResource
         return [
             'patient' => $this->patient,
             'date' => $this->date,
-            'progresses' => $this->patient->progress,
+            'progresses' => $this->patient->progresses,
         ];
     }
 }

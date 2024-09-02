@@ -119,7 +119,7 @@ class User extends Authenticatable
         return $this->hasMany(Visit::class, 'patient_id');
     }
 
-    public function progress()
+    public function progresses()
     {
         return $this->hasMany(Progress::class, 'patient_id');
     }

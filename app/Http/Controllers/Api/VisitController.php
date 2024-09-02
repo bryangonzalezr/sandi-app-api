@@ -29,15 +29,15 @@ class VisitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVisitRequest $visit)
+    public function store(StoreVisitRequest $request)
     {
 
         $visit = Visit::create([
-            'patient_id' => $visit->patient_id,
-            'date' => $visit->date,
+            'patient_id' => $request->patient_id,
+            'date' => $request->date,
         ]);
-        $patient_table = Patient::where('patient_id', $visit->patient_id)->first();
-        $request = app(StoreNutritionalProfileRequest::class, ['first_visit' => $patient_table->first_visit]);
+        //$patient_table = Patient::where('patient_id', $visit->patient_id)->first();
+        //$request = app(StoreNutritionalProfileRequest::class, ['first_visit' => $patient_table->first_visit]);
         $patient_user = User::where('id', $request->patient_id)->first();
 
         $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
@@ -52,7 +52,6 @@ class VisitController extends Controller
             $request->input('subscapular_skinfold'),
             $request->input('suprailiac_skinfold'),
             $request->input('supraspinal_skinfold'),
-            $request->input('suprailiac_skinfold'),
             $request->input('thigh_skinfold'),
             $request->input('calf_skinfold'),
             $request->input('abdomen_skinfold'),
@@ -61,7 +60,6 @@ class VisitController extends Controller
             $request->input('forearm'),
             $request->input('thigh'),
             $request->input('calf'),
-            $request->input('waist'),
             $request->input('thorax'),
             $request->input('weight'),
             $request->input('height'),
@@ -70,11 +68,13 @@ class VisitController extends Controller
         ];
 
         $output = [];
-        $response = exec('python ' . implode(' ', $params) . ' 2>&1', $output);
+        $response = exec('python3 ' . implode(' ', $params) . ' 2>&1', $output);
         $response = explode(',', $response);
-
         if ($response[0] == 'error') {
-            logger()->error($output);
+            return response()->json([
+                'message' => 'Error al calcular el progreso',
+                'error' => $response[1],
+            ], 400);
         } elseif ($response[0] == 'ok'){
             if(NutritionalState::tryFrom($response[10])){
                 $nutritional_profile->update([
@@ -82,13 +82,12 @@ class VisitController extends Controller
                 ]);
             }
 
-            $patient_table->update([
+            /* $patient_table->update([
                 'first_visit' => true,
-            ]);
+            ]); */
 
-            $progress = Progress::updateOrCreate([
+            $progress = Progress::create([
                 'patient_id'          => $request->patient_id,
-            ], [
                 'imc'                 => floatval($response[1]),
                 'density'             => floatval($response[2]),
                 'fat_percentage'      => floatval($response[3]),

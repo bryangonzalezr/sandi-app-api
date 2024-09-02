@@ -23,22 +23,28 @@ class StoreVisitRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'patient_id' => ['required', 'integer', 'exists:users,id']
-           /*
-             'height' => ['required', 'numeric'],
+            'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'height' => ['required', 'numeric'],
             'weight' => ['required', 'numeric'],
-            'bicipital_skinfold' => ['required', 'numeric'],
-            'tricipital_skinfold' => ['required', 'numeric'],
-            'subescapular_skinfold' => ['required', 'numeric'],
-            'supraspinal_skinfold' => ['required', 'numeric'],
-            'suprailiac_skinfold' => ['required', 'numeric'],
-            'pb_relaj' => ['required', 'numeric'],
-            'pb_contra' => ['required', 'numeric'],
-            'forearm' => ['required', 'numeric'],
-            'thigh' => ['required', 'numeric'],
-            'calf' => ['required', 'numeric'],
-            'waist' => ['required', 'numeric'],
-            'thorax' => ['required', 'numeric'], */
+
+            //Pliegues
+            'bicipital_skinfold' => ['nullable', 'numeric'],
+            'tricipital_skinfold' => ['nullable', 'numeric'],
+            'subscapular_skinfold' => ['nullable', 'numeric'],
+            'supraspinal_skinfold' => ['nullable', 'numeric'],
+            'suprailiac_skinfold' => ['nullable', 'numeric'],
+            'thigh_skinfold' => ['nullable', 'numeric'],
+            'calf_skinfold' => ['nullable', 'numeric'],
+            'abdomen_skinfold' => ['nullable', 'numeric'],
+
+            // Perimetros
+            'pb_relaj' => ['nullable', 'numeric'],
+            'pb_contra' => ['nullable', 'numeric'],
+            'forearm' => ['nullable', 'numeric'],
+            'thigh' => ['nullable', 'numeric'],
+            'calf' => ['nullable', 'numeric'],
+            'waist' => ['nullable', 'numeric'],
+            'thorax' => ['nullable', 'numeric'],
         ];
     }
 }

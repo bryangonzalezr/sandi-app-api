@@ -9,6 +9,8 @@ class Progress extends Model
 {
     use HasFactory;
 
+    protected $connection = 'pgsql';
+
     protected $fillable = [
         'patient_id',
         'imc',
