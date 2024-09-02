@@ -34,8 +34,6 @@ class UpdateUserRequest extends FormRequest
             'phone_number' => ['required', 'string'],
             'description' => ['nullable', 'string'],
             'objectives' => ['nullable', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
 
             'habits' => ['required', 'array'],
             'habits.alcohol' => ['required', Rule::enum(HabitFrequency::class)],
