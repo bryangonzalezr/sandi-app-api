@@ -68,7 +68,7 @@ class LoginController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
         return new JsonResponse(
             data: [
-                'user' => $user,
+                'user' => new UserResource($user),
                 'token' => $token,
             ],
             status: Response::HTTP_OK,
