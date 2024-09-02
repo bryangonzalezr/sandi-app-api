@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\NutritionalProfileResource;
 use App\Http\Resources\UserResource;
+use App\Models\NutritionalProfile;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -73,6 +74,14 @@ class UserController extends Controller
             'objectives' => $request->objectives,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+        ]);
+
+        $nutritional_profile = NutritionalProfile::where('patient_id', $user->id)->first();
+        $nutritional_profile->update([
+            'habits' => $request->habits,
+            'physical_activity' => $request->physical_activity,
+            'allergies' => $request->allergies,
+            'nutritional_anamnesis' => $request->nutritional_anamnesis,
         ]);
 
         return new UserResource($user);
