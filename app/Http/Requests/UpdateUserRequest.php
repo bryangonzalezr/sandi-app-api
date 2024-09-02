@@ -6,6 +6,7 @@ use App\Enums\HabitFrequency;
 use App\Enums\Health;
 use App\Enums\PhysicalActivity;
 use App\Enums\TimeUnit;
+use App\Enums\UserSex;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -29,7 +30,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'sex' => ['required', 'string'],
+            'sex' => ['required', Rule::enum(UserSex::class)],
             'birthdate' => ['required', 'date'],
             'phone_number' => ['required', 'string'],
             'description' => ['nullable', 'string'],
