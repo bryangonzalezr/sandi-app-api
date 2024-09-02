@@ -66,6 +66,7 @@ class LoginController extends Controller
             ],401);
         }
         $token = $user->createToken('authToken')->plainTextToken;
+        Auth::login($user);
         return new JsonResponse(
             data: [
                 'user' => new UserResource($user),
