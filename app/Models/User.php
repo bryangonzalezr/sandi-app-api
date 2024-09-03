@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\CivilStatus;
 use App\Enums\UserSex;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,9 +65,11 @@ class User extends Authenticatable
         ];
     }
 
-    protected function isNutritionist(): bool
+    protected function isNutritionist(): Attribute
     {
-        return $this->hasRole('nutritionista');
+        return Attribute::make(
+            get: fn ($value) => $this->hasRole('nutritionist'),
+        );
     }
 
     protected function isPatient(): bool
