@@ -15,14 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained('users');
             $table->float('imc');
-            $table->float('density');
             $table->float('fat_percentage');
-            $table->float('z_muscular');
-            $table->float('muscular_mass'); //Masa Muscular
             $table->float('muscular_percentage'); // Porcentaje Muscular
-            $table->float('pmb'); // Perimetro Muscular Braquial
-            $table->float('amb'); // Area Muscular Braquial
-            $table->float('agb'); // Area Grasa Braquial
             $table->string('nutritional_state');
             $table->timestamps();
         });
