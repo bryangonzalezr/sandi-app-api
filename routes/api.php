@@ -21,6 +21,7 @@ Route::post('login', [LoginController::class, 'apiLogin']);
 Route::post('register',[LoginController::class,'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('check-session', [LoginController::class, 'checkSession']);
     Route::post('logout',[LoginController::class,'logout']);
 
     //Rutas Usuarios

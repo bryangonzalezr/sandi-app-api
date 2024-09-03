@@ -76,6 +76,14 @@ class LoginController extends Controller
         );
     }
 
+    public function checkSession(Request $request){
+        $user = $request->user();
+        return response()->json([
+            'message' => 'Sesión activa',
+            'user' => new UserResource($user),
+        ], 200);
+    }
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
