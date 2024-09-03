@@ -35,10 +35,10 @@ class NutritionalRequirementController extends Controller
         ]);
 
         $morbid_antecedents = [
-            $nutritionalProfile->morbid_antecedents->dm2,
-            $nutritionalProfile->morbid_antecedents->hta,
-            $nutritionalProfile->morbid_antecedents->tiroides,
-            $nutritionalProfile->morbid_antecedents->dislipidemia,
+            $nutritionalProfile->morbid_antecedents["dm2"],
+            $nutritionalProfile->morbid_antecedents["hta"],
+            $nutritionalProfile->morbid_antecedents["tiroides"],
+            $nutritionalProfile->morbid_antecedents["dislipidemia"],
         ];
         $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents->otros == null ? 'No' : $nutritionalProfile->morbid_antecedents->otros;
         $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type;
@@ -54,7 +54,7 @@ class NutritionalRequirementController extends Controller
             $morbid_antecedents[4],
             $rest_factor,
             $nutritionalProfile->nutritional_state,
-            $nutritionalProfile->physical_activity->status,
+            $nutritionalProfile->physical_status,
             $nutritionalProfile->patient_type,
             $nutritionalProfile->weight,
             $nutritionalProfile->height,
