@@ -42,17 +42,14 @@ class StoreNutritionalProfileRequest extends FormRequest
                 // Actividad física
                 'physical_activity' => ['required', 'array'],
                 'physical_activity.actividad' => ['required', 'boolean'],
-                'physical_activity.tiempo' => ['nullable', 'array'],
-                'physical_activity.tiempo.cantidad' => ['nullable', 'integer'],
-                'physical_activity.tiempo.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
+                'physical_activity.tiempo' => ['nullable', 'string'],
                 'physical_activity.dias_semana' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento' => ['nullable', 'array'],
                 'physical_activity.entrenamiento.duracion' => ['nullable', 'array'],
                 'physical_activity.entrenamiento.duracion.cantidad' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento.duracion.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
                 'physical_activity.entrenamiento.tipo' => ['nullable', 'string'],
-                'physical_activity.entrenamiento.horarios' => ['nullable', 'array'],
-                'physical_activity.entrenamiento.horarios.*' => ['nullable', 'string'],
+                'physical_activity.entrenamiento.horarios' => ['nullable', 'string'],
                 'physical_activity.status' => ['required', Rule::enum(PhysicalActivity::class)],
 
                 // Hábitos

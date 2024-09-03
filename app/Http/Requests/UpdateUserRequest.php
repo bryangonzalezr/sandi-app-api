@@ -53,8 +53,7 @@ class UpdateUserRequest extends FormRequest
             'physical_activity.entrenamiento' => ['nullable', 'array'],
             'physical_activity.entrenamiento.duracion' => ['nullable', 'string'],
             'physical_activity.entrenamiento.tipo' => ['nullable', 'string'],
-            'physical_activity.entrenamiento.horarios' => ['nullable', 'array'],
-            'physical_activity.entrenamiento.horarios.*' => ['nullable', 'string'],
+            'physical_activity.entrenamiento.horarios' => ['nullable', 'string'],
             'physical_activity.status' => ['required', Rule::enum(PhysicalActivity::class)],
 
             'allergies' => ['nullable', 'array'],
