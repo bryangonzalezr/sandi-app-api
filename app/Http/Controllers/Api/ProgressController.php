@@ -43,7 +43,7 @@ class ProgressController extends Controller
             $progress = Progress::where('patient_id', $user->id)->get();
         }
 
-        return new ProgressResource($progress);
+        return ProgressResource::collection($progress);
 
     }
 
