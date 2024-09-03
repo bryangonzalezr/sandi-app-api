@@ -13,6 +13,9 @@ class Progress extends Model
 
     protected $fillable = [
         'patient_id',
+        'height',
+        'weight',
+        'date',
         'imc',
         'fat_percentage',
         'muscular_percentage',

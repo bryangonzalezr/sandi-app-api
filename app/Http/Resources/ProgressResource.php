@@ -16,8 +16,11 @@ class ProgressResource extends JsonResource
     {
         return [
             'patient_id'          => $this->patient_id,
+            'height'              => (float) $this->height,
+            'weight'              => (float) $this->weight,
+            'date'                => $this->date,
             'imc'                 => (float) $this->imc,
-            'fat_percentage'      =>  (float) $this->fat_percentage,
+            'fat_percentage'      => (float) $this->fat_percentage,
             'muscular_percentage' => (float) $this->muscular_percentage,
             'nutritional_state'   =>  $this->nutritional_state,
         ];

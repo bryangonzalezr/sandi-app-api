@@ -88,6 +88,9 @@ class VisitController extends Controller
 
             $progress = Progress::create([
                 'patient_id'          => $request->patient_id,
+                'height'              => $request->input('height'),
+                'weight'              => $request->input('weight'),
+                'date'                => $request->input('date'),
                 'imc'                 => floatval($response[1]),
                 'fat_percentage'      => floatval($response[3]),
                 'muscular_percentage' => floatval($response[6]),

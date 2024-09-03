@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained('users');
+            $table->float('height');
+            $table->float('weight');
+            $table->date('date');
             $table->float('imc');
             $table->float('fat_percentage');
             $table->float('muscular_percentage'); // Porcentaje Muscular
