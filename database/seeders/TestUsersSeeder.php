@@ -64,9 +64,9 @@ class TestUsersSeeder extends Seeder
                 'tabaco'  => 'Nada',
             ],
             'allergies' => [
-                'Maní',
+                'Mani',
                 'Frutos secos',
-                'Mariscos',
+                'Marisco',
             ],
             'morbid_antecedents' => [
                 'dm2' => false,
@@ -125,21 +125,10 @@ class TestUsersSeeder extends Seeder
                 'tabaco'  => 'Moderado',
             ],
             'allergies' => [
-                'alergia' => true,
-                'alergias' => [
-                    'Maní',
-                    'Frutos secos',
-                    'Mariscos',
-                ],
+                'Lacteos',
+                'Vegetariano'
             ],
-            'intolerances' => [
-                'intolerancia' => true,
-                'intolerancias' => [
-                    'Lactosa',
-                    'Mariscos',
-                    'Carnes',
-                ],
-            ],
+
             'morbid_antecedents' => [
                 'dm2' => false,
                 'hta' => false,
