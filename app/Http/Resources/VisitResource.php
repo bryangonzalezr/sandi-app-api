@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +17,7 @@ class VisitResource extends JsonResource
     {
         return [
             'patient' => new UserResource($this->patient),
-            'date' => $this->date,
+            'date' => Carbon::parse($this->date)->format('d/m/Y'),
             'progresses' => ProgressResource::collection($this->patient->progresses),
         ];
     }
