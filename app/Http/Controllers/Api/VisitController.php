@@ -89,14 +89,8 @@ class VisitController extends Controller
             $progress = Progress::create([
                 'patient_id'          => $request->patient_id,
                 'imc'                 => floatval($response[1]),
-                'density'             => floatval($response[2]),
                 'fat_percentage'      => floatval($response[3]),
-                'z_muscular'          => floatval($response[4]),
-                'muscular_mass'       => floatval($response[5]),
                 'muscular_percentage' => floatval($response[6]),
-                'pmb'                 => floatval($response[7]),
-                'amb'                 => floatval($response[8]),
-                'agb'                 => floatval($response[9]),
                 'nutritional_state'   => $response[10],
             ]);
         }
