@@ -40,7 +40,7 @@ class NutritionalRequirementController extends Controller
             $nutritionalProfile->morbid_antecedents["tiroides"],
             $nutritionalProfile->morbid_antecedents["dislipidemia"],
         ];
-        $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents->otros == null ? 'No' : $nutritionalProfile->morbid_antecedents->otros;
+        $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents["otros"] == null ? 'No' : $nutritionalProfile->morbid_antecedents["otros"];
         $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type;
 
         $requirements_path = app_path('Scripts') . '/requirements.py';
