@@ -22,7 +22,15 @@ class StoreNutritionalPlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'method'
+            'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'desayuno'   => ['required', 'string', 'max:255'],
+            'colacion' => ['required', 'string', 'max:255'],
+            'almuerzo' => ['required', 'string', 'max:255'],
+            'once' => ['required', 'string', 'max:255'],
+            'cena' => ['required', 'string', 'max:255'],
+            'general_recommendations' => ['required', 'string', 'max:255'],
+            'forbidden_foods' => ['required', 'string', 'max:255'],
+            'free_foods' => ['required', 'string', 'max:255'],
         ];
     }
 }

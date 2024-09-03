@@ -123,4 +123,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Progress::class, 'patient_id');
     }
+
+    public function portion()
+    {
+        return $this->hasOne(Portion::class, 'patient_id');
+    }
+
+    public function servicePortion()
+    {
+        return $this->hasOne(ServicePortion::class, 'patient_id');
+    }
 }

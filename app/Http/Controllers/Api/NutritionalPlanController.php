@@ -34,10 +34,6 @@ class NutritionalPlanController extends Controller
      */
     public function store(StoreNutritionalPlanRequest $request)
     {
-        // Calculos Requerimientos
-        $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
-        $morbid_antecedents = $nutritional_profile->morbid_antecedents;
-
 
         $nutritional_plans = NutritionalPlan::create($request->validated());
 

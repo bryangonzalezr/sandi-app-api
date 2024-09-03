@@ -25,6 +25,20 @@ class Portion extends Model
         'aceites_grasas',
         'alim_ricos_lipidos',
         'azucares',
+        'total',
         'patient_id',
     ];
+
+    public function setTotalAttribute()
+    {
+        $this->attributes['total'] = $this->cereales + $this->verduras_gral + $this->verduras_libre_cons
+                                    + $this->frutas + $this->carnes_ag + $this->carnes_bg + $this->legumbres +
+                                    $this->lacteos_ag + $this->lacteos_bg + $this->lacteos_mg + $this->aceites_grasas +
+                                    $this->alim_ricos_lipidos + $this->azucares;
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
+    }
 }

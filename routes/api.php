@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PortionController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RecipeController;
+use App\Http\Controllers\Api\ServicePortionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
 use App\Http\Controllers\Auth\LoginController;
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [LoginController::class, 'apiLogin']);
 Route::post('register',[LoginController::class,'register']);
-Route::post('logout',[LoginController::class,'logout']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('logout',[LoginController::class,'logout']);
 
     //Rutas Usuarios
     Route::get('usuarios', [UserController::class, 'index']);
@@ -102,6 +103,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('porcion', [PortionController::class, 'store']);
     Route::put('porcion/{portion}', [PortionController::class, 'update']);
     Route::delete('porcion/{portion}', [PortionController::class, 'destroy']);
+
+    //Rutas de Porciones de Servicio
+    Route::get('porciones-servicio', [ServicePortionController::class, 'index']);
+    Route::get('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'show']);
+    Route::post('porcion-servicio', [ServicePortionController::class, 'store']);
+    Route::put('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'update']);
+    Route::delete('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'destroy']);
 
     //Rutas Tarjetas de contacto
     Route::get('tarjetas', [ContactCardController::class, 'index']);
