@@ -65,7 +65,17 @@ class LoginController extends Controller
                 'message' => 'Invalid Credentials'
             ],401);
         }
-        $token = $user->createToken('authToken')->plainTextToken;
+        // Se listan todos los permisos
+        $roles = [];
+        $permissions = [];
+        foreach ($user->roles as $role) {
+            $roles[] = $role->name;
+            foreach ($role->permissions as $permission) {
+                $permissions[] = $permission->name;
+            }
+        }
+
+        $token = $user->createToken('authToken', $permissions)->plainTextToken;
 
         return new JsonResponse(
             data: [
