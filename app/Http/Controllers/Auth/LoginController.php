@@ -66,7 +66,7 @@ class LoginController extends Controller
             ],401);
         }
         $token = $user->createToken('authToken')->plainTextToken;
-        Auth::login($user);
+
         return new JsonResponse(
             data: [
                 'user' => new UserResource($user),
@@ -78,12 +78,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        $request->user()->currentAccessToken()->delete();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return response()->noContent();
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }
