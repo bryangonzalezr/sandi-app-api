@@ -14,6 +14,11 @@ class ProgressResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'imc'                 => (float) $this->imc,
+            'fat_percentage'      =>  (float) $this->fat_percentage,
+            'muscular_percentage' => (float) $this->muscular_percentage,
+            'nutritional_state'   => (float) $this->nutritional_state,
+        ];
     }
 }

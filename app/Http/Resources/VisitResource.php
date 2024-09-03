@@ -17,7 +17,7 @@ class VisitResource extends JsonResource
         return [
             'patient' => new UserResource($this->patient),
             'date' => $this->date,
-            'progresses' => $this->patient->progresses,
+            'progresses' => ProgressResource::collection($this->patient->progresses),
         ];
     }
 }
