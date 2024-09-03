@@ -36,6 +36,8 @@ class NutritionalProfileController extends Controller
         $nutritional_profile = NutritionalProfile::create([
             'patient_id' => $nut_profile->patient_id,
             'physical_activity' => $nut_profile->physical_activity,
+            'physical_status' => $nut_profile->physical_status,
+            'physical_comentario' => $nut_profile->physical_comentario,
             'habits' => $nut_profile->habits,
             'allergies' => $nut_profile->allergies,
             'morbid_antecedents' => $nut_profile->morbid_antecedents,
@@ -63,6 +65,8 @@ class NutritionalProfileController extends Controller
     {
         $nutritionalProfile->update([
             'physical_activity' => $request->physical_activity,
+            'physical_status' => $request->physical_status,
+            'physical_comentario' => $request->physical_comentario,
             'habits' => $request->habits,
             'allergies' => $request->allergies,
             'morbid_antecedents' => $request->morbid_antecedents,

@@ -38,38 +38,38 @@ enum Health: string
     case Vegetariano = 'vegetarian';
     case Trigo = 'wheat-free';
 
-    public function translation(): array
+    public static function translation(): array
     {
         return [
-             'Alcohol' => 'Libre de Alcohol',
-             'Crustaceos' => 'Libre de Crustaceos',
-             'Lacteos' => 'Libre de Lacteos',
-             'Lactosa' => 'Libre de Lactosa',
-             'Pescado' => 'Libre de Pescado',
-             'Gluten' => 'Libre de Gluten',
+             'Alcohol' => 'Alcohol',
+             'Crustaceos' => 'Crustaceos',
+             'Lacteos' => 'Lacteos',
+             'Lactosa' => 'Lactosa',
+             'Pescado' => 'Pescado',
+             'Gluten' => 'Gluten',
              'KetoAmigable' => 'Keto Amigable',
              'AptoParaRiñones' => 'Apto Para Riñones',
              'Kosher' => 'Kosher',
             //  'BajoEnPotasio' => 'Bajo en Potasio',
             //  'BajoEnAzucar' => 'Bajo en Azucar',
-             'Lupino' => 'Libre de Lupino',
+             'Lupino' => 'Lupino',
              'Mediterraneo' => 'Mediterraneo',
-             'Molusco' => 'Libre de Molusco',
-             'Mostaza' => 'Libre de Mostaza',
-             'Aceite' => 'Sin Aceite',
+             'Molusco' => 'Molusco',
+             'Mostaza' => 'Mostaza',
+             'Aceite' => 'Aceite',
              'DietaPaleo' => 'Dieta Paleo',
-             'Mani' => 'Libre de Mani',
+             'Mani' => 'Mani',
              'Pescetariano' => 'Pescatariano',
-             'Cerdo' => 'Libre de Cerdo',
-             'CarneRoja' => 'Libre de Carne Roja',
-             'Sesamo' => 'Libre de Sesamo',
-             'Marisco' => 'Libre de Marisco',
-             'Soya' => 'Libre de Soya',
+             'Cerdo' => 'Cerdo',
+             'CarneRoja' => 'Carne Roja',
+             'Sesamo' => 'Sesamo',
+             'Marisco' => 'Marisco',
+             'Soya' => 'Soya',
              'AzucarConsciente' => 'Azucar Consciente',
-             'FrutosSecos' => 'Sin Frutos Secos',
+             'FrutosSecos' => 'Frutos secos',
              'Vegano' => 'Vegano',
              'Vegetariano' => 'Vegetariano',
-             'Trigo' => 'Libre de Trigo',
+             'Trigo' => 'Trigo',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Health;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
@@ -89,7 +90,9 @@ class RecipeController extends Controller
     public function getRecipeFromApi(GetRecipeRequest $request)
     {
         try {
-
+            $auth_user = User::find(Auth::id());
+            $nutritional_profile = $auth_user->nutritionalProfile;
+            $allergies = [];
             $params = [
                 'type' => 'public',
                 'beta' => false,
@@ -110,9 +113,20 @@ class RecipeController extends Controller
                 "inflammatoryIndex",
                 "totalTime",
             ];
+            $health_translation = Health::translation();
+
+            foreach($health_translation as $key => $value){
+                foreach($nutritional_profile->allergies as $k => $allergie){
+                    if ($value === $allergie){
+                        $allergies[] = Health::tryName($key);
+                    }
+                }
+            }
+
+            $request['health'] = $allergies;
 
             // Añadir los parámetros adicionales del usuario
-        foreach ($request->validated() as $key => $value) {
+        foreach ($request->all() as $key => $value) {
             if ($value !== null) {
                 if ($key === "nutrients") {
                     foreach ($value as $nut_key => $nut_value) {
