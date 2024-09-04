@@ -34,6 +34,49 @@ class TestUsersSeeder extends Seeder
 
         $basic->assignRole('usuario_basico');
 
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $basic->id,
+            'height' => 0,
+            'weight' => 0,
+            'physical_status' => '',
+            'physical_comentario' => '',
+            'habits' => [
+                'alcohol' =>  '',
+                'tabaco'  => '',
+            ],
+            'allergies' => [],
+
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'cirugias' => [],
+                'otros' => null,
+            ],
+            'patient_type' => '',
+            'family_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'otros' => null,
+            ],
+            'subjective_assessment' => [
+                'peso_habitual' => 0,
+                'sintomas' => '',
+                'variacion_peso' => 0,
+                'apetito' =>'',
+                'digestion' => '',
+                'frecuencia_dig' => '',
+                'medidas' => '',
+            ],
+            'nutritional_anamnesis' => [
+                'plan_anterior' => false,
+                'agua' => true,
+            ],
+        ]);
+
         // Nutricionista
         $birthdate = Carbon::createFromFormat('Y-m-d', '1988-06-20');
         $nutritionist = User::create([

@@ -73,7 +73,10 @@ class UpdateNutritionalProfileRequest extends FormRequest
             'subjective_assessment.sintomas' => ['required', 'boolean'],
             'subjective_assessment.peso_habitual' => ['required', 'numeric'],
             'subjective_assessment.variacion_peso' => ['required', 'numeric'],
-            'subjective_assessment.apetito' => ['required', 'numeric'],
+            'subjective_assessment.apetito' => ['required', 'string'],
+            'subjective_assessment.digestion' => ['required', 'string'],
+            'subjective_assessment.frecuencia_dig' => ['required', 'string'],
+            'subjective_assessment.medidas' => ['required', 'string'],
 
             // Anamnesis alimentaria
             'nutritional_anamnesis' => ['required', 'array'],
