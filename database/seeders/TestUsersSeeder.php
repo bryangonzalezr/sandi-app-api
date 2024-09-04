@@ -65,7 +65,7 @@ class TestUsersSeeder extends Seeder
             ],
             'allergies' => [
                 'Mani',
-                'Frutos secos',
+                'Frutos Secos',
                 'Marisco',
             ],
             'morbid_antecedents' => [

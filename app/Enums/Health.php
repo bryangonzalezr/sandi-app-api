@@ -66,7 +66,7 @@ enum Health: string
              'Marisco' => 'Marisco',
              'Soya' => 'Soya',
              'AzucarConsciente' => 'Azucar Consciente',
-             'FrutosSecos' => 'Frutos secos',
+             'FrutosSecos' => 'Frutos Secos',
              'Vegano' => 'Vegano',
              'Vegetariano' => 'Vegetariano',
              'Trigo' => 'Trigo',
