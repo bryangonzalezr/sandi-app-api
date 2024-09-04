@@ -18,13 +18,12 @@ class RecipeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['can:recipe.view'])->only(['index','show']);
+        $this->middleware(['can:recipe.view'])->only(['index', 'show']);
         //$this->middleware(['can:recipe.view_any'])->only('');
         $this->middleware(['can:recipe.create'])->only('store');
         $this->middleware(['can:recipe.update'])->only('update');
         $this->middleware(['can:recipe.delete'])->only('delete');
         $this->middleware(['can:recipe.generate'])->only('getRecipeFromApi');
-
     }
     /**
      * Display a listing of the resource.
@@ -42,7 +41,7 @@ class RecipeController extends Controller
      */
     public function recipes(User $user)
     {
-        $recipes = Recipe::where('user_id',$user->id)->get();
+        $recipes = Recipe::where('user_id', $user->id)->get();
 
         return RecipeResource::collection($recipes);
     }
@@ -91,8 +90,24 @@ class RecipeController extends Controller
     {
         try {
             $auth_user = User::find(Auth::id());
-            $nutritional_profile = $auth_user->nutritionalProfile;
-            $allergies = [];
+            if ($auth_user->hasRole('paciente')) {
+                $nutritional_profile = $auth_user->nutritionalProfile;
+                $allergies = [];
+
+                $health_translation = Health::translation();
+
+                foreach ($health_translation as $key => $value) {
+                    foreach ($nutritional_profile->allergies as $k => $allergie) {
+                        if ($value === $allergie) {
+                            $allergies[] = Health::tryName($key);
+                        }
+                    }
+                }
+
+                $request['health'] = $allergies;
+            }
+
+
             $params = [
                 'type' => 'public',
                 'beta' => false,
@@ -114,57 +129,44 @@ class RecipeController extends Controller
                 "totalTime",
             ];
 
-            $health_translation = Health::translation();
-
-            foreach($health_translation as $key => $value){
-                foreach($nutritional_profile->allergies as $k => $allergie){
-                    if ($value === $allergie){
-                        $allergies[] = Health::tryName($key);
-                    }
-                }
-            }
-
-            $request['health'] = $allergies;
-
             // Añadir los parámetros adicionales del usuario
-        foreach ($request->all() as $key => $value) {
-            if ($value !== null) {
-                if ($key === "nutrients") {
-                    foreach ($value as $nut_key => $nut_value) {
-                        if (strpos($nut_value, '%2B') !== false || strpos($nut_value, '-') !== false) {
-                            $params[$key . "%5B" . $nut_key . "%5D"] = $nut_value;
+            foreach ($request->all() as $key => $value) {
+                if ($value !== null) {
+                    if ($key === "nutrients") {
+                        foreach ($value as $nut_key => $nut_value) {
+                            if (strpos($nut_value, '%2B') !== false || strpos($nut_value, '-') !== false) {
+                                $params[$key . "%5B" . $nut_key . "%5D"] = $nut_value;
+                            }
                         }
+                    } elseif ($key === "query") {
+                        $params["q"] = $value;
+                    } else {
+                        $params[$key] = $value;
                     }
-                } elseif ($key === "query") {
-                    $params["q"] = $value;
-                } else {
-                    $params[$key] = $value;
                 }
             }
-        }
-        $url = "https://api.edamam.com/api/recipes/v2?". http_build_query($params);
+            $url = "https://api.edamam.com/api/recipes/v2?" . http_build_query($params);
 
-        foreach ($fields as $field) {
-            $url .= '&field=' . urlencode($field);
-        }
-        // Realizar la solicitud a la API
-        $response = Http::get($url);
-        if ($response->successful()) {
-            $data = $response->json();
-            $hits = $data['hits'] ?? [];
-            if (count($hits) === 0) {
-                $recipe = response()->json([
-                    "message" => "No se encontraron recetas con los parámetros proporcionados"
-                ]);
-            } else {
-                $recipe = $hits[array_rand($hits)];
+            foreach ($fields as $field) {
+                $url .= '&field=' . urlencode($field);
             }
+            // Realizar la solicitud a la API
+            $response = Http::get($url);
+            if ($response->successful()) {
+                $data = $response->json();
+                $hits = $data['hits'] ?? [];
+                if (count($hits) === 0) {
+                    $recipe = response()->json([
+                        "message" => "No se encontraron recetas con los parámetros proporcionados"
+                    ]);
+                } else {
+                    $recipe = $hits[array_rand($hits)];
+                }
 
-            return response()->json($recipe);
-        } else {
-            return response()->json($response->json(), $response->status());
-        }
-
+                return response()->json($recipe);
+            } else {
+                return response()->json($response->json(), $response->status());
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error al obtener recetas de la API',
