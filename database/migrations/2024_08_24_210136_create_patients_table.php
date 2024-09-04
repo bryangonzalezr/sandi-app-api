@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained('users');
             $table->boolean('first_visit')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
