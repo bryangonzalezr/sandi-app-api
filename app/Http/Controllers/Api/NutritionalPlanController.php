@@ -31,6 +31,7 @@ class NutritionalPlanController extends Controller
         $nutritionist = User::find(Auth::id());
         $nutri_patient = Patient::query()
         ->where('nutritionist_id', $nutritionist->id)
+        ->withTrashed()
         ->get();
 
         $nutritional_plans = NutritionalPlan::when($nutri_patient->isNotEmpty(), function ($query) use ($nutri_patient) {
