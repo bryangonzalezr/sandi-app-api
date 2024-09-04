@@ -12,6 +12,8 @@ class ServicePortion extends MongoModel
 
     protected $connection = 'mongodb';
 
+    protected $collection = 'service_portions';
+
     protected $fillable = [
         'desayuno',
         'colacion',

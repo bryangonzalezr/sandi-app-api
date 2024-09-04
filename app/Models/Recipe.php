@@ -11,6 +11,8 @@ class Recipe extends MongoModel
 
     protected $connection = 'mongodb';
 
+    protected $collection = 'recipes';
+
     protected $fillable = [
         'label',
         'diet_labels',

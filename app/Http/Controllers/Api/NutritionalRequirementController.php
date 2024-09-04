@@ -37,7 +37,6 @@ class NutritionalRequirementController extends Controller
             'method' => ['required', Rule::enum(GetMethod::class)],
             'rest_type' => [
                 Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
-                Rule::enum(RestFactor::class),
             ],
         ]);
 

@@ -15,6 +15,8 @@ class NutritionalProfile extends MongoModel
 
     protected $connection = 'mongodb';
 
+    protected $collection = 'nutritional_profiles';
+
     protected $casts = [
         /* 'patient_type' => PatientType::class,
         'physical_status' => PhysicalActivity::class,

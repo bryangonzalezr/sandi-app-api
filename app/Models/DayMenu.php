@@ -12,6 +12,8 @@ class DayMenu extends MongoModel
 
     protected $connection = 'mongodb';
 
+    protected $collection = 'day_menus';
+
     protected $fillable = [
         'name',
         'recipes',
