@@ -80,6 +80,12 @@ class NutritionalRequirementController extends Controller
                 'error' => $response[1],
             ], 400);
         } elseif ($response[0] == 'ok'){
+            if($response[1] == '0'){
+                return response()->json([
+                    'message' => 'Error al calcular los requerimientos',
+                    'error' => $response[1],
+                ], 400);
+            }
             $nutritionalRequirement = NutritionalRequirement::updateOrCreate([
                 'patient_id'    => $request->patient_id,
             ],
