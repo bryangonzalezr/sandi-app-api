@@ -18,20 +18,20 @@ enum Pathology: string
     case DesnutricionSinEstres = 'Desnutrición Sin Estrés';
     case Tumor = 'Tumor';
     case LeucemiaLinfoma = 'Leucemia / Linfoma';
-    case Infección = 'Infección';
+    case Infeccion = 'Infeccion';
     case SepsisAbscesos = 'Sepsis / Abscesos';
     case Quemadura20 = 'Quemadura 20%';
     case Quemadura40 = 'Quemadura 20-40%';
     case Quemadura100 = 'Quemadura 40-100%';
     case EnfermedadPancreatica = 'Enfermedad Pancreática';
     case EnfermedadInfamatoriaIntestinal = 'Enfermedad Inflamatoria Intestinal';
-    case CirugiaMenor = 'Cirugía Menor';
-    case CirugiaMayor = 'Cirugía Mayor';
-    case CirugiaGeneral = 'Cirugía General';
+    case CirugiaMenor = 'Cirugia Menor';
+    case CirugiaMayor = 'Cirugia Mayor';
+    case CirugiaGeneral = 'Cirugia General';
     case Politraumatismo = 'Politraumatismo';
     case PolitraumatismoSepsis = 'Politraumatismo y Sepsis';
     case Transplante = 'Transplante';
-    case VentilacionMecanica = 'Ventilación Mecánica';
+    case VentilacionMecanica = 'Ventilación Mecanica';
 
 
 }
