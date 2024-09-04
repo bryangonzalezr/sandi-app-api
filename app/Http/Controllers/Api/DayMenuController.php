@@ -78,8 +78,22 @@ class DayMenuController extends Controller
     {
         try {
             $auth_user = User::find(Auth::id());
-            $nutritional_profile = $auth_user->nutritionalProfile;
-            $allergies = [];
+            if ($auth_user->hasRole('paciente')) {
+                $nutritional_profile = $auth_user->nutritionalProfile;
+                $allergies = [];
+
+                $health_translation = Health::translation();
+
+                foreach ($health_translation as $key => $value) {
+                    foreach ($nutritional_profile->allergies as $k => $allergie) {
+                        if ($value === $allergie) {
+                            $allergies[] = Health::tryName($key);
+                        }
+                    }
+                }
+
+                $request['health'] = $allergies;
+            }
 
             $day_menu = [
                 "recipes" => [],
@@ -105,18 +119,6 @@ class DayMenuController extends Controller
                 "inflammatoryIndex",
                 "totalTime",
             ];
-
-            $health_translation = Health::translation();
-
-            foreach($health_translation as $key => $value){
-                foreach($nutritional_profile->allergies as $k => $allergie){
-                    if ($value === $allergie){
-                        $allergies[] = Health::tryName($key);
-                    }
-                }
-            }
-
-            $request['health'] = $allergies;
 
             // Añadir los parámetros adicionales del usuario
         foreach ($request->all() as $key => $value) {

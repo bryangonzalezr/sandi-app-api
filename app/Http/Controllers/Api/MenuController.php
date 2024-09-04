@@ -85,8 +85,22 @@ class MenuController extends Controller
     {
         try {
             $auth_user = User::find(Auth::id());
-            $nutritional_profile = $auth_user->nutritionalProfile;
-            $allergies = [];
+            if ($auth_user->hasRole('paciente')) {
+                $nutritional_profile = $auth_user->nutritionalProfile;
+                $allergies = [];
+
+                $health_translation = Health::translation();
+
+                foreach ($health_translation as $key => $value) {
+                    foreach ($nutritional_profile->allergies as $k => $allergie) {
+                        if ($value === $allergie) {
+                            $allergies[] = Health::tryName($key);
+                        }
+                    }
+                }
+
+                $request['health'] = $allergies;
+            }
 
             $api_tokens = ApiMenu::first();
             $request->validate([
@@ -121,18 +135,6 @@ class MenuController extends Controller
                 "inflammatoryIndex",
                 "totalTime",
             ];
-
-            $health_translation = Health::translation();
-
-            foreach($health_translation as $key => $value){
-                foreach($nutritional_profile->allergies as $k => $allergie){
-                    if ($value === $allergie){
-                        $allergies[] = Health::tryName($key);
-                    }
-                }
-            }
-
-            $request['health'] = $allergies;
 
             // Añadir los parámetros adicionales del usuario
             foreach ($request->all() as $key => $value) {
