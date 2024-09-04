@@ -39,7 +39,11 @@ class PatientController extends Controller
             'patient_id' => $request->patient_id,
         ]);
 
-        $patient_user = User::find($request->patient_id);
+        $patient_user = User::where('email', $request->email)->first();
+        if ($patient_user->hasRole('usuario_basico')){
+            $patient_user->removeRole('usuario_basico');
+        }
+        $patient_user->assignRole('paciente');
 
         return new UserResource($patient_user);
     }
@@ -67,10 +71,25 @@ class PatientController extends Controller
     public function destroy(User $patient)
     {
         $patient_user = Patient::where('patient_id', $patient->id)->first();
+        $patient_user->removeRole('paciente');
         $patient_user->delete();
 
         return response()->json([
             'message' => 'Paciente desvinculado satisfactoriamente'
+        ]);
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     */
+    public function restore(User $patient)
+    {
+        $patient_user = Patient::withTrashed()->where('patient_id', $patient->id)->first();
+        $patient_user->restore();
+        $patient_user->assignRole('paciente');
+
+        return response()->json([
+            'message' => 'Paciente restaurado satisfactoriamente'
         ]);
     }
 }

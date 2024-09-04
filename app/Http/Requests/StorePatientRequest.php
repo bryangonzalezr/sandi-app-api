@@ -23,6 +23,7 @@ class StorePatientRequest extends FormRequest
     {
         return [
             'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'email' => ['required', 'string', 'email', 'exists:users,email'],
         ];
     }
 }

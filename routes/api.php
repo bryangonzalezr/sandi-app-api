@@ -67,6 +67,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('paciente', [PatientController::class, 'store']);
     Route::put('paciente/{patient}', [PatientController::class, 'update']);
     Route::delete('paciente/{patient}', [PatientController::class, 'destroy']);
+    Route::put('paciente/restore/{patient}', [PatientController::class, 'restore']);
 
     //Rutas Planes Nutricionales
     Route::get('planes-nutricionales', [NutritionalPlanController::class, 'index']);
