@@ -61,9 +61,9 @@ class NutritionalRequirementController extends Controller
             $morbid_antecedents[3],
             $morbid_antecedents[4],
             $rest_factor,
-            $nutritionalProfile->nutritional_state->value,
-            $nutritionalProfile->physical_status->value,
-            $nutritionalProfile->patient_type->value,
+            $nutritionalProfile->nutritional_state,
+            $nutritionalProfile->physical_status,
+            $nutritionalProfile->patient_type,
             $nutritionalProfile->weight,
             $nutritionalProfile->height,
             $patient->sex->value,
@@ -75,7 +75,10 @@ class NutritionalRequirementController extends Controller
         $response = explode(',', $response);
 
         if ($response[0] == 'error') {
-            logger()->error($output);
+            return response()->json([
+                'message' => 'Error al calcular los requerimientos',
+                'error' => $response[1],
+            ], 400);
         } elseif ($response[0] == 'ok'){
             $nutritionalRequirement = NutritionalRequirement::updateOrCreate([
                 'patient_id'    => $request->patient_id,

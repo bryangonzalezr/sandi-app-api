@@ -43,7 +43,6 @@ def normalGet(weight, height, nutritional_state, physical_activity, ideal_weight
         "Sobrepeso": {"Leve": 25, "Moderada": 30, "Pesada": 35},
         "Obesidad": {"Leve": 25, "Moderada": 30, "Pesada": 35}
     }
-
     weights = {
         "Enflaquecido": weight,
         "Normal": weight,
@@ -164,14 +163,14 @@ def calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_facto
         elif (method == "FAO/OMS/ONU"):
             return round(faoGet(weight, physical_activity, age, sex), 2)
         else:
-            return [422, 'Tipo de paciente no válido para el método seleccionado']
+            return 0
     else:
         if (method == "Factorial"):
             return round(factorialGet(weight, height, nutritional_state, physical_activity, pathology, idealWeight(height, sex)), 2)
         elif (method == "Harris-Benedict"):
             return round(harrisBenedictGet(weight, height, age, sex, rest_factor, pathology) , 2)
         else:
-            return [422, 'Tipo de paciente no válido para el método seleccionado']
+            return 0
 
 def macronutrients(get, weight, ideal_weight, nutritional_state):
     weights = {
@@ -196,8 +195,9 @@ def main():
         get = calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
         protein, lipids, carbohydrates = macronutrients(get, weight, idealWeight(height, sex), nutritional_state)
         water = waterConsumption(get)
-        if(get[0] == 422):
-            print("error," + get[1])
+
+        if (get == 0):
+            print("error, Método seleccionado no válido para tipo de paciente")
 
         print("ok," + str(get) + "," + str(protein) + "," + str(lipids) + "," + str(carbohydrates) + "," + str(water))
 

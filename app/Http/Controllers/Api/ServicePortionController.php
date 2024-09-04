@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreServicePortionRequest;
+use App\Http\Requests\UpdateServicePortionRequest;
 use App\Http\Resources\ServicePortionResource;
+use App\Models\Portion;
 use App\Models\ServicePortion;
 use Illuminate\Http\Request;
 
@@ -25,6 +27,7 @@ class ServicePortionController extends Controller
      */
     public function store(StoreServicePortionRequest $request)
     {
+        $portions = Portion::where('patient_id', $request->patient_id)->get();
         $service_portion = ServicePortion::create($request->validated());
 
         return new ServicePortionResource($service_portion);
@@ -41,9 +44,9 @@ class ServicePortionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ServicePortion $servicePortion)
+    public function update(UpdateServicePortionRequest $request, ServicePortion $servicePortion)
     {
-        $servicePortion->update($request->all());
+        $servicePortion->update($request->validated());
         return new ServicePortionResource($servicePortion);
     }
 
