@@ -95,6 +95,7 @@ class NutritionalRequirementController extends Controller
                 'patient_id'    => $request->patient_id,
             ],
             [
+                'method'        => $request->method,
                 'get'           => floatval($response[1]),
                 'proteina'      => floatval($response[2]),
                 'lipidos'       => floatval($response[3]),
