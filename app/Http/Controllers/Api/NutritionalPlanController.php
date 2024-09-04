@@ -29,14 +29,24 @@ class NutritionalPlanController extends Controller
     public function index(Request $request)
     {
         $nutritionist = User::find(Auth::id());
-        $nutri_patient = Patient::when($request->filled('patient_id'), function ($query) use ($request, $nutritionist) {
-            $query->where('patient_id', $request->patient_id)
-                    ->where('nutritionist_id', $nutritionist->id);
-        })->get();
+        $nutri_patient = Patient::query()
+        ->where('nutritionist_id', $nutritionist->id)
+        ->get();
 
-        $nutritional_plans = NutritionalPlan::when($nutri_patient->isNotEmpty(), function ($query) {
-            $query->where('deleted_at','!=' , null);
-        })->get();
+        $nutritional_plans = NutritionalPlan::when($nutri_patient->isNotEmpty(), function ($query) use ($nutri_patient) {
+            foreach($nutri_patient as $patient){
+                $query->where('patient_id', $patient->patient_id);
+            }
+        })->when($request->filled('fecha_creacion'), function ($query) use ($request) {
+            $query->where('created_at', $request->patient_id);
+        })->when($request->filled('nombre'), function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->nombre . '%');
+        })->when($request->filled('apellido'), function ($query) use ($request) {
+            $query->where('last_name', 'like', '%' . $request->apellido . '%');
+        })
+        ->where('deleted_at','!=' , null)
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return NutritionalPlanResource::collection($nutritional_plans);
     }
