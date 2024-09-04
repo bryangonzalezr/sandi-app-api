@@ -38,6 +38,7 @@ class StoreServicePortionRequest extends FormRequest
             'desayuno.aceites_grasas' => ['required', 'numeric'],
             'desayuno.alim_ricos_lips' => ['required', 'numeric'],
             'desayuno.azucares' => ['required', 'numeric'],
+            'desayuno.total_calorias' => ['required', 'numeric'],
 
             'colacion' => ['required', 'array'],
             'colacion.cereales' => ['required', 'numeric'],
@@ -53,6 +54,7 @@ class StoreServicePortionRequest extends FormRequest
             'colacion.aceites_grasas' => ['required', 'numeric'],
             'colacion.alim_ricos_lips' => ['required', 'numeric'],
             'colacion.azucares' => ['required', 'numeric'],
+            'colacion.total_calorias' => ['required', 'numeric'],
 
             'almuerzo' => ['required', 'array'],
             'almuerzo.cereales' => ['required', 'numeric'],
@@ -68,6 +70,7 @@ class StoreServicePortionRequest extends FormRequest
             'almuerzo.aceites_grasas' => ['required', 'numeric'],
             'almuerzo.alim_ricos_lips' => ['required', 'numeric'],
             'almuerzo.azucares' => ['required', 'numeric'],
+            'almuerzo.total_calorias' => ['required', 'numeric'],
 
             'once' => ['required', 'array'],
             'once.cereales' => ['required', 'numeric'],
@@ -83,6 +86,7 @@ class StoreServicePortionRequest extends FormRequest
             'once.aceites_grasas' => ['required', 'numeric'],
             'once.alim_ricos_lips' => ['required', 'numeric'],
             'once.azucares' => ['required', 'numeric'],
+            'once.total_calorias' => ['required', 'numeric'],
 
             'cena' => ['required', 'array'],
             'cena.cereales' => ['required', 'numeric'],
@@ -98,6 +102,7 @@ class StoreServicePortionRequest extends FormRequest
             'cena.aceites_grasas' => ['required', 'numeric'],
             'cena.alim_ricos_lips' => ['required', 'numeric'],
             'cena.azucares' => ['required', 'numeric'],
+            'cena.total_calorias' => ['required', 'numeric'],
         ];
     }
 }
