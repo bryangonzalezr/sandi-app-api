@@ -40,7 +40,7 @@ class PortionController extends Controller
     public function show(User $patient)
     {
         $portions = $patient->portions;
-        return PortionResource::collect($portions);
+        return new PortionResource($portions);
     }
 
     /**
