@@ -35,6 +35,7 @@ class StoreServicePortionRequest extends FormRequest
             'desayuno.lacteos_mg' => ['required', 'numeric'],
             'desayuno.lacteos_bg' => ['required', 'numeric'],
             'desayuno.aceites_grasas' => ['required', 'numeric'],
+            'desayuno.alim_ricos_lips' => ['required', 'numeric'],
             'desayuno.azucares' => ['required', 'numeric'],
 
             'colacion' => ['required', 'array'],
@@ -48,6 +49,7 @@ class StoreServicePortionRequest extends FormRequest
             'colacion.lacteos_mg' => ['required', 'numeric'],
             'colacion.lacteos_bg' => ['required', 'numeric'],
             'colacion.aceites_grasas' => ['required', 'numeric'],
+            'colacion.alim_ricos_lips' => ['required', 'numeric'],
             'colacion.azucares' => ['required', 'numeric'],
 
             'almuerzo' => ['required', 'array'],
@@ -61,6 +63,7 @@ class StoreServicePortionRequest extends FormRequest
             'almuerzo.lacteos_mg' => ['required', 'numeric'],
             'almuerzo.lacteos_bg' => ['required', 'numeric'],
             'almuerzo.aceites_grasas' => ['required', 'numeric'],
+            'almuerzo.alim_ricos_lips' => ['required', 'numeric'],
             'almuerzo.azucares' => ['required', 'numeric'],
 
             'once' => ['required', 'array'],
@@ -74,6 +77,7 @@ class StoreServicePortionRequest extends FormRequest
             'once.lacteos_mg' => ['required', 'numeric'],
             'once.lacteos_bg' => ['required', 'numeric'],
             'once.aceites_grasas' => ['required', 'numeric'],
+            'once.alim_ricos_lips' => ['required', 'numeric'],
             'once.azucares' => ['required', 'numeric'],
 
             'cena' => ['required', 'array'],
@@ -87,6 +91,7 @@ class StoreServicePortionRequest extends FormRequest
             'cena.lacteos_mg' => ['required', 'numeric'],
             'cena.lacteos_bg' => ['required', 'numeric'],
             'cena.aceites_grasas' => ['required', 'numeric'],
+            'cena.alim_ricos_lips' => ['required', 'numeric'],
             'cena.azucares' => ['required', 'numeric'],
         ];
     }
