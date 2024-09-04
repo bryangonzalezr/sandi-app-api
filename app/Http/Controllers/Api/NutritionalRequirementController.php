@@ -35,7 +35,7 @@ class NutritionalRequirementController extends Controller
         $nutritionalProfile = $patient->nutritionalProfile;
 
         $request->validate([
-            'method' => 'required',
+            'method' => ['required', Rule::enum(GetMethod::class)],
             'rest_type' => Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
         ]);
 

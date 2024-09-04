@@ -26,7 +26,7 @@ return new class extends Migration
             $table->bigInteger('aceites_grasas');
             $table->bigInteger('alim_ricos_lipidos');
             $table->bigInteger('azucares');
-            $table->unsignedBigInteger('total')->nullable();
+            $table->unsignedBigInteger('total_calorias')->nullable();
             $table->foreignId('patient_id')->constrained('users');
             $table->timestamps();
         });

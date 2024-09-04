@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GetMethod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,8 +10,15 @@ class NutritionalRequirement extends Model
 {
     use HasFactory;
 
+    protected $connection = 'pgsql';
+
+    protected $casts = [
+        'method' => GetMethod::class,
+    ];
+
     protected $fillable = [
         'patient_id',
+        'method',
         'get',
         'proteina',
         'lipidos',
