@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateServicePortionRequest;
 use App\Http\Resources\ServicePortionResource;
 use App\Models\Portion;
 use App\Models\ServicePortion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ServicePortionController extends Controller
@@ -36,8 +37,9 @@ class ServicePortionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ServicePortion $servicePortion)
+    public function show(User $patient)
     {
+        $servicePortion = $patient->servicePortion;
         return new ServicePortionResource($servicePortion);
     }
 

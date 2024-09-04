@@ -92,6 +92,11 @@ class User extends Authenticatable
         return $this->hasOne(NutritionalProfile::class, 'patient_id');
     }
 
+    public function nutritionalPlan()
+    {
+        return $this->hasMany(NutritionalPlan::class, 'patient_id');
+    }
+
     public function recipes()
     {
         return $this->hasMany(Recipe::class, 'user_id');
@@ -127,9 +132,9 @@ class User extends Authenticatable
         return $this->hasMany(Progress::class, 'patient_id');
     }
 
-    public function portion()
+    public function portions()
     {
-        return $this->hasOne(Portion::class, 'patient_id');
+        return $this->hasMany(Portion::class, 'patient_id');
     }
 
     public function servicePortion()

@@ -111,8 +111,9 @@ class NutritionalRequirementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(NutritionalRequirement $nutritionalRequirement)
+    public function show(User $patient)
     {
+        $nutritionalRequirement = $patient->nutritionalRequirement;
         return response()->json([
             "data" => $nutritionalRequirement
         ]);

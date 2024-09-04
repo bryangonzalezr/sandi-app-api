@@ -7,6 +7,7 @@ use App\Http\Requests\StorePortionRequest;
 use App\Http\Requests\UpdatePortionRequest;
 use App\Http\Resources\PortionResource;
 use App\Models\Portion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PortionController extends Controller
@@ -36,9 +37,10 @@ class PortionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Portion $portions)
+    public function show(User $patient)
     {
-        return new PortionResource($portions);
+        $portions = $patient->portions;
+        return PortionResource::collect($portions);
     }
 
     /**

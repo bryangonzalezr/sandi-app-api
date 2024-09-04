@@ -71,7 +71,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas Planes Nutricionales
     Route::get('planes-nutricionales', [NutritionalPlanController::class, 'index']);
-    Route::get('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'show']);
+    Route::get('plan-nutricional/{patient}', [NutritionalPlanController::class, 'show']);
     Route::post('plan-nutricional', [NutritionalPlanController::class, 'store']);
     Route::put('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'update']);
     Route::delete('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'destroy']);
@@ -92,7 +92,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas de Requerimientos Nutricionales
     Route::get('requerimientos-nutricionales', [NutritionalRequirementController::class, 'index']);
-    Route::get('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'show']);
+    Route::get('requerimiento-nutricional/{patient}', [NutritionalRequirementController::class, 'show']);
     Route::post('requerimiento-nutricional', [NutritionalRequirementController::class, 'store']);
     Route::put('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'update']);
     Route::delete('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'destroy']);
@@ -102,14 +102,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas de Porciones
     Route::get('porciones', [PortionController::class, 'index']);
-    Route::get('porcion/{portion}', [PortionController::class, 'show']);
+    Route::get('porcion/{patient}', [PortionController::class, 'show']);
     Route::post('porcion', [PortionController::class, 'store']);
     Route::put('porcion/{portion}', [PortionController::class, 'update']);
     Route::delete('porcion/{portion}', [PortionController::class, 'destroy']);
 
     //Rutas de Porciones de Servicio
     Route::get('porciones-servicio', [ServicePortionController::class, 'index']);
-    Route::get('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'show']);
+    Route::get('porcion-servicio/{patient}', [ServicePortionController::class, 'show']);
     Route::post('porcion-servicio', [ServicePortionController::class, 'store']);
     Route::put('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'update']);
     Route::delete('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'destroy']);

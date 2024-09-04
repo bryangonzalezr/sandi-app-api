@@ -66,9 +66,9 @@ class NutritionalPlanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(NutritionalPlan $nutritionalPlan)
+    public function show(User $patient)
     {
-
+        $nutritionalPlan = $patient->nutritionalPlan;
         return new NutritionalPlanResource($nutritionalPlan);
     }
 
