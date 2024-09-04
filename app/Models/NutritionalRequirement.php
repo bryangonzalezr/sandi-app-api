@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GetMethod;
+use App\Enums\RestFactor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,11 +15,13 @@ class NutritionalRequirement extends Model
 
     protected $casts = [
         'method' => GetMethod::class,
+        'rest_type' => RestFactor::class,
     ];
 
     protected $fillable = [
         'patient_id',
         'method',
+        'rest_type',
         'get',
         'proteina',
         'lipidos',

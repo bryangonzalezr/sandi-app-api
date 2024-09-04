@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\GetMethod;
+use App\Enums\RestFactor;
 use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FoodIndicatorResource;
@@ -34,7 +35,10 @@ class NutritionalRequirementController extends Controller
         $request->validate([
             'patient_id' => 'required|numeric|exists:users,id',
             'method' => ['required', Rule::enum(GetMethod::class)],
-            'rest_type' => Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
+            'rest_type' => [
+                Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
+                Rule::enum(RestFactor::class),
+            ],
         ]);
 
         $patient = User::where('id', $request->patient_id)->first();
@@ -55,7 +59,7 @@ class NutritionalRequirementController extends Controller
         }
 
         $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents["otros"] == null ? 'No' : $nutritionalProfile->morbid_antecedents["otros"];
-        $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type;
+        $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type->value;
         $requirements_path = app_path('Scripts') . '/requirements.py';
         $params = [
             $requirements_path,   // Ruta del script
@@ -96,6 +100,7 @@ class NutritionalRequirementController extends Controller
             ],
             [
                 'method'        => $request->method,
+                'rest_type'     => $request->factor,
                 'get'           => floatval($response[1]),
                 'proteina'      => floatval($response[2]),
                 'lipidos'       => floatval($response[3]),
