@@ -28,9 +28,6 @@ class UpdateNutritionalProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'height' => ['required', 'numeric'],
-            'weight' => ['required', 'array'],
-
             // Actividad física
             //'physical_activity' => ['required', 'array'],
             //'physical_activity' => ['required', 'boolean'],
