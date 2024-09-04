@@ -34,16 +34,24 @@ class PatientController extends Controller
      */
     public function store(StorePatientRequest $request)
     {
-        $patient = Patient::create([
-            'nutritionist_id' => Auth::id(),
-            'patient_id' => $request->patient_id,
-        ]);
 
-        $patient_user = User::where('email', $request->email)->first();
+
+        $patient_user = User::where('email', $request->patient_email)->first();
+        if ($patient_user == null){
+            return response()->json([
+                'message' => 'El correo electrónico no se encuentra registrado en el sistema'
+            ], 404);
+        }
+
         if ($patient_user->hasRole('usuario_basico')){
             $patient_user->removeRole('usuario_basico');
+            $patient_user->assignRole('paciente');
+
+            $patient = Patient::create([
+                'nutritionist_id' => Auth::id(),
+                'patient_id' => $patient_user->id
+            ]);
         }
-        $patient_user->assignRole('paciente');
 
         return new UserResource($patient_user);
     }
@@ -71,7 +79,8 @@ class PatientController extends Controller
     public function destroy(User $patient)
     {
         $patient_user = Patient::where('patient_id', $patient->id)->first();
-        $patient_user->removeRole('paciente');
+        $patient->removeRole('paciente');
+        $patient->assignRole('usuario_basico');
         $patient_user->delete();
 
         return response()->json([
