@@ -44,7 +44,7 @@ enum Health: string
              'Alcohol' => 'Alcohol',
              'Crustaceos' => 'Crustaceos',
              'Lacteos' => 'Lacteos',
-             'Lactosa' => 'Lactosa',
+             'Huevos' => 'Huevos',
              'Pescado' => 'Pescado',
              'Gluten' => 'Gluten',
              'KetoAmigable' => 'Keto Amigable',
