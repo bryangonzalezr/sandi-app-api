@@ -180,19 +180,19 @@ def macronutrients(get, weight, ideal_weight, nutritional_state):
         "Obesidad": adjustedWeight(weight, ideal_weight)
     }
 
-    protein = round((get * 0.2 * weights[nutritional_state]) / 4 ,2)
-    lipids = round((get * 0.26 * weights[nutritional_state]) / 4 ,2)
-    carbohydrates = round((get * 0.54 * weights[nutritional_state]) / 4 , 2)
+    protein = round((get * 0.2 * weights[nutritional_state]) / 4 ,0)
+    lipids = round((get * 0.26 * weights[nutritional_state]) / 4 ,0)
+    carbohydrates = round((get * 0.54 * weights[nutritional_state]) / 4 , 0)
     return protein, lipids, carbohydrates
 
 def waterConsumption(get):
-    water = round(get * 1.3 ,2)
+    water = round(get * 1.3 ,0)
     return water
 
 def main():
     try:
         method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age = handleInput()
-        get = calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
+        get = round(calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age),0)
         protein, lipids, carbohydrates = macronutrients(get, weight, idealWeight(height, sex), nutritional_state)
         water = waterConsumption(get)
 

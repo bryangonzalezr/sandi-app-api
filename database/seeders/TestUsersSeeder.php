@@ -17,6 +17,24 @@ class TestUsersSeeder extends Seeder
      */
     public function run(): void
     {
+        // Usuario Basico
+        $birthdate = Carbon::createFromFormat('Y-m-d', '1999-06-20');
+        $basic = User::create([
+            'name' => 'Juan',
+            'last_name' => 'Miranda',
+            'sex' => 'Masculino',
+            'birthdate' => $birthdate,
+            'age' => Carbon::parse($birthdate)->age,
+            'phone_number' => fake()->phoneNumber,
+            'civil_status' => 'Soltero(a)',
+            'objectives' => '',
+            'email' => 'juan@test.cl',
+            'password' => bcrypt('sandi.,2024'),
+        ]);
+
+        $basic->assignRole('usuario_basico');
+
+        // Nutricionista
         $birthdate = Carbon::createFromFormat('Y-m-d', '1988-06-20');
         $nutritionist = User::create([
             'name' => 'Belen',
@@ -33,6 +51,7 @@ class TestUsersSeeder extends Seeder
 
         $nutritionist->assignRole('nutricionista');
 
+        // Pacientes
         $birthdate = Carbon::createFromFormat('Y-m-d', '1990-01-14');
         $user = User::create([
             'name' => 'Claudia',
@@ -119,6 +138,60 @@ class TestUsersSeeder extends Seeder
             'allergies' => [
                 'Lacteos',
                 'Vegetariano'
+            ],
+
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'cirugias' => [],
+                'otros' => null,
+            ],
+            'patient_type' => 'Ambulatorio',
+            'family_antecedents' => [],
+            'subjective_assessment' => [],
+            'nutritional_anamnesis' => [
+                'plan_anterior' => false,
+                'agua' => true,
+            ],
+        ]);
+
+        $birthdate = Carbon::createFromFormat('Y-m-d', '2003-09-18');
+        $user = User::create([
+            'name' => 'Karla',
+            'last_name' => 'Maturana',
+            'sex' => 'Femenino',
+            'birthdate' => $birthdate,
+            'age' => Carbon::parse($birthdate)->age,
+            'phone_number' => fake()->phoneNumber,
+            'civil_status' => 'Soltero(a)',
+            'objectives' => 'Empezar una dieta vegana',
+            'email' => 'karla@test.cl',
+            'password' => bcrypt('sandi.,2024'),
+        ]);
+
+        $patient = Patient::create([
+            'nutritionist_id' => $nutritionist->id,
+            'patient_id' => $user->id,
+        ]);
+
+        $user->assignRole('paciente');
+
+
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $user->id,
+            'height' => 1.55,
+            'weight' => 47,
+            'physical_status' => 'Alta',
+            'physical_comentario' => 'Todos los días en las mañanas, 5 días a la semana, puro cardio,descanso fines de semana.',
+            'habits' => [
+                'alcohol' =>  'Alto',
+                'tabaco'  => 'Moderado',
+            ],
+            'allergies' => [
+                'Soya',
+                'Vegano'
             ],
 
             'morbid_antecedents' => [

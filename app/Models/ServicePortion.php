@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model as MongoModel;
 
-class ServicePortion extends Model
+class ServicePortion extends MongoModel
 {
     use HasFactory;
 
     protected $connection = 'mongodb';
 
-    protected $fillable = [
+    /* protected $fillable = [
         'cereales',
         'verduras_gral',
         'verduras_libre_cons',
@@ -26,6 +27,14 @@ class ServicePortion extends Model
         'alim_ricos_lipidos',
         'azucares',
         'patient_id',
+    ]; */
+
+    protected $fillable = [
+        'desayuno',
+        'colacion',
+        'almuerzo',
+        'once',
+        'cena',
     ];
 
     // Define un mutador para calcular y establecer total_calorias
