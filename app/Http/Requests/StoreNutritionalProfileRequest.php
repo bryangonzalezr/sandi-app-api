@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\HabitFrequency;
 use App\Enums\Health;
 use App\Enums\Pathology;
 use App\Enums\PatientType;
@@ -40,23 +41,23 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'description' => ['nullable', 'string'],
 
                 // Actividad física
-                'physical_activity' => ['required', 'array'],
-                'physical_activity.actividad' => ['required', 'boolean'],
-                'physical_activity.tiempo' => ['nullable', 'string'],
+                //'physical_activity' => ['required', 'array'],
+                'physical_activity' => ['required', 'boolean'],
+                'physical_comentario' => ['nullable', 'string'],
+/*               'physical_activity.tiempo' => ['nullable', 'string'],
                 'physical_activity.dias_semana' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento' => ['nullable', 'array'],
                 'physical_activity.entrenamiento.duracion' => ['nullable', 'array'],
                 'physical_activity.entrenamiento.duracion.cantidad' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento.duracion.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
                 'physical_activity.entrenamiento.tipo' => ['nullable', 'string'],
-                'physical_activity.entrenamiento.horarios' => ['nullable', 'string'],
-                'physical_activity.status' => ['required', Rule::enum(PhysicalActivity::class)],
+                'physical_activity.entrenamiento.horarios' => ['nullable', 'string'], */
+                'physical_status' => ['required', Rule::enum(PhysicalActivity::class)],
 
                 // Hábitos
                 'habits' => ['required', 'array'],
-                'habits.alcohol' => ['required', 'boolean'],
-                'habits.tabaco' => ['required', 'boolean'],
-                'habits.comentario' => ['nullable', 'string'],
+                'habits.alcohol' => ['required', Rule::enum(HabitFrequency::class)],
+                'habits.tabaco' => ['required', Rule::enum(HabitFrequency::class)],
 
                 'allergies' => ['required', 'array'],
                 'allergies.*' => ['nullable', Rule::enum(Health::class)],

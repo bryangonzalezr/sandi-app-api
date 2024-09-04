@@ -78,6 +78,8 @@ class UserController extends Controller
         $nutritional_profile->update([
             'habits' => $request->habits,
             'physical_activity' => $request->physical_activity,
+            'physical_status' => $request->physical_status,
+            'physical_comentario' => $request->physical_comentario,
             'allergies' => $request->allergies,
             'nutritional_anamnesis' => $request->nutritional_anamnesis,
         ]);

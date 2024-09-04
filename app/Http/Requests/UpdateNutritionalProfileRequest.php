@@ -31,14 +31,15 @@ class UpdateNutritionalProfileRequest extends FormRequest
             'weight' => ['required', 'array'],
 
             // Actividad física
-            'physical_activity' => ['required', 'array'],
-            'physical_activity.actividad' => ['required', 'boolean'],
-            'physical_activity.tiempo' => ['nullable', 'string'],
+            //'physical_activity' => ['required', 'array'],
+            'physical_activity' => ['required', 'boolean'],
+            'physical_comentario' => ['nullable', 'string'],
+/*             'physical_activity.tiempo' => ['nullable', 'string'],
             'physical_activity.dias_semana' => ['nullable', 'integer'],
             'physical_activity.entrenamiento' => ['nullable', 'array'],
             'physical_activity.entrenamiento.duracion' => ['nullable', 'string'],
             'physical_activity.entrenamiento.tipo' => ['nullable', 'string'],
-            'physical_activity.entrenamiento.horarios' => ['nullable', 'string'],
+            'physical_activity.entrenamiento.horarios' => ['nullable', 'string'], */
             'physical_activity.status' => ['required', Rule::enum(PhysicalActivity::class)],
 
             // Hábitos

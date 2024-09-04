@@ -17,4 +17,9 @@ class NutritionalRequirement extends Model
         'carbohidratos',
         'agua',
     ];
+
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
+    }
 }

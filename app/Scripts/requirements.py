@@ -6,6 +6,7 @@ def handleInput():
     if (len(arguments) < 7):
         raise Exception("Faltan parámetros")
     del arguments[0]
+
     age = int(arguments.pop())
     sex = arguments.pop()
     height = float(arguments.pop())
@@ -90,6 +91,7 @@ def faoGet(weight, physical_activity, age, sex):
     return get
 
 def harrisBenedictGet(weight, height, age, sex, rest_factor, pathology):
+
     if sex == "Masculino":
         ger = 66.47 + (13.74 * weight) + (5.03 * height * 100) - (6.75 * age)
     elif sex == "Femenino":
@@ -129,9 +131,9 @@ def harrisBenedictGet(weight, height, age, sex, rest_factor, pathology):
 
     if pathology in fp:
         if sex in fp.values():
-            return get = ger * fr[rest_factor] * fp[pathology][sex]
+            return ger * fr[rest_factor] * fp[pathology][sex]
         else:
-            return get = ger * fr[rest_factor] * fp[pathology]
+            return ger * fr[rest_factor] * fp[pathology]
 
 def factorialGet(weight, height, nutritional_state, physical_activity, pathology, ideal_weight):
     energetic_requirement = {
@@ -148,24 +150,24 @@ def factorialGet(weight, height, nutritional_state, physical_activity, pathology
         "Obesidad": adjustedWeight(weight, ideal_weight)
     }
 
-    if ($pathology == "Edema Severo" or $pathology == "Ascitis"):
-        return get = energetic_requirement[nutritional_state][physical_activity] * adjustedWeight(weight, ideal_weight)
-    elif ($pathology == "Desnutrición Leve" or $pathology == "Desnutrición Moderada" or $pathology == "Desnutrición Severa" or $pathology == "Desnutrición sin estrés"):
-        return get = energetic_requirement[nutritional_state][physical_activity] * weight
+    if (pathology == "Edema Severo" or pathology == "Ascitis"):
+        return energetic_requirement[nutritional_state][physical_activity] * adjustedWeight(weight, ideal_weight)
+    elif (pathology == "Desnutrición Leve" or pathology == "Desnutrición Moderada" or pathology == "Desnutrición Severa" or pathology == "Desnutrición sin estrés"):
+        return energetic_requirement[nutritional_state][physical_activity] * weight
     else:
-        return get = energetic_requirement[nutritional_state][physical_activity] * weights[nutritional_state]
+        return energetic_requirement[nutritional_state][physical_activity] * weights[nutritional_state]
 
 def calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age):
     if (patient_type == "Ambulatorio"):
         if (method == "Normal"):
-            return get = normalGet(weight, height, nutritional_state, physical_activity, idealWeight(height))
+            return round(normalGet(weight, height, nutritional_state, physical_activity, idealWeight(height, sex)), 2)
         elif (method == "FAO/OMS/ONU"):
-            return get = faoGet(weight, physical_activity, age, sex)
+            return round(faoGet(weight, physical_activity, age, sex), 2)
     else:
         if (method == "Factorial"):
-            return get = factorialGet(weight, height, nutritional_state, physical_activity, pathology, idealWeight(height))
+            return round(factorialGet(weight, height, nutritional_state, physical_activity, pathology, idealWeight(height, sex)), 2)
         elif (method == "Harris-Benedict"):
-            return get = harrisBenedictGet(weight, height, age, sex, rest_factor, pathology)
+            return round(harrisBenedictGet(weight, height, age, sex, rest_factor, pathology) , 2)
 
 def macronutrients(get, weight, ideal_weight, nutritional_state):
     weights = {
@@ -175,20 +177,20 @@ def macronutrients(get, weight, ideal_weight, nutritional_state):
         "Obesidad": adjustedWeight(weight, ideal_weight)
     }
 
-    protein = (get * 0.2 * weights[nutritional_state]) / 4
-    lipids = (get * 0.26 * weights[nutritional_state]) / 4
-    carbohydrates = (get * 0.54 * weights[nutritional_state]) / 4
+    protein = round((get * 0.2 * weights[nutritional_state]) / 4 ,2)
+    lipids = round((get * 0.26 * weights[nutritional_state]) / 4 ,2)
+    carbohydrates = round((get * 0.54 * weights[nutritional_state]) / 4 , 2)
     return protein, lipids, carbohydrates
 
 def waterConsumption(get):
-    water = get * 1.3
+    water = round(get * 1.3 ,2)
     return water
 
 def main():
     try:
         method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age = handleInput()
         get = calculateGet(method, dm2, hta, tiroides, dislipidemia, pathology, rest_factor, nutritional_state, physical_activity, patient_type, weight, height, sex, age)
-        protein, lipids, carbohydrates = macronutrients(get, weight, idealWeight(height), nutritional_state)
+        protein, lipids, carbohydrates = macronutrients(get, weight, idealWeight(height, sex), nutritional_state)
         water = waterConsumption(get)
         print("ok," + str(get) + "," + str(protein) + "," + str(lipids) + "," + str(carbohydrates) + "," + str(water))
 

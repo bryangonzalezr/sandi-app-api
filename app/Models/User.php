@@ -136,4 +136,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(ServicePortion::class, 'patient_id');
     }
+
+    public function nutritionalRequirement()
+    {
+        return $this->hasOne(NutritionalRequirement::class, 'patient_id');
+    }
 }

@@ -56,9 +56,9 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.63,
             'weight' => 76,
-            'physical_activity' => [
-                'actividad' => false,
-            ],
+            'physical_activity' => false,
+            'physical_status' => 'Leve',
+            'physical_comentario' => 'No realiza actividad fisica',
             'habits' => [
                 'alcohol' =>  'Alto',
                 'tabaco'  => 'Nada',
@@ -76,6 +76,7 @@ class TestUsersSeeder extends Seeder
                 'cirugias' => [],
                 'otros' => null,
             ],
+            'patient_type' => 'Ambulatorio',
             'family_antecedents' => [],
             'subjective_assessment' => [],
             'nutritional_anamnesis' => [
@@ -110,16 +111,9 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.72,
             'weight' => 92,
-            'physical_activity' => [
-                'actividad' => true,
-                'tiempo' => '2 años',
-                'dias_semana' => 5,
-                'entrenamiento' => [
-                    'duracion' => '1 hora',
-                    'tipo' => 'Cardio',
-                    'horarios' => 'Mañana,Tarde'
-                ],
-            ],
+            'physical_activity' => true,
+            'physical_status' => 'Moderada',
+            'physical_comentario' => 'Realiza actividad fisica 3 veces a la semana',
             'habits' => [
                 'alcohol' =>  'Nada',
                 'tabaco'  => 'Moderado',
@@ -137,6 +131,7 @@ class TestUsersSeeder extends Seeder
                 'cirugias' => [],
                 'otros' => null,
             ],
+            'patient_type' => 'Ambulatorio',
             'family_antecedents' => [],
             'subjective_assessment' => [],
             'nutritional_anamnesis' => [

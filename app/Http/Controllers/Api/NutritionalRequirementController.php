@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\GetMethod;
+use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FoodIndicatorResource;
 use App\Models\FoodIndicator;
@@ -35,14 +36,21 @@ class NutritionalRequirementController extends Controller
         ]);
 
         $morbid_antecedents = [
-            $nutritionalProfile->morbid_antecedents["dm2"],
+            $nutritionalProfile->morbid_antecedents["dm2"] ,
             $nutritionalProfile->morbid_antecedents["hta"],
             $nutritionalProfile->morbid_antecedents["tiroides"],
             $nutritionalProfile->morbid_antecedents["dislipidemia"],
         ];
+        foreach($morbid_antecedents as $i => $antecedent){
+            if($antecedent == false){
+                $morbid_antecedents[$i] = 'No';
+            }else{
+                $morbid_antecedents[$i] = 'Si';
+            }
+        }
+
         $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents["otros"] == null ? 'No' : $nutritionalProfile->morbid_antecedents["otros"];
         $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type;
-
         $requirements_path = app_path('Scripts') . '/requirements.py';
         $params = [
             $requirements_path,   // Ruta del script
@@ -53,12 +61,12 @@ class NutritionalRequirementController extends Controller
             $morbid_antecedents[3],
             $morbid_antecedents[4],
             $rest_factor,
-            $nutritionalProfile->nutritional_state,
-            $nutritionalProfile->physical_status,
-            $nutritionalProfile->patient_type,
+            $nutritionalProfile->nutritional_state->value,
+            $nutritionalProfile->physical_status->value,
+            $nutritionalProfile->patient_type->value,
             $nutritionalProfile->weight,
             $nutritionalProfile->height,
-            $patient->sex,
+            $patient->sex->value,
             $patient->age,
         ];
 
@@ -69,9 +77,10 @@ class NutritionalRequirementController extends Controller
         if ($response[0] == 'error') {
             logger()->error($output);
         } elseif ($response[0] == 'ok'){
-            $nutritionalRequirement = NutritionalRequirement::create([
+            $nutritionalRequirement = NutritionalRequirement::updateOrCreate([
                 'patient_id'    => $request->patient_id,
-            ], [
+            ],
+            [
                 'get'           => floatval($response[1]),
                 'proteina'      => floatval($response[2]),
                 'lipidos'       => floatval($response[3]),
@@ -79,7 +88,9 @@ class NutritionalRequirementController extends Controller
                 'agua'          => floatval($response[5]),
             ]);
 
-            return response()->json($nutritionalRequirement, 201);
+            return response()->json([
+                "data" => $nutritionalRequirement
+            ], 201);
         }
     }
 

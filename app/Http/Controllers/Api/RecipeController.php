@@ -113,6 +113,7 @@ class RecipeController extends Controller
                 "inflammatoryIndex",
                 "totalTime",
             ];
+
             $health_translation = Health::translation();
 
             foreach($health_translation as $key => $value){
