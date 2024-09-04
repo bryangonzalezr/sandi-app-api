@@ -31,13 +31,14 @@ class NutritionalRequirementController extends Controller
      */
     public function store(Request $request)
     {
-        $patient = User::where('id', $request->patient_id)->first();
-        $nutritionalProfile = $patient->nutritionalProfile;
-
         $request->validate([
+            'patient_id' => 'required|numeric|exists:users,id',
             'method' => ['required', Rule::enum(GetMethod::class)],
             'rest_type' => Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
         ]);
+
+        $patient = User::where('id', $request->patient_id)->first();
+        $nutritionalProfile = $patient->nutritionalProfile;
 
         $morbid_antecedents = [
             $nutritionalProfile->morbid_antecedents["dm2"] ,
