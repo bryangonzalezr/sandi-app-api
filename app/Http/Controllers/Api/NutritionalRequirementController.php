@@ -19,7 +19,11 @@ class NutritionalRequirementController extends Controller
      */
     public function index()
     {
-        //
+        $nutritionalRequirements = NutritionalRequirement::all();
+
+        return response()->json([
+            "data" => $nutritionalRequirements
+        ]);
     }
 
     /**
@@ -108,7 +112,9 @@ class NutritionalRequirementController extends Controller
      */
     public function show(NutritionalRequirement $nutritionalRequirement)
     {
-        //
+        return response()->json([
+            "data" => $nutritionalRequirement
+        ]);
     }
 
     /**
