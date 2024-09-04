@@ -64,7 +64,6 @@ class NutritionalProfileController extends Controller
     public function update(UpdateNutritionalProfileRequest $request, NutritionalProfile $nutritionalProfile)
     {
         $nutritionalProfile->update([
-            'physical_activity' => $request->physical_activity,
             'physical_status' => $request->physical_status,
             'physical_comentario' => $request->physical_comentario,
             'habits' => $request->habits,
