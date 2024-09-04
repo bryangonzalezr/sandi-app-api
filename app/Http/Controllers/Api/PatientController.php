@@ -81,6 +81,7 @@ class PatientController extends Controller
         $patient_user = Patient::where('patient_id', $patient->id)->first();
         $patient->removeRole('paciente');
         $patient->assignRole('usuario_basico');
+        $patient->nutritionalPlan?->delete();
         $patient_user->delete();
 
         return response()->json([
@@ -95,7 +96,9 @@ class PatientController extends Controller
     {
         $patient_user = Patient::withTrashed()->where('patient_id', $patient->id)->first();
         $patient_user->restore();
-        $patient_user->assignRole('paciente');
+        $patient->removeRole('usuario_basico');
+        $patient->assignRole('paciente');
+        $patient->nutritionalPlan?->restore();
 
         return response()->json([
             'message' => 'Paciente restaurado satisfactoriamente'
