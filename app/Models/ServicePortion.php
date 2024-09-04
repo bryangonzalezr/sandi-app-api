@@ -12,33 +12,23 @@ class ServicePortion extends MongoModel
 
     protected $connection = 'mongodb';
 
-    /* protected $fillable = [
-        'cereales',
-        'verduras_gral',
-        'verduras_libre_cons',
-        'frutas',
-        'carnes_ag',
-        'carnes_bg',
-        'legumbres',
-        'lacteos_ag',
-        'lacteos_bg',
-        'lacteos_mg',
-        'aceites_grasas',
-        'alim_ricos_lipidos',
-        'azucares',
-        'patient_id',
-    ]; */
-
     protected $fillable = [
         'desayuno',
         'colacion',
         'almuerzo',
         'once',
         'cena',
+        'total_calorias',
+        'patient_id'
     ];
 
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
+    }
+
     // Define un mutador para calcular y establecer total_calorias
-    public function setTotalCaloriasAttribute()
+   /*  public function setTotalCaloriasAttribute()
     {
         $total = 0;
 
@@ -62,6 +52,6 @@ class ServicePortion extends MongoModel
         }
 
         $this->attributes['total_calorias'] = $total;
-    }
+    } */
 
 }

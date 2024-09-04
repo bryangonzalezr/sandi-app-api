@@ -23,6 +23,7 @@ class UpdateServicePortionRequest extends FormRequest
     {
         return [
             'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'total_calorias' => ['required', 'numeric'],
             'desayuno' => ['required', 'array'],
             'desayuno.cereales' => ['required', 'numeric'],
             'desayuno.verduras_gral' => ['required', 'numeric'],
@@ -33,7 +34,7 @@ class UpdateServicePortionRequest extends FormRequest
             'desayuno.lacteos_ag' => ['required', 'numeric'],
             'desayuno.lacteos_mg' => ['required', 'numeric'],
             'desayuno.lacteos_bg' => ['required', 'numeric'],
-            'desayuno.aceite_grasas' => ['required', 'numeric'],
+            'desayuno.aceites_grasas' => ['required', 'numeric'],
             'desayuno.azucares' => ['required', 'numeric'],
 
             'colacion' => ['required', 'array'],
@@ -46,7 +47,7 @@ class UpdateServicePortionRequest extends FormRequest
             'colacion.lacteos_ag' => ['required', 'numeric'],
             'colacion.lacteos_mg' => ['required', 'numeric'],
             'colacion.lacteos_bg' => ['required', 'numeric'],
-            'colacion.aceite_grasas' => ['required', 'numeric'],
+            'colacion.aceites_grasas' => ['required', 'numeric'],
             'colacion.azucares' => ['required', 'numeric'],
 
             'almuerzo' => ['required', 'array'],
@@ -59,7 +60,7 @@ class UpdateServicePortionRequest extends FormRequest
             'almuerzo.lacteos_ag' => ['required', 'numeric'],
             'almuerzo.lacteos_mg' => ['required', 'numeric'],
             'almuerzo.lacteos_bg' => ['required', 'numeric'],
-            'almuerzo.aceite_grasas' => ['required', 'numeric'],
+            'almuerzo.aceites_grasas' => ['required', 'numeric'],
             'almuerzo.azucares' => ['required', 'numeric'],
 
             'once' => ['required', 'array'],
@@ -72,7 +73,7 @@ class UpdateServicePortionRequest extends FormRequest
             'once.lacteos_ag' => ['required', 'numeric'],
             'once.lacteos_mg' => ['required', 'numeric'],
             'once.lacteos_bg' => ['required', 'numeric'],
-            'once.aceite_grasas' => ['required', 'numeric'],
+            'once.aceites_grasas' => ['required', 'numeric'],
             'once.azucares' => ['required', 'numeric'],
 
             'cena' => ['required', 'array'],
@@ -85,7 +86,7 @@ class UpdateServicePortionRequest extends FormRequest
             'cena.lacteos_ag' => ['required', 'numeric'],
             'cena.lacteos_mg' => ['required', 'numeric'],
             'cena.lacteos_bg' => ['required', 'numeric'],
-            'cena.aceite_grasas' => ['required', 'numeric'],
+            'cena.aceites_grasas' => ['required', 'numeric'],
             'cena.azucares' => ['required', 'numeric'],
         ];
     }
