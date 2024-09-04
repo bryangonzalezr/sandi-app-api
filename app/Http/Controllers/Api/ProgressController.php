@@ -39,7 +39,7 @@ class ProgressController extends Controller
         if($user->hasRole('nutricionista')){
             $patient_user = Patient::where('nutritionist_id', $user->id)->where('patient_id', $patient->id)->first();
             $progress = $patient_user ? Progress::where('patient_id', $patient->id)->get(): null;
-        }else{
+        }elseif($user->hasRole('paciente')){
             $progress = Progress::where('patient_id', $user->id)->get();
         }
 

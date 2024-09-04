@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use MongoDB\Laravel\Eloquent\Model as MongoModel;
 
-class NutritionalPlan extends Model
+class NutritionalPlan extends MongoModel
 {
     use HasFactory, SoftDeletes;
 
