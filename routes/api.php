@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ContactCardController;
 use App\Http\Controllers\Api\DayMenuController;
+use App\Http\Controllers\Api\FoodIndicatorController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\NutritionalPlanController;
 use App\Http\Controllers\Api\NutritionalProfileController;
@@ -96,7 +97,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'destroy']);
 
     //Ruta de Indicadores de Alimentos
-    Route::get('indicadores-alimentos', [NutritionalRequirementController::class, 'index']);
+    Route::get('indicadores-alimentos', [FoodIndicatorController::class, 'index']);
 
     //Rutas de Porciones
     Route::get('porciones', [PortionController::class, 'index']);
