@@ -43,7 +43,7 @@ class StoreNutritionalProfileRequest extends FormRequest
                 // Actividad física
                 //'physical_activity' => ['required', 'array'],
                 'physical_activity' => ['required', 'boolean'],
-                'physical_comentario' => ['nullable', 'string'],
+                //'physical_comentario' => ['nullable', 'string'],
 /*               'physical_activity.tiempo' => ['nullable', 'string'],
                 'physical_activity.dias_semana' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento' => ['nullable', 'array'],
@@ -94,7 +94,6 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'nutritional_anamnesis' => ['required', 'array'],
                 'nutritional_anamnesis.plan_anterior' => ['required', 'boolean'],
                 'nutritional_anamnesis.agua' => ['required', 'boolean'],
-                'nutritional_anamnesis.observaciones' => ['nullable', 'string'],
 
                 // Antropometría
                 'height' => ['required', 'numeric'],

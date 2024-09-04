@@ -56,7 +56,6 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.63,
             'weight' => 76,
-            'physical_activity' => false,
             'physical_status' => 'Leve',
             'physical_comentario' => 'No realiza actividad fisica',
             'habits' => [
@@ -111,7 +110,6 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.72,
             'weight' => 92,
-            'physical_activity' => true,
             'physical_status' => 'Moderada',
             'physical_comentario' => 'Realiza actividad fisica 3 veces a la semana',
             'habits' => [

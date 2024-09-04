@@ -43,10 +43,10 @@ class UpdateUserRequest extends FormRequest
             // Anamnesis alimentaria
             'nutritional_anamnesis' => ['required', 'array'],
             'nutritional_anamnesis.plan_anterior' => ['required', 'boolean'],
-            'nutritional_anamnesis.agua' => ['required', Rule::enum(HabitFrequency::class)],
+            'nutritional_anamnesis.agua' => ['required', 'boolean'],
 
             // Actividad física
-            'physical_activity' => ['required', 'boolean'],
+            // 'physical_activity' => ['required', 'boolean'],
             'physical_comentario' => ['nullable', 'string'],
 /*             'physical_activity.tiempo' => ['nullable', 'string'],
             'physical_activity.dias_semana' => ['nullable', 'integer'],
