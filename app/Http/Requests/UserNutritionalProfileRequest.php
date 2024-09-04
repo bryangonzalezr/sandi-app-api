@@ -33,7 +33,7 @@ class UserNutritionalProfileRequest extends FormRequest
 
             // Actividad física
             //'physical_activity' => ['required', 'array'],
-            'physical_activity' => ['required', 'boolean'],
+            // 'physical_activity' => ['required', 'boolean'],
             'physical_comentario' => ['nullable', 'string'],
 /*             'physical_activity.tiempo' => ['required', 'string'],
             'physical_activity.dias_semana' => ['nullable', 'integer'],
