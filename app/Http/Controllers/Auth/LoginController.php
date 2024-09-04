@@ -36,6 +36,24 @@ class LoginController extends Controller
         ]);
         $user->assignRole($request->role);
 
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => "",
+            'nutritional_state' => "",
+            'description' => "",
+            'height' => 0,
+            'weight' => 0,
+            'physical_comentario' => "",
+            'physical_status' => "",
+            'habits' => "",
+            'allergies' => "",
+            'morbid_antecedents' => "",
+            'patient_type' => "",
+            'family_antecedents' => "",
+            'digestion' => "",
+            'subjective_assessment' => "",
+            'nutritional_anamnesis' => "",
+        ]);
+
         event(new Registered($user));
 
         return response()->json([

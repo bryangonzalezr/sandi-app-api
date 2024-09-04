@@ -27,7 +27,6 @@ class NutritionalProfile extends MongoModel
         'description',
         'height',
         'weight',
-        'physical_activity',
         'physical_comentario',
         'physical_status',
         'habits',
