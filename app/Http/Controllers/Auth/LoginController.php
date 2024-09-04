@@ -37,7 +37,7 @@ class LoginController extends Controller
         $user->assignRole($request->role);
 
         $nutritional_profile = NutritionalProfile::create([
-            'patient_id' => "",
+            'patient_id' => $user->id,
             'nutritional_state' => "",
             'description' => "",
             'height' => 0,
