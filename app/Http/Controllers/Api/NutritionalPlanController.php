@@ -31,21 +31,14 @@ class NutritionalPlanController extends Controller
         $nutritionist = User::find(Auth::id());
         $nutri_patient = Patient::query()
         ->where('nutritionist_id', $nutritionist->id)
-        ->withTrashed()
+        ->onlyTrashed()
         ->get();
 
         $nutritional_plans = NutritionalPlan::when($nutri_patient->isNotEmpty(), function ($query) use ($nutri_patient) {
-            foreach($nutri_patient as $patient){
-                $query->where('patient_id', $patient->patient_id);
-            }
         })->when($request->filled('fecha_creacion'), function ($query) use ($request) {
             $query->where('created_at', $request->patient_id);
-        })->when($request->filled('nombre'), function ($query) use ($request) {
-            $query->where('name', 'like', '%' . $request->nombre . '%');
-        })->when($request->filled('apellido'), function ($query) use ($request) {
-            $query->where('last_name', 'like', '%' . $request->apellido . '%');
         })
-        ->where('deleted_at','!=' , null)
+        ->onlyTrashed()
         ->orderBy('created_at', 'desc')
         ->get();
 
