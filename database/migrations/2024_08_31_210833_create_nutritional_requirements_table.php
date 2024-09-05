@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('nutritional_requirements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained();
+            $table->foreignId('patient_id')->constrained('users');
+            $table->string('method');
+            $table->string('rest_type')->nullable();
             $table->float('get');
             $table->float('proteina');
             $table->float('lipidos');

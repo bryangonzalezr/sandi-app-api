@@ -23,22 +23,28 @@ class StoreVisitRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'patient_id' => ['required', 'integer', 'exists:users,id']
-           /*
-             'height' => ['required', 'numeric'],
+            'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'height' => ['required', 'numeric'],
             'weight' => ['required', 'numeric'],
+
+            //Pliegues
             'bicipital_skinfold' => ['required', 'numeric'],
             'tricipital_skinfold' => ['required', 'numeric'],
-            'subescapular_skinfold' => ['required', 'numeric'],
+            'subscapular_skinfold' => ['required', 'numeric'],
             'supraspinal_skinfold' => ['required', 'numeric'],
             'suprailiac_skinfold' => ['required', 'numeric'],
+            'thigh_skinfold' => ['required', 'numeric'],
+            'calf_skinfold' => ['required', 'numeric'],
+            'abdomen_skinfold' => ['required', 'numeric'],
+
+            // Perimetros
             'pb_relaj' => ['required', 'numeric'],
             'pb_contra' => ['required', 'numeric'],
             'forearm' => ['required', 'numeric'],
             'thigh' => ['required', 'numeric'],
             'calf' => ['required', 'numeric'],
             'waist' => ['required', 'numeric'],
-            'thorax' => ['required', 'numeric'], */
+            'thorax' => ['required', 'numeric'],
         ];
     }
 }

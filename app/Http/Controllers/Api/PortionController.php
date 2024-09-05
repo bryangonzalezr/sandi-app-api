@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePortionRequest;
+use App\Http\Requests\UpdatePortionRequest;
 use App\Http\Resources\PortionResource;
 use App\Models\Portion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PortionController extends Controller
@@ -13,9 +15,13 @@ class PortionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $portions = Portion::when($request->filled('patient_id'), function ($query) use ($request) {
+            $query->where('patient_id', $request->patient_id);
+        })->get();
+
+        return PortionResource::collection($portions);
     }
 
     /**
@@ -31,17 +37,19 @@ class PortionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Portion $portions)
+    public function show(User $patient)
     {
-        //
+        $portions = $patient->portions;
+        return new PortionResource($portions);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Portion $portion)
+    public function update(UpdatePortionRequest $request, Portion $portion)
     {
-        //
+        $portion->update($request->validated());
+        return new PortionResource($portion);
     }
 
     /**

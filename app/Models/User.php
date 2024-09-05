@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\CivilStatus;
 use App\Enums\UserSex;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,9 +65,11 @@ class User extends Authenticatable
         ];
     }
 
-    protected function isNutritionist(): bool
+    protected function isNutritionist(): Attribute
     {
-        return $this->hasRole('nutritionista');
+        return Attribute::make(
+            get: fn ($value) => $this->hasRole('nutritionist'),
+        );
     }
 
     protected function isPatient(): bool
@@ -87,6 +90,11 @@ class User extends Authenticatable
     public function nutritionalProfile()
     {
         return $this->hasOne(NutritionalProfile::class, 'patient_id');
+    }
+
+    public function nutritionalPlan()
+    {
+        return $this->hasMany(NutritionalPlan::class, 'patient_id');
     }
 
     public function recipes()
@@ -119,8 +127,23 @@ class User extends Authenticatable
         return $this->hasMany(Visit::class, 'patient_id');
     }
 
-    public function progress()
+    public function progresses()
     {
         return $this->hasMany(Progress::class, 'patient_id');
+    }
+
+    public function portions()
+    {
+        return $this->hasMany(Portion::class, 'patient_id');
+    }
+
+    public function servicePortion()
+    {
+        return $this->hasOne(ServicePortion::class, 'patient_id');
+    }
+
+    public function nutritionalRequirement()
+    {
+        return $this->hasOne(NutritionalRequirement::class, 'patient_id');
     }
 }

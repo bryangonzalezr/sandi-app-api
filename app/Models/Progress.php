@@ -9,17 +9,16 @@ class Progress extends Model
 {
     use HasFactory;
 
+    protected $connection = 'pgsql';
+
     protected $fillable = [
         'patient_id',
+        'height',
+        'weight',
+        'date',
         'imc',
-        'density',
         'fat_percentage',
-        'z_muscular',
-        'muscular_mass',
         'muscular_percentage',
-        'pmb',
-        'amb',
-        'agb',
         'nutritional_state',
     ];
 

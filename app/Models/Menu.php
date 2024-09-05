@@ -12,6 +12,8 @@ class Menu extends MongoModel
 
     protected $connection = 'mongodb';
 
+    protected $collection = 'menus';
+
     protected $fillable = [
         'name',
         'timespan',

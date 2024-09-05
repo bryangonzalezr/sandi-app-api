@@ -34,12 +34,16 @@ class ProgressController extends Controller
      */
     public function show(User $patient)
     {
-        $patient_nutri = Patient::where('nutritionist_id', Auth::id())->where('patient_id', $patient->id)->first();
-        if (!$patient_nutri) {
-            return response()->json(['message' => 'No tiene permisos para ver este paciente'], 403);
+        $user = User::find(Auth::id());
+
+        if($user->hasRole('nutricionista')){
+            $patient_user = Patient::where('nutritionist_id', $user->id)->where('patient_id', $patient->id)->first();
+            $progress = $patient_user ? Progress::where('patient_id', $patient->id)->get(): null;
+        }elseif($user->hasRole('paciente')){
+            $progress = Progress::where('patient_id', $user->id)->get();
         }
-        $progress = Progress::where('patient_id', $patient->id)->get();
-        return new ProgressResource($progress);
+
+        return ProgressResource::collection($progress);
 
     }
 

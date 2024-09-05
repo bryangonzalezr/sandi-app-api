@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\NutritionalProfileResource;
 use App\Http\Resources\UserResource;
+use App\Models\NutritionalProfile;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -65,14 +66,21 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'last_name' => $request->last_name,
-            'sex' => $request->user_sex,
+            'sex' => $request->sex,
             'birthdate' => $request->birthdate,
             'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
             'description' => $request->description,
             'objectives' => $request->objectives,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+        ]);
+
+        $nutritional_profile = NutritionalProfile::where('patient_id', $user->id)->first();
+        $nutritional_profile->update([
+            'habits' => $request->habits,
+            'physical_status' => $request->physical_status,
+            'physical_comentario' => $request->physical_comentario,
+            'allergies' => $request->allergies,
+            'nutritional_anamnesis' => $request->nutritional_anamnesis,
         ]);
 
         return new UserResource($user);

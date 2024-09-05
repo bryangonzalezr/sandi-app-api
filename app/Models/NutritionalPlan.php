@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use MongoDB\Laravel\Eloquent\Model as MongoModel;
+use MongoDB\Laravel\Eloquent\SoftDeletes as MongoSoftDeletes;
 
-class NutritionalPlan extends Model
+class NutritionalPlan extends MongoModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, MongoSoftDeletes;
 
     protected $connection = 'mongodb';
+
+    protected $collection = 'nutritional_plans';
 
     protected $fillable = [
         'patient_id',

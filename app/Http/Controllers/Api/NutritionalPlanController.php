@@ -8,12 +8,17 @@ use App\Http\Requests\UpdateNutritionalPlanRequest;
 use App\Http\Resources\NutritionalPlanResource;
 use App\Models\NutritionalPlan;
 use App\Models\NutritionalProfile;
+use App\Models\Patient;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NutritionalPlanController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['can:nutritional_plan.view'])->only(['index','show']);
+        $this->middleware(['can:nutritional_plan.view'])->only(['index']);
+        //$this->middleware(['can:nutritional_plan.view_own'])->only('show');
         $this->middleware(['can:nutritional_plan.create'])->only('store');
         $this->middleware(['can:nutritional_plan.update'])->only('update');
         $this->middleware(['can:nutritional_plan.delete'])->only('delete');
@@ -21,9 +26,21 @@ class NutritionalPlanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $nutritional_plans = NutritionalPlan::all();
+        $nutritionist = User::find(Auth::id());
+        $nutri_patient = Patient::query()
+        ->where('nutritionist_id', $nutritionist->id)
+        ->onlyTrashed()
+        ->get();
+
+        $nutritional_plans = NutritionalPlan::when($nutri_patient->isNotEmpty(), function ($query) use ($nutri_patient) {
+        })->when($request->filled('fecha_creacion'), function ($query) use ($request) {
+            $query->where('created_at', $request->patient_id);
+        })
+        ->onlyTrashed()
+        ->orderBy('created_at', 'desc')
+        ->get();
 
         return NutritionalPlanResource::collection($nutritional_plans);
     }
@@ -34,10 +51,6 @@ class NutritionalPlanController extends Controller
      */
     public function store(StoreNutritionalPlanRequest $request)
     {
-        // Calculos Requerimientos
-        $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
-        $morbid_antecedents = $nutritional_profile->morbid_antecedents;
-
 
         $nutritional_plans = NutritionalPlan::create($request->validated());
 
@@ -47,8 +60,9 @@ class NutritionalPlanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(NutritionalPlan $nutritionalPlan)
+    public function show(User $patient)
     {
+        $nutritionalPlan = $patient->nutritionalPlan;
         return new NutritionalPlanResource($nutritionalPlan);
     }
 

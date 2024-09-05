@@ -5,7 +5,7 @@
 
 ## Ejecución del script progress.py:
 
-python progress.py [p_bicipital] [p_tricipital] [p_subescapular] [p_suprailiaco] [p_supraespinal] [p_muslo] [p_pantorrila] [p_abdomen] [pb_relaj] [pb_contra] [antebrazo] [muslo] [pantorrilla] [torax] [peso] [altura] [sexo] [age]
+python3 progress.py [p_bicipital] [p_tricipital] [p_subescapular] [p_suprailiaco] [p_supraespinal] [p_muslo] [p_pantorrila] [p_abdomen] [pb_relaj] [pb_contra] [antebrazo] [muslo] [pantorrilla] [torax] [peso] [altura] [sexo] [age]
 
 
 ## Output:

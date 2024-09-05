@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\GetMethod;
+use App\Enums\RestFactor;
+use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FoodIndicatorResource;
 use App\Models\FoodIndicator;
@@ -18,7 +20,11 @@ class NutritionalRequirementController extends Controller
      */
     public function index()
     {
-        //
+        $nutritionalRequirements = NutritionalRequirement::all();
+
+        return response()->json([
+            "data" => $nutritionalRequirements
+        ]);
     }
 
     /**
@@ -26,23 +32,33 @@ class NutritionalRequirementController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'patient_id' => 'required|numeric|exists:users,id',
+            'method' => ['required', Rule::enum(GetMethod::class)],
+            'rest_type' => [
+                Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
+            ],
+        ]);
+
         $patient = User::where('id', $request->patient_id)->first();
         $nutritionalProfile = $patient->nutritionalProfile;
 
-        $request->validate([
-            'method' => 'required',
-            'rest_type' => Rule::requiredIf($request->method == GetMethod::HarrisBenedict),
-        ]);
-
         $morbid_antecedents = [
-            $nutritionalProfile->morbid_antecedents->dm2,
-            $nutritionalProfile->morbid_antecedents->hta,
-            $nutritionalProfile->morbid_antecedents->tiroides,
-            $nutritionalProfile->morbid_antecedents->dislipidemia,
+            $nutritionalProfile->morbid_antecedents["dm2"] ,
+            $nutritionalProfile->morbid_antecedents["hta"],
+            $nutritionalProfile->morbid_antecedents["tiroides"],
+            $nutritionalProfile->morbid_antecedents["dislipidemia"],
         ];
-        $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents->otros == null ? 'No' : $nutritionalProfile->morbid_antecedents->otros;
-        $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type;
+        foreach($morbid_antecedents as $i => $antecedent){
+            if($antecedent == false){
+                $morbid_antecedents[$i] = 'No';
+            }else{
+                $morbid_antecedents[$i] = 'Si';
+            }
+        }
 
+        $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents["otros"] == null ? 'No' : $nutritionalProfile->morbid_antecedents["otros"];
+        $rest_factor = $request->rest_type == null ? 'No' : $request->rest_type->value;
         $requirements_path = app_path('Scripts') . '/requirements.py';
         $params = [
             $requirements_path,   // Ruta del script
@@ -54,24 +70,36 @@ class NutritionalRequirementController extends Controller
             $morbid_antecedents[4],
             $rest_factor,
             $nutritionalProfile->nutritional_state,
-            $nutritionalProfile->physical_activity->status,
+            $nutritionalProfile->physical_status,
             $nutritionalProfile->patient_type,
             $nutritionalProfile->weight,
             $nutritionalProfile->height,
-            $patient->sex,
+            $patient->sex->value,
             $patient->age,
         ];
 
         $output = [];
-        $response = exec('python ' . implode(' ', $params) . ' 2>&1', $output);
+        $response = exec('python3 ' . implode(' ', $params) . ' 2>&1', $output);
         $response = explode(',', $response);
 
         if ($response[0] == 'error') {
-            logger()->error($output);
+            return response()->json([
+                'message' => 'Error al calcular los requerimientos',
+                'error' => $response[1],
+            ], 400);
         } elseif ($response[0] == 'ok'){
-            $nutritionalRequirement = NutritionalRequirement::create([
+            if($response[1] == '0'){
+                return response()->json([
+                    'message' => 'Error al calcular los requerimientos',
+                    'error' => $response[1],
+                ], 400);
+            }
+            $nutritionalRequirement = NutritionalRequirement::updateOrCreate([
                 'patient_id'    => $request->patient_id,
-            ], [
+            ],
+            [
+                'method'        => $request->method,
+                'rest_type'     => $request->factor,
                 'get'           => floatval($response[1]),
                 'proteina'      => floatval($response[2]),
                 'lipidos'       => floatval($response[3]),
@@ -79,16 +107,21 @@ class NutritionalRequirementController extends Controller
                 'agua'          => floatval($response[5]),
             ]);
 
-            return response()->json($nutritionalRequirement, 201);
+            return response()->json([
+                "data" => $nutritionalRequirement
+            ], 201);
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(NutritionalRequirement $nutritionalRequirement)
+    public function show(User $patient)
     {
-        //
+        $nutritionalRequirement = $patient->nutritionalRequirement;
+        return response()->json([
+            "data" => $nutritionalRequirement
+        ]);
     }
 
     /**

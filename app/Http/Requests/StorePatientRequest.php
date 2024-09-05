@@ -22,7 +22,8 @@ class StorePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => ['required', 'integer', 'exists:users,id'],
+            // 'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'patient_email' => ['required', 'string', 'email', 'exists:users,email'],
         ];
     }
 }

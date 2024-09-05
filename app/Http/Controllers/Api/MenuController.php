@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Health;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreMenuRequest;
@@ -9,7 +10,9 @@ use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuResource;
 use App\Models\ApiMenu;
 use App\Models\Menu;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
@@ -81,6 +84,24 @@ class MenuController extends Controller
     public function generateMenu(GetRecipeRequest $request)
     {
         try {
+            $auth_user = User::find(Auth::id());
+            if ($auth_user->hasRole('paciente')) {
+                $nutritional_profile = $auth_user->nutritionalProfile;
+                $allergies = [];
+
+                $health_translation = Health::translation();
+
+                foreach ($health_translation as $key => $value) {
+                    foreach ($nutritional_profile->allergies as $k => $allergie) {
+                        if ($value === $allergie) {
+                            $allergies[] = Health::tryName($key);
+                        }
+                    }
+                }
+
+                $request['health'] = $allergies;
+            }
+
             $api_tokens = ApiMenu::first();
             $request->validate([
                 'timespan' => 'required|integer',
@@ -116,7 +137,7 @@ class MenuController extends Controller
             ];
 
             // Añadir los parámetros adicionales del usuario
-            foreach ($request->validated() as $key => $value) {
+            foreach ($request->all() as $key => $value) {
                 if ($value !== null) {
                     if ($key === "nutrients") {
                         foreach ($value as $nut_key => $nut_value) {

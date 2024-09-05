@@ -17,6 +17,67 @@ class TestUsersSeeder extends Seeder
      */
     public function run(): void
     {
+        // Usuario Basico
+        $birthdate = Carbon::createFromFormat('Y-m-d', '1999-06-20');
+        $basic = User::create([
+            'name' => 'Juan',
+            'last_name' => 'Miranda',
+            'sex' => 'Masculino',
+            'birthdate' => $birthdate,
+            'age' => Carbon::parse($birthdate)->age,
+            'phone_number' => fake()->phoneNumber,
+            'civil_status' => 'Soltero(a)',
+            'objectives' => '',
+            'email' => 'juan@test.cl',
+            'password' => bcrypt('sandi.,2024'),
+        ]);
+
+        $basic->assignRole('usuario_basico');
+
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $basic->id,
+            'height' => 0,
+            'weight' => 0,
+            'physical_status' => '',
+            'physical_comentario' => '',
+            'habits' => [
+                'alcohol' =>  '',
+                'tabaco'  => '',
+            ],
+            'allergies' => [],
+
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'cirugias' => [],
+                'otros' => null,
+            ],
+            'patient_type' => '',
+            'family_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'otros' => null,
+            ],
+            'subjective_assessment' => [
+                'peso_habitual' => 0,
+                'sintomas' => '',
+                'variacion_peso' => 0,
+                'apetito' =>'',
+                'digestion' => '',
+                'frecuencia_dig' => '',
+                'medidas' => '',
+            ],
+            'nutritional_anamnesis' => [
+                'plan_anterior' => false,
+                'agua' => true,
+            ],
+        ]);
+
+        // Nutricionista
         $birthdate = Carbon::createFromFormat('Y-m-d', '1988-06-20');
         $nutritionist = User::create([
             'name' => 'Belen',
@@ -33,6 +94,7 @@ class TestUsersSeeder extends Seeder
 
         $nutritionist->assignRole('nutricionista');
 
+        // Pacientes
         $birthdate = Carbon::createFromFormat('Y-m-d', '1990-01-14');
         $user = User::create([
             'name' => 'Claudia',
@@ -56,43 +118,48 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.63,
             'weight' => 76,
-            'physical_activity' => [
-                'actividad' => true,
-                'tiempo' => [
-                    'cantidad' => 7,
-                    'unidad' => 'años'
-                ],
-            ],
+            'physical_status' => 'Leve',
+            'physical_comentario' => 'No realiza actividad fisica',
             'habits' => [
-                'alcohol' =>  true,
-                'tabaco'  => true,
-                'comentario' => 'Tomo una copa de vino ocasionalmente con amigas y fumo 5 cigarros al día',
+                'alcohol' =>  'Alto',
+                'tabaco'  => 'Nada',
             ],
             'allergies' => [
-                'Maní',
-                'Frutos secos',
-                'Mariscos',
-            ],
-            'intolerances' => [
-                'intolerancia' => 'Si',
-                'intolerancias' => [
-                    'Carnes rojas',
-                ],
+                'Mani',
+                'Frutos Secos',
+                'Marisco',
             ],
             'morbid_antecedents' => [
                 'dm2' => false,
                 'hta' => false,
                 'tiroides' => false,
                 'dislipidemia' => false,
-                'cirugias' => [],
-                'otros' => null,
+                'insulin_resistance' => false,
+                'cirugias' => '',
+                'farmacos' => null,
+                'exams' => null,
+                'otros' => [],
             ],
-            'family_antecedents' => [],
-            'subjective_assessment' => [],
+            'patient_type' => 'Ambulatorio',
+            'family_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'comments' => null,
+            ],
+            'subjective_assessment' => [
+                'usual_weight' => '76',
+                'weight_variation' => 'No',
+                'gastrointestinal_symptoms' => 'Normal',
+                'appetite' => 'Normal',
+                'digestion' => 'Normal',
+                'digestion_frequency' => 'Normal',
+                'digestion_measures' => 'Normal',
+            ],
             'nutritional_anamnesis' => [
                 'plan_anterior' => 'No',
                 'agua' => true,
-                'observaciones' => 'Toma pocas cantidades de agua',
             ],
         ]);
 
@@ -122,48 +189,118 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.72,
             'weight' => 92,
-            'physical_activity' => [
-                'actividad' => true,
-                'tiempo' => [
-                    'cantidad' => 2,
-                    'unidad' => 'años'
-                ],
-            ],
+            'physical_status' => 'Moderada',
+            'physical_comentario' => 'Realiza actividad fisica 3 veces a la semana',
             'habits' => [
-                'alcohol' =>  false,
-                'tabaco'  => true,
-                'comentario' => 'No bebo alcohol, pero soy fumador social',
+                'alcohol' =>  'Nada',
+                'tabaco'  => 'Moderado',
             ],
             'allergies' => [
-                'alergia' => true,
-                'alergias' => [
-                    'Maní',
-                    'Frutos secos',
-                    'Mariscos',
-                ],
+                'Lacteos',
+                'Vegetariano'
             ],
-            'intolerances' => [
-                'intolerancia' => true,
-                'intolerancias' => [
-                    'Lactosa',
-                    'Mariscos',
-                    'Carnes',
-                ],
-            ],
+
             'morbid_antecedents' => [
                 'dm2' => false,
                 'hta' => false,
                 'tiroides' => false,
                 'dislipidemia' => false,
-                'cirugias' => [],
-                'otros' => null,
+                'cirugias' => '',
+                'farmacos' => null,
+                'exams' => null,
+                'otros' => [],
             ],
-            'family_antecedents' => [],
-            'subjective_assessment' => [],
+            'patient_type' => 'Ambulatorio',
+            'family_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'comments' => null,
+            ],
+            'subjective_assessment' => [
+                'usual_weight' => '80',
+                'weight_variation' => 'No',
+                'gastrointestinal_symptoms' => 'Normal',
+                'appetite' => 'Normal',
+                'digestion' => 'Normal',
+                'digestion_frequency' => 'Normal',
+                'digestion_measures' => 'Normal',
+            ],
             'nutritional_anamnesis' => [
                 'plan_anterior' => false,
                 'agua' => true,
-                'observaciones' => 'Toma grandes cantidades de agua',
+            ],
+        ]);
+
+        $birthdate = Carbon::createFromFormat('Y-m-d', '2003-09-18');
+        $user = User::create([
+            'name' => 'Karla',
+            'last_name' => 'Maturana',
+            'sex' => 'Femenino',
+            'birthdate' => $birthdate,
+            'age' => Carbon::parse($birthdate)->age,
+            'phone_number' => fake()->phoneNumber,
+            'civil_status' => 'Soltero(a)',
+            'objectives' => 'Empezar una dieta vegana',
+            'email' => 'karla@test.cl',
+            'password' => bcrypt('sandi.,2024'),
+        ]);
+
+        $patient = Patient::create([
+            'nutritionist_id' => $nutritionist->id,
+            'patient_id' => $user->id,
+        ]);
+
+        $user->assignRole('paciente');
+
+
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $user->id,
+            'height' => 1.55,
+            'weight' => 47,
+            'physical_status' => 'Alta',
+            'physical_comentario' => 'Todos los días en las mañanas, 5 días a la semana, puro cardio,descanso fines de semana.',
+            'habits' => [
+                'alcohol' =>  'Alto',
+                'tabaco'  => 'Moderado',
+            ],
+            'allergies' => [
+                'Soya',
+                'Vegano'
+            ],
+
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'insulin_resistance' => false,
+                'cirugias' => [],
+                'farmacos' => null,
+                'exams' => null,
+                'otros' => [],
+            ],
+            'patient_type' => 'Ambulatorio',
+            'family_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'comments' => null,
+            ],
+            'subjective_assessment' => [
+                'usual_weight' => '50',
+                'weight_variation' => 'No',
+                'gastrointestinal_symptoms' => 'Normal',
+                'appetite' => 'Normal',
+                'digestion' => 'Normal',
+                'digestion_frequency' => 'Normal',
+                'digestion_measures' => 'Normal',
+            ],
+            'nutritional_anamnesis' => [
+                'plan_anterior' => false,
+                'agua' => true,
             ],
         ]);
     }

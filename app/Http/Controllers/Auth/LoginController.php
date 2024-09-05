@@ -36,6 +36,24 @@ class LoginController extends Controller
         ]);
         $user->assignRole($request->role);
 
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $user->id,
+            'nutritional_state' => "",
+            'description' => "",
+            'height' => 0,
+            'weight' => 0,
+            'physical_comentario' => "",
+            'physical_status' => "",
+            'habits' => "",
+            'allergies' => "",
+            'morbid_antecedents' => "",
+            'patient_type' => "",
+            'family_antecedents' => "",
+            'digestion' => "",
+            'subjective_assessment' => "",
+            'nutritional_anamnesis' => "",
+        ]);
+
         event(new Registered($user));
 
         return response()->json([
@@ -65,25 +83,39 @@ class LoginController extends Controller
                 'message' => 'Invalid Credentials'
             ],401);
         }
-        $token = $user->createToken('authToken')->plainTextToken;
+        // Se listan todos los permisos
+        $roles = [];
+        $permissions = [];
+        foreach ($user->roles as $role) {
+            $roles[] = $role->name;
+            foreach ($role->permissions as $permission) {
+                $permissions[] = $permission->name;
+            }
+        }
+
+        $token = $user->createToken('authToken', $permissions)->plainTextToken;
+
         return new JsonResponse(
             data: [
-                'data' => [
-                    'token' => $token,
-                ]
+                'user' => new UserResource($user),
+                'token' => $token,
             ],
             status: Response::HTTP_OK,
         );
     }
 
+    public function checkSession(Request $request){
+        $user = $request->user();
+        return response()->json([
+            'message' => 'Sesión activa',
+            'user' => new UserResource($user),
+        ], 200);
+    }
+
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        $request->user()->currentAccessToken()->delete();
 
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return response()->noContent();
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

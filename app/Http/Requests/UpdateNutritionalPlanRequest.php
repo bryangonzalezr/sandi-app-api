@@ -11,7 +11,7 @@ class UpdateNutritionalPlanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class UpdateNutritionalPlanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'patient_id' => ['required', 'integer', 'exists:users,id'],
+            'desayuno'   => ['nullable', 'string', 'max:255'],
+            'colacion' => ['nullable', 'string', 'max:255'],
+            'almuerzo' => ['nullable', 'string', 'max:255'],
+            'once' => ['nullable', 'string', 'max:255'],
+            'cena' => ['nullable', 'string', 'max:255'],
+            'general_recommendations' => ['nullable', 'string', 'max:255'],
+            'forbidden_foods' => ['nullable', 'string', 'max:255'],
+            'free_foods' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

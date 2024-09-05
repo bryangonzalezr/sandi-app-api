@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Health;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreDayMenuRequest;
 use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
 use App\Models\DayMenu;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class DayMenuController extends Controller
@@ -74,6 +77,24 @@ class DayMenuController extends Controller
     public function generateDayMenu(GetRecipeRequest $request)
     {
         try {
+            $auth_user = User::find(Auth::id());
+            if ($auth_user->hasRole('paciente')) {
+                $nutritional_profile = $auth_user->nutritionalProfile;
+                $allergies = [];
+
+                $health_translation = Health::translation();
+
+                foreach ($health_translation as $key => $value) {
+                    foreach ($nutritional_profile->allergies as $k => $allergie) {
+                        if ($value === $allergie) {
+                            $allergies[] = Health::tryName($key);
+                        }
+                    }
+                }
+
+                $request['health'] = $allergies;
+            }
+
             $day_menu = [
                 "recipes" => [],
                 "total_calories" => 0,
@@ -100,7 +121,7 @@ class DayMenuController extends Controller
             ];
 
             // Añadir los parámetros adicionales del usuario
-        foreach ($request->validated() as $key => $value) {
+        foreach ($request->all() as $key => $value) {
             if ($value !== null) {
                 if ($key === "nutrients") {
                     foreach ($value as $nut_key => $nut_value) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\HabitFrequency;
 use App\Enums\Health;
 use App\Enums\Pathology;
 use App\Enums\PatientType;
@@ -36,31 +37,27 @@ class StoreNutritionalProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (!$this->first_visit){
             $validations = [
                 'description' => ['nullable', 'string'],
 
                 // Actividad física
-                'physical_activity' => ['required', 'array'],
-                'physical_activity.actividad' => ['required', 'boolean'],
-                'physical_activity.tiempo' => ['nullable', 'array'],
-                'physical_activity.tiempo.cantidad' => ['nullable', 'integer'],
-                'physical_activity.tiempo.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
+                //'physical_activity' => ['required', 'array'],
+                'physical_activity' => ['required', 'boolean'],
+                //'physical_comentario' => ['nullable', 'string'],
+/*               'physical_activity.tiempo' => ['nullable', 'string'],
                 'physical_activity.dias_semana' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento' => ['nullable', 'array'],
                 'physical_activity.entrenamiento.duracion' => ['nullable', 'array'],
                 'physical_activity.entrenamiento.duracion.cantidad' => ['nullable', 'integer'],
                 'physical_activity.entrenamiento.duracion.unidad' => ['nullable', Rule::enum(TimeUnit::class)],
                 'physical_activity.entrenamiento.tipo' => ['nullable', 'string'],
-                'physical_activity.entrenamiento.horarios' => ['nullable', 'array'],
-                'physical_activity.entrenamiento.horarios.*' => ['nullable', 'string'],
-                'physical_activity.status' => ['required', Rule::enum(PhysicalActivity::class)],
+                'physical_activity.entrenamiento.horarios' => ['nullable', 'string'], */
+                'physical_status' => ['required', Rule::enum(PhysicalActivity::class)],
 
                 // Hábitos
                 'habits' => ['required', 'array'],
-                'habits.alcohol' => ['required', 'boolean'],
-                'habits.tabaco' => ['required', 'boolean'],
-                'habits.comentario' => ['nullable', 'string'],
+                'habits.alcohol' => ['required', Rule::enum(HabitFrequency::class)],
+                'habits.tabaco' => ['required', Rule::enum(HabitFrequency::class)],
 
                 'allergies' => ['required', 'array'],
                 'allergies.*' => ['nullable', Rule::enum(Health::class)],
@@ -71,8 +68,10 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'morbid_antecedents.hta' => ['required', 'boolean'],
                 'morbid_antecedents.tiroides' => ['required', 'boolean'],
                 'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
-                'morbid_antecedents.cirugias' => ['nullable', 'array'],
-                'morbid_antecedents.cirugias.*' => ['nullable', 'string'],
+                'morbid_antecedents.insulin_resistance' => ['nullable', 'boolean'],
+                'morbid_antecedents.cirugias' => ['nullable', 'string'],
+                'morbid_antecedents.farmacos' => ['nullable', 'string'],
+                'morbid_antecedents.exams' => ['nullable', 'string'],
                 'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
                 // 'morbid_antecedents.otros' => ['nullable', 'array'],
                 // 'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
@@ -82,22 +81,23 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'family_antecedents' => ['required', 'array'],
                 'family_antecedents.dm2' => ['required', 'boolean'],
                 'family_antecedents.hta' => ['required', 'boolean'],
-                'family_antecedents.cancer' => ['required', 'boolean'],
                 'family_antecedents.dislipidemia' => ['required', 'boolean'],
-                'family_antecedents.otros' => ['nullable', 'string'],
+                'family_antecedents.comments' => ['nullable', 'string'],
 
                 // Valoración subjetiva
                 'subjective_assessment' => ['required', 'array'],
-                'subjective_assessment.sintomas' => ['required', 'boolean'],
-                'subjective_assessment.peso_habitual' => ['required', 'numeric'],
-                'subjective_assessment.variacion_peso' => ['required', 'numeric'],
-                'subjective_assessment.apetito' => ['required', 'numeric'],
+                'subjective_assessment.gastrointestinal_symptoms' => ['required', 'string'],
+                'subjective_assessment.usual_weight' => ['required', 'string'],
+                'subjective_assessment.weight_variation' => ['required', 'string'],
+                'subjective_assessment.appetite' => ['required', 'string'],
+                'subjective_assessment.digestion' => ['required', 'string'],
+                'subjective_assessment.digestion_frequency' => ['required', 'string'],
+                'subjective_assessment.digestion_measures' => ['required', 'string'],
 
                 // Anamnesis alimentaria
                 'nutritional_anamnesis' => ['required', 'array'],
                 'nutritional_anamnesis.plan_anterior' => ['required', 'boolean'],
                 'nutritional_anamnesis.agua' => ['required', 'boolean'],
-                'nutritional_anamnesis.observaciones' => ['nullable', 'string'],
 
                 // Antropometría
                 'height' => ['required', 'numeric'],
@@ -122,35 +122,7 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'waist' => ['nullable', 'numeric'],
                 'thorax' => ['nullable', 'numeric'],
             ];
-        } else{
-            $validations = [
 
-                'description' => ['nullable', 'string'],
-
-                // Antropometría
-                'height' => ['required', 'numeric'],
-                'weight' => ['required', 'numeric'],
-
-                //Pliegues
-                'bicipital_skinfold' => ['required', 'numeric'],
-                'tricipital_skinfold' => ['required', 'numeric'],
-                'subscapular_skinfold' => ['required', 'numeric'],
-                'supraspinal_skinfold' => ['required', 'numeric'],
-                'suprailiac_skinfold' => ['required', 'numeric'],
-                'thigh_skinfold' => ['required', 'numeric'],
-                'calf_skinfold' => ['required', 'numeric'],
-                'abdomen_skinfold' => ['required', 'numeric'],
-
-                // Perimetros
-                'pb_relaj' => ['required', 'numeric'],
-                'pb_contra' => ['required', 'numeric'],
-                'forearm' => ['required', 'numeric'],
-                'thigh' => ['required', 'numeric'],
-                'calf' => ['required', 'numeric'],
-                'waist' => ['required', 'numeric'],
-                'thorax' => ['required', 'numeric'],
-            ];
-        }
         return $validations;
     }
 }

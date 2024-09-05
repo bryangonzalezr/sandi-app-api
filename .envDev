@@ -6,7 +6,7 @@ APP_TIMEZONE=UTC
 APP_URL=http://localhost
 FRONTEND_URL=http://localhost:8100
 
-SANCTUM_STATEFUL_DOMAINS="localhost:8100, localhost, 127.0.0.1:8100, 127.0.0.1" #SPA
+SANCTUM_STATEFUL_DOMAINS="http://localhost:8100, localhost, 127.0.0.1:8100, 127.0.0.1" #SPA
 
 SESSION_DOMAIN=localhost #API
 
@@ -36,7 +36,7 @@ DBM_CONNECTION=mongodb
 DBM_URI=mongodb+srv://leebryangonzalez5:4u31qnwWQ3KTAGk7@cluster0.6ucasev.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 DBM_DATABASE=sandi_db
 
-SESSION_DRIVER=cookie
+SESSION_DRIVER=file
 SESSION_LIFETIME=120
 SESSION_ENCRYPT=false
 SESSION_PATH=/

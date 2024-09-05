@@ -35,9 +35,15 @@ class NutritionalProfileController extends Controller
     {
         $nutritional_profile = NutritionalProfile::create([
             'patient_id' => $nut_profile->patient_id,
-            'habits' => $nut_profile->habits,
             'physical_activity' => $nut_profile->physical_activity,
+            'physical_status' => $nut_profile->physical_status,
+            'physical_comentario' => $nut_profile->physical_comentario,
+            'habits' => $nut_profile->habits,
             'allergies' => $nut_profile->allergies,
+            'morbid_antecedents' => $nut_profile->morbid_antecedents,
+            'patient_type' => $nut_profile->patient_type,
+            'family_antecedents' => $nut_profile->family_antecedents,
+            'subjective_assessment' => $nut_profile->subjective_assessment,
             'nutritional_anamnesis' => $nut_profile->nutritional_anamnesis,
         ]);
 
@@ -49,9 +55,7 @@ class NutritionalProfileController extends Controller
      */
     public function show(NutritionalProfile $nutritionalProfile)
     {
-        $nutritional_profile = NutritionalProfile::find($nutritionalProfile->_id);
-
-        return new NutritionalProfileResource($nutritional_profile);
+        return new NutritionalProfileResource($nutritionalProfile);
     }
 
     /**
@@ -59,7 +63,17 @@ class NutritionalProfileController extends Controller
      */
     public function update(UpdateNutritionalProfileRequest $request, NutritionalProfile $nutritionalProfile)
     {
-        $nutritionalProfile->update($request->validated());
+        $nutritionalProfile->update([
+            'physical_status' => $request->physical_status,
+            'physical_comentario' => $request->physical_comentario,
+            'habits' => $request->habits,
+            'allergies' => $request->allergies,
+            'morbid_antecedents' => $request->morbid_antecedents,
+            'patient_type' => $request->patient_type,
+            'family_antecedents' => $request->family_antecedents,
+            'subjective_assessment' => $request->subjective_assessment,
+            'nutritional_anamnesis' => $request->nutritional_anamnesis,
+        ]);
 
         return new NutritionalProfileResource($nutritionalProfile);
     }

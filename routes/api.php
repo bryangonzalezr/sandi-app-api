@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ContactCardController;
 use App\Http\Controllers\Api\DayMenuController;
+use App\Http\Controllers\Api\FoodIndicatorController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\NutritionalPlanController;
 use App\Http\Controllers\Api\NutritionalProfileController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PortionController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RecipeController;
+use App\Http\Controllers\Api\ServicePortionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
 use App\Http\Controllers\Auth\LoginController;
@@ -17,8 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('login', [LoginController::class, 'apiLogin']);
+Route::post('register',[LoginController::class,'register']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('check-session', [LoginController::class, 'checkSession']);
+    Route::post('logout',[LoginController::class,'logout']);
 
     //Rutas Usuarios
     Route::get('usuarios', [UserController::class, 'index']);
@@ -62,10 +67,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('paciente', [PatientController::class, 'store']);
     Route::put('paciente/{patient}', [PatientController::class, 'update']);
     Route::delete('paciente/{patient}', [PatientController::class, 'destroy']);
+    Route::put('paciente/restore/{patient}', [PatientController::class, 'restore']);
 
     //Rutas Planes Nutricionales
     Route::get('planes-nutricionales', [NutritionalPlanController::class, 'index']);
-    Route::get('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'show']);
+    Route::get('plan-nutricional/{patient}', [NutritionalPlanController::class, 'show']);
     Route::post('plan-nutricional', [NutritionalPlanController::class, 'store']);
     Route::put('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'update']);
     Route::delete('plan-nutricional/{nutritionalPlan}', [NutritionalPlanController::class, 'destroy']);
@@ -86,20 +92,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //Rutas de Requerimientos Nutricionales
     Route::get('requerimientos-nutricionales', [NutritionalRequirementController::class, 'index']);
-    Route::get('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'show']);
+    Route::get('requerimiento-nutricional/{patient}', [NutritionalRequirementController::class, 'show']);
     Route::post('requerimiento-nutricional', [NutritionalRequirementController::class, 'store']);
     Route::put('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'update']);
     Route::delete('requerimiento-nutricional/{nutritionalRequirement}', [NutritionalRequirementController::class, 'destroy']);
 
     //Ruta de Indicadores de Alimentos
-    Route::get('indicadores-alimentos', [NutritionalRequirementController::class, 'index']);
+    Route::get('indicadores-alimentos', [FoodIndicatorController::class, 'index']);
 
     //Rutas de Porciones
     Route::get('porciones', [PortionController::class, 'index']);
-    Route::get('porcion/{portion}', [PortionController::class, 'show']);
+    Route::get('porcion/{patient}', [PortionController::class, 'show']);
     Route::post('porcion', [PortionController::class, 'store']);
     Route::put('porcion/{portion}', [PortionController::class, 'update']);
     Route::delete('porcion/{portion}', [PortionController::class, 'destroy']);
+
+    //Rutas de Porciones de Servicio
+    Route::get('porciones-servicio', [ServicePortionController::class, 'index']);
+    Route::get('porcion-servicio/{patient}', [ServicePortionController::class, 'show']);
+    Route::post('porcion-servicio', [ServicePortionController::class, 'store']);
+    Route::put('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'update']);
+    Route::delete('porcion-servicio/{servicePortion}', [ServicePortionController::class, 'destroy']);
 
     //Rutas Tarjetas de contacto
     Route::get('tarjetas', [ContactCardController::class, 'index']);

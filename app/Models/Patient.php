@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Patient extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $connection = 'pgsql';
 
     protected $fillable = [
         'nutritionist_id',
