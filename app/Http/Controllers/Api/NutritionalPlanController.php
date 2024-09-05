@@ -10,6 +10,7 @@ use App\Models\NutritionalPlan;
 use App\Models\NutritionalProfile;
 use App\Models\Patient;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,7 +37,7 @@ class NutritionalPlanController extends Controller
 
         $nutritional_plans = NutritionalPlan::when($nutri_patient->isNotEmpty(), function ($query) use ($nutri_patient) {
         })->when($request->filled('fecha_creacion'), function ($query) use ($request) {
-            $query->whereDate('created_at', $request->fecha_creacion);
+            $query->whereDate('created_at', Carbon::fromDate($request->fecha_creacion));
         })
         ->onlyTrashed()
         ->orderBy('created_at', 'desc')
