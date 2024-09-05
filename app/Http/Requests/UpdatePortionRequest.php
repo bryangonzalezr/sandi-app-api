@@ -23,6 +23,7 @@ class UpdatePortionRequest extends FormRequest
     {
         return [
             'patient_id' => ['required', 'numeric', 'exists:users,id'],
+            'total_calorias' => ['required', 'numeric'],
             'cereales' => ['required', 'numeric'],
             'verduras_gral' => ['required', 'numeric'],
             'verduras_libre_cons' => ['required', 'numeric'],
