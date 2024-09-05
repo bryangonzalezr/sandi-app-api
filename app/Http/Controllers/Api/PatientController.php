@@ -7,6 +7,7 @@ use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
+use App\Models\NutritionalPlan;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class PatientController extends Controller
      */
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        //
+
     }
 
     /**
@@ -81,7 +82,10 @@ class PatientController extends Controller
         $patient_user = Patient::where('patient_id', $patient->id)->first();
         $patient->removeRole('paciente');
         $patient->assignRole('usuario_basico');
-        $patient->nutritionalPlan?->delete();
+        $plan = NutritionalPlan::find($patient->nutritionalPlan->id);
+        if($plan){
+            $plan->delete();
+        }
         $patient_user->delete();
 
         return response()->json([
