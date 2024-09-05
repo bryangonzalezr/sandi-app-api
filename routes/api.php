@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('check-server', function () {
     return response()->json(['message' => 'API de SandiApp']);
 });
+
 Route::post('login', [LoginController::class, 'apiLogin']);
 Route::post('register',[LoginController::class,'register']);
 
