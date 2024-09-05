@@ -82,7 +82,7 @@ class PatientController extends Controller
         $patient_user = Patient::where('patient_id', $patient->id)->first();
         $patient->removeRole('paciente');
         $patient->assignRole('usuario_basico');
-        $plan = NutritionalPlan::find($patient->nutritionalPlan->_id);
+        $plan = NutritionalPlan::where('patient_id', $patient->id)->first();
         if($plan){
             $plan->delete();
         }
