@@ -13,6 +13,7 @@ use App\Models\Patient;
 use App\Models\Progress;
 use App\Models\User;
 use App\Models\Visit;
+use Illuminate\Validation\Rule;
 
 class VisitController extends Controller
 {
@@ -31,10 +32,18 @@ class VisitController extends Controller
      */
     public function store(StoreVisitRequest $request)
     {
+        $first_visit = Visit::where('patient_id', $request->patient_id)
+        ->where('first_visit', true)
+        ->first();
+
+        $request->validate([
+            'first_visit' => ['boolean',Rule::requiredIf($first_visit == null)],
+        ]);
 
         $visit = Visit::create([
             'patient_id' => $request->patient_id,
             'date' => $request->date,
+            'first_visit' => $request->first_visit ?? false,
         ]);
         //$patient_table = Patient::where('patient_id', $visit->patient_id)->first();
         //$request = app(StoreNutritionalProfileRequest::class, ['first_visit' => $patient_table->first_visit]);
