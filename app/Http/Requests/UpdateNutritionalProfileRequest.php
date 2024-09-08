@@ -45,8 +45,8 @@ class UpdateNutritionalProfileRequest extends FormRequest
             'habits.alcohol' => ['required', Rule::enum(HabitFrequency::class)],
             'habits.tabaco' => ['required', Rule::enum(HabitFrequency::class)],
 
-            'allergies' => ['required', 'array'],
-            'allergies.*' => ['required', Rule::enum(Health::class)],
+            'allergies' => ['nullable', 'array'],
+            'allergies.*' => ['nullable', Rule::enum(Health::class)],
 
             // Antecedentes morbidos
             'morbid_antecedents' => ['required', 'array'],
@@ -55,10 +55,12 @@ class UpdateNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.tiroides' => ['required', 'boolean'],
             'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
             'morbid_antecedents.insulin_resistance' => ['required', 'boolean'],
-            'morbid_antecedents.cirugias' => ['required', 'string'],
+            'morbid_antecedents.cirugias' => ['nullable', 'string'],
             'morbid_antecedents.farmacos' => ['nullable', 'string'],
             'morbid_antecedents.exams' => ['nullable', 'string'],
-            'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
+            'morbid_antecedents.otros' => ['nullable', 'array'],
+            'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
+
 
             // Antecedentes familiares
             'family_antecedents' => ['required', 'array'],

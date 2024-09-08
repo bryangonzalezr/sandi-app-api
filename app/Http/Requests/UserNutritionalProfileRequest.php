@@ -59,7 +59,7 @@ class UserNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.hta' => ['required', 'boolean'],
             'morbid_antecedents.tiroides' => ['required', 'boolean'],
             'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
-            'morbid_antecedents.insulin_resistance' => ['nullable', 'boolean'],
+            'morbid_antecedents.insulin_resistance' => ['required', 'boolean'],
             'morbid_antecedents.cirugias' => ['nullable', 'string'],
             'morbid_antecedents.farmacos' => ['nullable', 'string'],
             'morbid_antecedents.exams' => ['nullable', 'string'],

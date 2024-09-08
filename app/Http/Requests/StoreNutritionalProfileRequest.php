@@ -59,7 +59,7 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'habits.alcohol' => ['required', Rule::enum(HabitFrequency::class)],
                 'habits.tabaco' => ['required', Rule::enum(HabitFrequency::class)],
 
-                'allergies' => ['required', 'array'],
+                'allergies' => ['nullable', 'array'],
                 'allergies.*' => ['nullable', Rule::enum(Health::class)],
 
                 // Antecedentes morbidos
@@ -68,11 +68,10 @@ class StoreNutritionalProfileRequest extends FormRequest
                 'morbid_antecedents.hta' => ['required', 'boolean'],
                 'morbid_antecedents.tiroides' => ['required', 'boolean'],
                 'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
-                'morbid_antecedents.insulin_resistance' => ['nullable', 'boolean'],
+                'morbid_antecedents.insulin_resistance' => ['required', 'boolean'],
                 'morbid_antecedents.cirugias' => ['nullable', 'string'],
                 'morbid_antecedents.farmacos' => ['nullable', 'string'],
                 'morbid_antecedents.exams' => ['nullable', 'string'],
-                'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
                 'morbid_antecedents.otros' => ['nullable', 'array'],
                 'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
                 'patient_type' => ['required', Rule::enum(PatientType::class)],
