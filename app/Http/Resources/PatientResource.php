@@ -18,7 +18,6 @@ class PatientResource extends JsonResource
         $patient = Patient::where('patient_id', $this->id)->first();
         return [
             'user' => new UserResource($this),
-            'first_visit' => $patient->first_visit,
             'nutritional_profile' => new NutritionalProfileResource($this->nutritionalProfile),
             'nutritional_plan' => new NutritionalPlanResource($this->nutritionalPlan),
         ];

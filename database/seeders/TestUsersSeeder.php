@@ -114,7 +114,6 @@ class TestUsersSeeder extends Seeder
         $patient = Patient::create([
             'nutritionist_id' => $nutritionist->id,
             'patient_id' => $user->id,
-            'first_visit' => false,
         ]);
         $user->assignRole('paciente');
 
@@ -184,7 +183,6 @@ class TestUsersSeeder extends Seeder
         $patient = Patient::create([
             'nutritionist_id' => $nutritionist->id,
             'patient_id' => $user->id,
-            'first_visit' => false,
         ]);
 
         $user->assignRole('paciente');
@@ -255,7 +253,6 @@ class TestUsersSeeder extends Seeder
         $patient = Patient::create([
             'nutritionist_id' => $nutritionist->id,
             'patient_id' => $user->id,
-            'first_visit' => false,
         ]);
 
         $user->assignRole('paciente');

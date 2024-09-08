@@ -18,8 +18,8 @@ class StoreNutritionalProfileRequest extends FormRequest
 
     public function __construct($first_visit)
     {
-        parent::__construct();
-        $this->first_visit = $first_visit;
+        /* parent::__construct();
+        $this->first_visit = $first_visit; */
     }
 
     /**
