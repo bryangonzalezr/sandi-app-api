@@ -63,9 +63,9 @@ class UserNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.cirugias' => ['nullable', 'string'],
             'morbid_antecedents.farmacos' => ['nullable', 'string'],
             'morbid_antecedents.exams' => ['nullable', 'string'],
-            'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
-            // 'morbid_antecedents.otros' => ['nullable', 'array'],
-            // 'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
+            //'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
+            'morbid_antecedents.otros' => ['nullable', 'array'],
+            'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
             'patient_type' => ['required', Rule::enum(PatientType::class)],
 
             // Antecedentes familiares

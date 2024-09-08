@@ -80,19 +80,8 @@ class DayMenuController extends Controller
             $auth_user = User::find(Auth::id());
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
-                $allergies = [];
 
-                $health_translation = Health::translation();
-
-                foreach ($health_translation as $key => $value) {
-                    foreach ($nutritional_profile->allergies as $k => $allergie) {
-                        if ($value === $allergie) {
-                            $allergies[] = Health::tryName($key);
-                        }
-                    }
-                }
-
-                $request['health'] = $allergies;
+                $request['health'] = $nutritional_profile->allergies;
             }
 
             $day_menu = [

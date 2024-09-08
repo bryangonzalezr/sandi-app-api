@@ -51,8 +51,11 @@ class TestUsersSeeder extends Seeder
                 'hta' => false,
                 'tiroides' => false,
                 'dislipidemia' => false,
+                'insulin_resistance' => false,
                 'cirugias' => [],
-                'otros' => null,
+                'farmacos' => null,
+                'exams' => null,
+                'otros' => [],
             ],
             'patient_type' => '',
             'family_antecedents' => [
@@ -60,7 +63,7 @@ class TestUsersSeeder extends Seeder
                 'hta' => false,
                 'tiroides' => false,
                 'dislipidemia' => false,
-                'otros' => null,
+                'comments' => null,
             ],
             'subjective_assessment' => [
                 'peso_habitual' => 0,
@@ -126,9 +129,9 @@ class TestUsersSeeder extends Seeder
                 'tabaco'  => 'Nada',
             ],
             'allergies' => [
-                'Mani',
-                'Frutos Secos',
-                'Marisco',
+                'peanut-free',
+                'tree-nut-free',
+                'shellfish-free',
             ],
             'morbid_antecedents' => [
                 'dm2' => false,
@@ -198,8 +201,8 @@ class TestUsersSeeder extends Seeder
                 'tabaco'  => 'Moderado',
             ],
             'allergies' => [
-                'Lacteos',
-                'Vegetariano'
+                'dairy-free',
+                'vegetarian'
             ],
 
             'morbid_antecedents' => [
@@ -269,8 +272,8 @@ class TestUsersSeeder extends Seeder
                 'tabaco'  => 'Moderado',
             ],
             'allergies' => [
-                'Soya',
-                'Vegano'
+                'soy-free',
+                'vegan'
             ],
 
             'morbid_antecedents' => [
