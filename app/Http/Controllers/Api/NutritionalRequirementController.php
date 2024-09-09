@@ -77,7 +77,7 @@ class NutritionalRequirementController extends Controller
             $patient->sex->value,
             $patient->age,
         ];
-
+        dd($params);
         $output = [];
         $response = exec('python3 ' . implode(' ', $params) . ' 2>&1', $output);
         $response = explode(',', $response);
