@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Enums\UserSex;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateNutritionistRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\NutritionalProfileResource;
 use App\Http\Resources\UserResource;
@@ -81,6 +82,22 @@ class UserController extends Controller
             'physical_comentario' => $request->physical_comentario,
             'allergies' => $request->allergies,
             'nutritional_anamnesis' => $request->nutritional_anamnesis,
+        ]);
+
+        return new UserResource($user);
+    }
+
+    public function updateNutritionist(UpdateNutritionistRequest $request, User $user)
+    {
+        $user->update([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'sex' => $request->sex,
+            'birthdate' => $request->birthdate,
+            'age' => Carbon::parse($request->birthdate)->age,
+            'phone_number' => $request->phone_number,
+            'description' => $request->description,
+            'objectives' => $request->objectives,
         ]);
 
         return new UserResource($user);
