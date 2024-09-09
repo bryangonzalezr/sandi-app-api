@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\HabitFrequency;
 use App\Enums\Health;
 use App\Enums\Pathology;
+use App\Enums\PatientType;
 use App\Enums\PhysicalActivity;
 use App\Enums\TimeUnit;
 use Illuminate\Foundation\Http\FormRequest;
@@ -60,7 +61,7 @@ class UpdateNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.exams' => ['nullable', 'string'],
             'morbid_antecedents.otros' => ['nullable', 'array'],
             'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
-
+            'patient_type' => ['required', Rule::enum(PatientType::class)],
 
             // Antecedentes familiares
             'family_antecedents' => ['required', 'array'],
