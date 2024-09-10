@@ -14,6 +14,19 @@ class NutritionalProfileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'patient_id' => $this->patient_id,
+            'physical_activity' => $this->physical_activity,
+            'physical_status' => $this->physical_status,
+            'physical_comentario' => $this->physical_comentario,
+            'habits' => $this->habits,
+            'allergies' => $this->allergies,
+            'morbid_antecedents' => $this->morbid_antecedents,
+            'patient_type' => $this->patient_type,
+            'family_antecedents' => $this->family_antecedents,
+            'subjective_assessment' => $this->subjective_assessment,
+            'nutritional_anamnesis' => $this->nutritional_anamnesis,
+        ];
     }
 }

@@ -71,4 +71,16 @@ sail php artisan optimize
 ```
 ---
 
+## Posibles errores y sus soluciones
+
+* Error 500: Unsupported operand types: string * int
+* Solución: En el archivo .env asegurarse de que el dominio colocado tenga http://
+* Ejemplo: ```"http://localhost:8100, localhost, 127.0.0.1:8100, 127.0.0.1"  #SPA```
+---
+* Error 419
+* Causa: Cors o CSRF
+* Solución: Asegurarse que en el .env el campo SANCTUM_STATEFUL_DOMAINS contenga dominios del frontend o que SESSION_DOMAIN contenga el dominio del backend
+
+
+
 

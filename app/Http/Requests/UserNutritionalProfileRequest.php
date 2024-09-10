@@ -59,13 +59,13 @@ class UserNutritionalProfileRequest extends FormRequest
             'morbid_antecedents.hta' => ['required', 'boolean'],
             'morbid_antecedents.tiroides' => ['required', 'boolean'],
             'morbid_antecedents.dislipidemia' => ['required', 'boolean'],
-            'morbid_antecedents.insulin_resistance' => ['nullable', 'boolean'],
+            'morbid_antecedents.insulin_resistance' => ['required', 'boolean'],
             'morbid_antecedents.cirugias' => ['nullable', 'string'],
             'morbid_antecedents.farmacos' => ['nullable', 'string'],
             'morbid_antecedents.exams' => ['nullable', 'string'],
-            'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
-            // 'morbid_antecedents.otros' => ['nullable', 'array'],
-            // 'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
+            //'morbid_antecedents.otros' => ['nullable', Rule::enum(Pathology::class)],
+            'morbid_antecedents.otros' => ['nullable', 'array'],
+            'morbid_antecedents.otros.*' => ['nullable', Rule::enum(Pathology::class)],
             'patient_type' => ['required', Rule::enum(PatientType::class)],
 
             // Antecedentes familiares
@@ -77,14 +77,14 @@ class UserNutritionalProfileRequest extends FormRequest
             'family_antecedents.comments' => ['nullable', 'string'],
 
             // Valoración subjetiva
-            'subjective_assessment' => ['required', 'array'],
-            'subjective_assessment.gastrointestinal_symptoms' => ['required', 'string'],
-            'subjective_assessment.usual_weight' => ['required', 'string'],
-            'subjective_assessment.weight_variation' => ['required', 'string'],
-            'subjective_assessment.appetite' => ['required', 'string'],
-            'subjective_assessment.digestion' => ['required', 'string'],
-            'subjective_assessment.digestion_frequency' => ['required', 'string'],
-            'subjective_assessment.digestion_measures' => ['required', 'string'],
+            'subjective_assessment' => ['nullable', 'array'],
+            'subjective_assessment.gastrointestinal_symptoms' => ['nullable', 'string'],
+            'subjective_assessment.usual_weight' => ['nullable', 'string'],
+            'subjective_assessment.weight_variation' => ['nullable', 'string'],
+            'subjective_assessment.appetite' => ['nullable', 'string'],
+            'subjective_assessment.digestion' => ['nullable', 'string'],
+            'subjective_assessment.digestion_frequency' => ['nullable', 'string'],
+            'subjective_assessment.digestion_measures' => ['nullable', 'string'],
 
             // Anamnesis alimentaria
             'nutritional_anamnesis' => ['required', 'array'],

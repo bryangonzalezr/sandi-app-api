@@ -13,6 +13,7 @@ use App\Models\Patient;
 use App\Models\Progress;
 use App\Models\User;
 use App\Models\Visit;
+use Illuminate\Validation\Rule;
 
 class VisitController extends Controller
 {

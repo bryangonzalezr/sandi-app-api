@@ -36,9 +36,9 @@ class UpdateUserRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'objectives' => ['nullable', 'string'],
 
-            'habits' => ['required', 'array'],
-            'habits.alcohol' => ['required', Rule::enum(HabitFrequency::class)],
-            'habits.tabaco' => ['required', Rule::enum(HabitFrequency::class)],
+            'habits' => ['nullable', 'array'],
+            'habits.alcohol' => ['nullable', Rule::enum(HabitFrequency::class)],
+            'habits.tabaco' => ['nullable', Rule::enum(HabitFrequency::class)],
 
             // Anamnesis alimentaria
             'nutritional_anamnesis' => ['required', 'array'],

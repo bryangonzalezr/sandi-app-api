@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('usuarios', [UserController::class, 'index']);
     Route::get('usuario/{user}', [UserController::class, 'show']);
     Route::put('usuario/{user}', [UserController::class, 'update']);
+    Route::put('usuario/nutricionista/{user}', [UserController::class, 'updateNutritionist']);
     Route::delete('usuario/{user}', [UserController::class, 'destroy']);
     Route::get('usuario/{user}/perfil-nutricional', [UserController::class, 'nutritionalProfile']);
     Route::get('roles', [UserController::class, 'roleList']);
