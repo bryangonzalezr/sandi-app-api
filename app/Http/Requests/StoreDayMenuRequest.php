@@ -24,6 +24,8 @@ class StoreDayMenuRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean'],
             'recipes' => ['required', 'array'],
             'recipes.*.label' => ['required', 'string'],
             'recipes.*.diet_labels' => ['required', 'array'],

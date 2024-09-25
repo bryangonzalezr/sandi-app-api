@@ -33,7 +33,8 @@ class StoreRecipeRequest extends FormRequest
             'meal_type' => ['nullable', 'array'],
             'dish_type' => ['nullable', 'array'],
             'instructions' => ['nullable', 'string'],
-            'user_id' => ['required', 'numeric'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean']
         ];
     }
 }

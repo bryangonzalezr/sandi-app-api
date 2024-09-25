@@ -23,6 +23,8 @@ class StoreMenuRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean'],
             'timespan' => ['required', 'numeric'],
             'total_calories' => ['required', 'numeric'],
             'menus' => ['required', 'array'],

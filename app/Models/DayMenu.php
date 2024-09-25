@@ -17,6 +17,7 @@ class DayMenu extends MongoModel
     protected $fillable = [
         'name',
         'user_id',
+        'sandi_recipe',
         'recipes',
         'total_calories',
     ];

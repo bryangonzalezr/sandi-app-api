@@ -17,6 +17,7 @@ class Menu extends MongoModel
     protected $fillable = [
         'name',
         'user_id',
+        'sandi_recipe',
         'timespan',
         'total_calories',
         'menus',

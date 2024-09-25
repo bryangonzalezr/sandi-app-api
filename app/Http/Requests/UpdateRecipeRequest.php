@@ -33,7 +33,8 @@ class UpdateRecipeRequest extends FormRequest
             'meal_type' => ['required', 'string'],
             'dish_type' => ['required', 'string'],
             'instructions' => ['nullable', 'string'],
-            'user_id' => ['required', 'numeric'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean']
         ];
     }
 }

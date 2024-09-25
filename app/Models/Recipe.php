@@ -26,6 +26,7 @@ class Recipe extends MongoModel
         'dish_type',
         'instructions',
         'user_id',
+        'sandi_recipe'
     ];
 
     public function user()
