@@ -89,7 +89,7 @@ class RecipeController extends Controller
     public function getRecipeFromApi(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find(Auth::id());
+            $auth_user = User::find($request->input('user_id'));
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -150,6 +150,12 @@ class RecipeController extends Controller
                     ]);
                 } else {
                     $recipe = $hits[array_rand($hits)];
+                    if($request->filled('patient_id')){
+                        $patient = User::find($request->input('patient_id'));
+                        if ($patient->hasRole('paciente')){
+                            $recipe['user_id'] = $request->input('patient_id');
+                        }
+                    }
                 }
 
                 return response()->json($recipe);

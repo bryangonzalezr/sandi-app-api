@@ -84,7 +84,7 @@ class MenuController extends Controller
     public function generateMenu(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find(Auth::id());
+            $auth_user = User::find($request->input('user_id'));
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -100,6 +100,13 @@ class MenuController extends Controller
                 "menus" => null,
                 "total_calories" => 0,
             ];
+
+            if($request->filled('patient_id')){
+                $patient = User::find($request->input('patient_id'));
+                if ($patient->hasRole('paciente')){
+                    $menu['user_id'] = $request->input('patient_id');
+                }
+            }
 
             $day_menu = [
                 "recipes" => [],

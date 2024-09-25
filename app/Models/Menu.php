@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MongoDB\Laravel\Eloquent\Model as MongoModel;
-use MongoDB\Laravel\Relations\BelongsToMany;
+use MongoDB\Laravel\Relations\BelongsTo;
 
 class Menu extends MongoModel
 {
@@ -16,13 +16,14 @@ class Menu extends MongoModel
 
     protected $fillable = [
         'name',
+        'user_id',
         'timespan',
         'total_calories',
         'menus',
     ];
 
-    public function users(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }
