@@ -23,15 +23,15 @@ class StoreRecipeRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string'],
-            'diet_labels' => ['required', 'array'],
-            'health_labels' => ['required', 'array'],
+            'dietLabels' => ['required', 'array'],
+            'healthLabels' => ['required', 'array'],
             'cautions' => ['nullable', 'array'],
-            'ingredient_lines' => ['required', 'array'],
+            'ingredientLines' => ['required', 'array'],
             'calories' => ['required', 'numeric'],
             'glycemic_index' => ['nullable', 'numeric'],
             'inflammatory_index' => ['nullable', 'numeric'],
-            'meal_type' => ['nullable', 'array'],
-            'dish_type' => ['nullable', 'array'],
+            'mealType' => ['nullable', 'array'],
+            'dishType' => ['nullable', 'array'],
             'instructions' => ['nullable', 'string'],
             'user_id' => ['required', 'numeric', 'exists:users,id'],
             'sandi_recipe' => ['required', 'boolean']

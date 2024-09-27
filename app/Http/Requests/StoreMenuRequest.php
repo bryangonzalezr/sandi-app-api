@@ -28,6 +28,16 @@ class StoreMenuRequest extends FormRequest
             'timespan' => ['required', 'numeric'],
             'total_calories' => ['required', 'numeric'],
             'menus' => ['required', 'array'],
+            'menus.*' => ['required', 'array'],
+            'menus.*.*.label' => ['required', 'string'],
+            'menus.*.*.dietLabels' => ['required', 'array'],
+            'menus.*.*.healthLabels' => ['required', 'array'],
+            'menus.*.*.cautions' => ['nullable', 'array'],
+            'menus.*.*.ingredientLines' => ['required', 'array'],
+            'menus.*.*.calories' => ['required', 'numeric'],
+            'menus.*.*.mealType' => ['required', 'array'],
+            'menus.*.*.dishType' => ['nullable', 'array'],
+            'menus.*.*.instructions' => ['nullable', 'string'],
         ];
     }
 }

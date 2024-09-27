@@ -196,8 +196,9 @@ class MenuController extends Controller
                     }
                     $count_api++;
                 }
-                $menu["menus"] = $day_menu["recipes"];
+                $menu["menus"][$i+1] = $day_menu["recipes"];
                 $menu["total_calories"] += $day_menu["total_calories"];
+                $day_menu["recipes"] = [];
             }
             return response()->json($menu);
         } catch (\Exception $e) {
