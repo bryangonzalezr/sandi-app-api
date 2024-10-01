@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ChatMessageController;
 use App\Http\Controllers\Api\ContactCardController;
 use App\Http\Controllers\Api\DayMenuController;
 use App\Http\Controllers\Api\FoodIndicatorController;
@@ -122,4 +123,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('tarjeta/{contactCard}', [ContactCardController::class, 'update']);
     Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'destroy']);
 
+    //Rutas Chat
+    Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage']);
+    Route::post('/messages/{user}', [ChatMessageController::class, 'sendMessage']);
 });
