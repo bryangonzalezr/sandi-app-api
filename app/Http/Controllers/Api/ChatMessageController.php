@@ -31,7 +31,9 @@ class ChatMessageController extends Controller
         ->orderBy('id', 'asc')
         ->get();
 
-        return $message;
+        return response()->json([
+            "message" => $message
+        ]);
     }
 
     /**
@@ -47,7 +49,9 @@ class ChatMessageController extends Controller
 
         broadcast(new MessageSent($message));
 
-        return $message;
+        return response()->json([
+            "message" => $message
+        ]);
     }
 
 }
