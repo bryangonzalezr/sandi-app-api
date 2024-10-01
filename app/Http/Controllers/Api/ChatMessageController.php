@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChatMessageRequest;
 use App\Http\Requests\UpdateChatMessageRequest;
 use App\Models\ChatMessage;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ChatMessageController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * Display the specified resource.
      */
-    public function index()
+    public function getMessage(User $user)
     {
-        //
+        $message = ChatMessage::query()
+        ->where(function($query) use ($user){
+            $query->where('sender_id', Auth::id())
+                ->where('receiver_id', $user->id);
+        })
+        ->orWhere(function($query) use ($user){
+            $query->where('sender_id', $user->id)
+                ->where('receiver_id', Auth::id());
+        });
+
+        return $message;
     }
 
     /**
@@ -23,15 +36,15 @@ class ChatMessageController extends Controller
      */
     public function sendMessage(StoreChatMessageRequest $request, User $user)
     {
-        //
-    }
+        $message = ChatMessage::create([
+            'sender_id' => Auth::id(),
+            'receiver_id' => $user->id,
+            'text'  => $request->input('message')
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function getMessage(User $user)
-    {
-        //
+        broadcast(new MessageSent($message));
+
+        return $message;
     }
 
 }
