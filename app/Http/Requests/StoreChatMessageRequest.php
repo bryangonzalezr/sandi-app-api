@@ -22,7 +22,7 @@ class StoreChatMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'text' => ['required', 'string', 'between:3,256']
+            'message' => ['required', 'string', 'between:3,256']
         ];
     }
 }

@@ -22,6 +22,8 @@ class User extends Authenticatable
 
     protected $connection = 'pgsql';
 
+    public $guard_name = 'web';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -68,7 +70,7 @@ class User extends Authenticatable
     protected function isNutritionist(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->hasRole('nutritionist'),
+            get: fn ($value) => $this->hasRole('nutricionista'),
         );
     }
 
