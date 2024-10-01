@@ -19,6 +19,7 @@ class ChatMessageController extends Controller
     public function getMessage(User $user)
     {
         $message = ChatMessage::query()
+        ->with(['sender', 'receiver'])
         ->where(function($query) use ($user){
             $query->where('sender_id', Auth::id())
                 ->where('receiver_id', $user->id);
@@ -26,7 +27,9 @@ class ChatMessageController extends Controller
         ->orWhere(function($query) use ($user){
             $query->where('sender_id', $user->id)
                 ->where('receiver_id', Auth::id());
-        });
+        })
+        ->orderBy('id', 'asc')
+        ->get();
 
         return $message;
     }
