@@ -9,6 +9,7 @@ use App\Http\Requests\StoreDayMenuRequest;
 use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
 use App\Models\DayMenu;
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -29,7 +30,10 @@ class DayMenuController extends Controller
      */
     public function index()
     {
-        $day_menus = DayMenu::all();
+        $patient = Patient::where('nutritionist_id', Auth::id())->pluck('patient_id');
+        $day_menus = DayMenu::whereIn('user_id', $patient)
+        ->orderBy('created_at','asc')
+        ->paginate(15);
 
         return DayMenuResource::collection($day_menus);
     }

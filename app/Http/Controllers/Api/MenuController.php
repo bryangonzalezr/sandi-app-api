@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuResource;
 use App\Models\ApiMenu;
 use App\Models\Menu;
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,13 +31,16 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
+        $patient = Patient::where('nutritionist_id', Auth::id())->pluck('patient_id');
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
             if ($request->type === 'semanal') {
                 $query->where('timespan', 7);
             } elseif ($request->type === 'mensual') {
                 $query->whereBetween('timespan', [28, 31]);
             }
-        })->get();
+        })->whereIn('user_id', $patient)
+        ->orderBy('created_at','asc')
+        ->paginate(15);
 
         return MenuResource::collection($menus);
     }

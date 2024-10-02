@@ -8,6 +8,7 @@ use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Http\Resources\RecipeResource;
+use App\Models\Patient;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,23 +26,16 @@ class RecipeController extends Controller
         $this->middleware(['can:recipe.delete'])->only('delete');
         $this->middleware(['can:recipe.generate'])->only('getRecipeFromApi');
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $recipes = Recipe::all();
-
-        return RecipeResource::collection($recipes);
-    }
-
-    /**
+        /**
      * Muestra el listado de recetas
      * de los pacientes del nutricionista
      */
-    public function recipes(User $user)
+    public function index()
     {
-        $recipes = Recipe::where('user_id', $user->id)->get();
+        $patient = Patient::where('nutritionist_id', Auth::id())->pluck('patient_id');
+        $recipes = Recipe::whereIn('user_id', $patient)
+        ->orderBy('created_at','asc')
+        ->paginate(15);
 
         return RecipeResource::collection($recipes);
     }
@@ -82,7 +76,7 @@ class RecipeController extends Controller
         $recipe->delete();
 
         return response()->json([
-            'message' => 'Receta eliminado satisfactoriamente',
+            'message' => 'Receta eliminada satisfactoriamente',
         ]);
     }
 
