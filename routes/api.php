@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ChatMessageController;
 use App\Http\Controllers\Api\ContactCardController;
 use App\Http\Controllers\Api\DayMenuController;
+use App\Http\Controllers\Api\EnumController;
 use App\Http\Controllers\Api\FoodIndicatorController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\NutritionalPlanController;
@@ -125,4 +126,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Rutas Chat
     Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage'])->name('chat.getMessage');
     Route::post('/messages/{user}', [ChatMessageController::class, 'sendMessage'])->name('chat.sendMessage');
+
+    //Health Enums
+    Route::prefix('enum')->group(function () {
+        Route::get('/health-types', [EnumController::class, 'healthTypes']);
+    });
 });
