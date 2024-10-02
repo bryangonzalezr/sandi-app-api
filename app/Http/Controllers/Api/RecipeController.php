@@ -108,13 +108,10 @@ class RecipeController extends Controller
                 "label",
                 "dietLabels",
                 "healthLabels",
-                "mealType",
                 "dishType",
                 "cautions",
                 "ingredientLines",
                 "calories",
-                "glycemicIndex",
-                "inflammatoryIndex",
                 "totalTime",
             ];
 
