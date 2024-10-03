@@ -32,7 +32,7 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $patient = Patient::where('nutritionist_id', Auth::id())->pluck('patient_id');
+        $patient = Patient::where('nutritionist_id', Auth::id())->orWhere('patient_id', Auth::id())->pluck('patient_id');
         $recipes = Recipe::whereIn('user_id', $patient)
         ->orderBy('created_at','asc')
         ->paginate(15);
