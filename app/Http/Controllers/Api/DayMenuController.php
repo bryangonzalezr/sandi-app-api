@@ -30,8 +30,17 @@ class DayMenuController extends Controller
      */
     public function index()
     {
-        $patient = Patient::where('nutritionist_id', Auth::id())->pluck('patient_id');
-        $day_menus = DayMenu::whereIn('user_id', $patient)
+        $user = User::find(Auth::id());
+
+        $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
+            $query->where('nutritionist_id', Auth::id());
+        })->pluck('patient_id');
+
+        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
         ->orderBy('created_at','asc')
         ->paginate(15);
 

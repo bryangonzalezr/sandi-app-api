@@ -31,14 +31,23 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-        $patient = Patient::where('nutritionist_id', Auth::id())->pluck('patient_id');
+        $user = User::find(Auth::id());
+
+        $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
+            $query->where('nutritionist_id', Auth::id());
+        })->pluck('patient_id');
+
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
             if ($request->type === 'semanal') {
                 $query->where('timespan', 7);
             } elseif ($request->type === 'mensual') {
                 $query->whereBetween('timespan', [28, 31]);
             }
-        })->whereIn('user_id', $patient)
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
         ->orderBy('created_at','asc')
         ->paginate(15);
 
