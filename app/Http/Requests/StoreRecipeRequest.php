@@ -23,8 +23,8 @@ class StoreRecipeRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string'],
-            'dietLabels' => ['required', 'array'],
-            'healthLabels' => ['required', 'array'],
+            'dietLabels' => ['nullable', 'array'],
+            'healthLabels' => ['nullable', 'array'],
             'cautions' => ['nullable', 'array'],
             'ingredientLines' => ['required', 'array'],
             'calories' => ['required', 'numeric'],
