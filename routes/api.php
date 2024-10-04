@@ -56,6 +56,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
     Route::post('menu/generar', [MenuController::class, 'generateMenu'])->name('menu.generate');
 
+    //Listado con todos los menus (diarios, semanales, mensuales)
+    Route::get('all-menus', [MenuController::class, 'menusList'])->name('menus.list');
+
     // Rutas Perfiles Nutricionales
     Route::get('perfiles-nutricionales', [NutritionalProfileController::class, 'index'])->name('nutritionalProfiles.index');
     Route::get('perfil-nutricional/{nutritionalProfile}', [NutritionalProfileController::class, 'show'])->name('nutritionalProfiles.show');

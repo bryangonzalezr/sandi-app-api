@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Health;
+use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreMenuRequest;
@@ -83,6 +84,9 @@ class MenuController extends Controller
 
         $menus_list = $day_menus->merge($menus);
 
+        $paginate = PaginationHelper::paginate($menus_list, 15);
+
+        return MenuResource::collection($paginate);
     }
 
     /**
@@ -176,8 +180,6 @@ class MenuController extends Controller
                 "cautions",
                 "ingredientLines",
                 "calories",
-                "glycemicIndex",
-                "inflammatoryIndex",
                 "totalTime",
             ];
 
