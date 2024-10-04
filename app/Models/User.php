@@ -15,6 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Laravel\Eloquent\HybridRelations;
 use Spatie\Permission\Traits\HasRoles;
 use MongoDB\Laravel\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -104,19 +105,19 @@ class User extends Authenticatable
         return $this->hasMany(Recipe::class, 'user_id');
     }
 
-    public function dayMenus()
+    public function dayMenus(): HasMany
     {
-        return $this->belongsToMany(DayMenu::class, 'user_day_menus', 'day_menu_id', 'user_id');
+        return $this->hasMany(DayMenu::class, 'user_day_menus', 'day_menu_id', 'user_id');
     }
 
-    public function weekMenus()
+    public function weekMenus(): HasMany
     {
-        return $this->belongsToMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->where('timespan', 7);
+        return $this->hasMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->where('timespan', 7);
     }
 
-    public function monthMenus()
+    public function monthMenus(): HasMany
     {
-        return $this->belongsToMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->whereBetween('timespan', [28, 31]);
+        return $this->hasMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->whereBetween('timespan', [28, 31]);
     }
 
     public function patients()

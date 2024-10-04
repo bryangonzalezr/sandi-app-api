@@ -30,11 +30,9 @@ class StoreDayMenuRequest extends FormRequest
             'recipes.*.label' => ['required', 'string'],
             'recipes.*.dietLabels' => ['nullable', 'array'],
             'recipes.*.healthLabels' => ['required', 'array'],
-            'recipes.*.cautions' => ['nullable', 'array'],
             'recipes.*.ingredientLines' => ['required', 'array'],
             'recipes.*.calories' => ['required', 'numeric'],
             'recipes.*.mealType' => ['required', 'array'],
-            'recipes.*.dishType' => ['required', 'array'],
             'recipes.*.instructions' => ['nullable', 'string'],
             'total_calories' => ['required', 'numeric'],
         ];

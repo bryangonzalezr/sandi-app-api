@@ -14,6 +14,20 @@ class MenuResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        if ($this->timespan == 7){
+            $type = "semanal";
+        } elseif ($this->whereBetween('timespan', [28, 31])){
+            $type = "mensual";
+        }
+
+        return [
+            'name' => $this->name,
+            'user_id' => $this->user->name,
+            'sandi_recipe' => $this->sandi_recipe,
+            'timespan' => $this->timespan,
+            'type' => $this->type ?? $type,
+            'total_calories' => $this->total_calories,
+            'menus' => $this->menus
+        ];
     }
 }

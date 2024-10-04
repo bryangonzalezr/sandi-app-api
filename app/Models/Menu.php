@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MongoDB\Laravel\Eloquent\HybridRelations;
 use MongoDB\Laravel\Eloquent\Model as MongoModel;
-use MongoDB\Laravel\Relations\BelongsTo;
 
 class Menu extends MongoModel
 {
-    use HasFactory;
+    use HasFactory, HybridRelations;
 
     protected $connection = 'mongodb';
 
@@ -19,6 +20,7 @@ class Menu extends MongoModel
         'user_id',
         'sandi_recipe',
         'timespan',
+        'type',
         'total_calories',
         'menus',
     ];

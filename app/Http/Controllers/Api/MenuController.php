@@ -9,6 +9,7 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuResource;
 use App\Models\ApiMenu;
+use App\Models\DayMenu;
 use App\Models\Menu;
 use App\Models\Patient;
 use App\Models\User;
@@ -54,13 +55,48 @@ class MenuController extends Controller
         return MenuResource::collection($menus);
     }
 
+    public function menusList(Request $request)
+    {
+        $user = User::find(Auth::id());
+
+        $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
+            $query->where('nutritionist_id', Auth::id());
+        })->pluck('patient_id');
+
+        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+
+        $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
+            if ($request->type === 'semanal') {
+                $query->where('timespan', 7);
+            } elseif ($request->type === 'mensual') {
+                $query->whereBetween('timespan', [28, 31]);
+            }
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+
+        $menus_list = $day_menus->merge($menus);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreMenuRequest $request)
     {
         $menu = Menu::create($request->validated());
-
+        if ($menu->timespan == 7) {
+            $menu["type"] = "semanal";
+        } elseif ($menu->whereBetween('timespan', [28, 31])) {
+            $menu["type"] = "mensual";
+        }
+        $menu->save();
         return new MenuResource($menu);
     }
 
