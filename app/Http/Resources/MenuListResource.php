@@ -14,18 +14,11 @@ class MenuListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if ($this->timespan == 7){
-            $type = "semanal";
-        } elseif ($this->whereBetween('timespan', [28, 31])){
-            $type = "mensual";
-        } else {
-            $type = "diario";
-        }
         return [
             "_id" => $this->_id,
             'name' => $this->name,
             'user' => $this->user->name . " " . $this->user->last_name,
-            'type'  => $type,
+            'type'  => $this->type ?? "diario",
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'list' => [
@@ -33,6 +26,7 @@ class MenuListResource extends JsonResource
                 "sm" => [
                     'timespan' => $this->timespan,
                     'menus' => $this->menus,
+
                 ]
             ]
         ];
