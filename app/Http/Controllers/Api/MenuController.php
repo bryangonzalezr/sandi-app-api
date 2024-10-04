@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Http\Resources\MenuListResource;
 use App\Http\Resources\MenuResource;
 use App\Models\ApiMenu;
 use App\Models\DayMenu;
@@ -86,7 +87,7 @@ class MenuController extends Controller
 
         $paginate = PaginationHelper::paginate($menus_list, 15);
 
-        return MenuResource::collection($paginate);
+        return MenuListResource::collection($paginate);
     }
 
     /**

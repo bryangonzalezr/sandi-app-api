@@ -22,14 +22,12 @@ class MenuResource extends JsonResource
 
         return [
             'name' => $this->name,
-            'user_id' => $this->user->name,
-            'list' => [
-                "diario" => $this->recipes,
-                "sm" => [
-                    'timespan' => $this->timespan,
-                    'menus' => $this->menus,
-                ]
-            ]
+            'user' => $this->user->name . " " . $this->user->last_name,
+            'sandi_recipe' => $this->sandi_recipe,
+            'timespan' => $this->timespan,
+            'type' => $this->type ?? $type,
+            'total_calories' => $this->total_calories,
+            'menus' => $this->menus
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DayMenuResource extends JsonResource
+class MenuListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,10 +17,13 @@ class DayMenuResource extends JsonResource
         return [
             'name' => $this->name,
             'user' => $this->user->name . " " . $this->user->last_name,
-            'sandi_recipe' => $this->sandi_recipe,
-            "type" => $this->type ?? "diario",
-            "recipes"        => $this->recipes,
-            "total_calories" => $this->total_calories,
+            'list' => [
+                "diario" => $this->recipes,
+                "sm" => [
+                    'timespan' => $this->timespan,
+                    'menus' => $this->menus,
+                ]
+            ]
         ];
     }
 }
