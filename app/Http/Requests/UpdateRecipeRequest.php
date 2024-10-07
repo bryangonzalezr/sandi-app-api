@@ -23,13 +23,11 @@ class UpdateRecipeRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string'],
-            'dietLabels' => ['required', 'array'],
-            'healthLabels' => ['required', 'array'],
+            'dietLabels' => ['nullable', 'array'],
+            'healthLabels' => ['nullable', 'array'],
             'cautions' => ['nullable', 'array'],
             'ingredientLines' => ['required', 'array'],
             'calories' => ['required', 'numeric'],
-            'glycemic_index' => ['nullable', 'numeric'],
-            'inflammatory_index' => ['nullable', 'numeric'],
             'mealType' => ['nullable', 'array'],
             'dishType' => ['nullable', 'array'],
             'instructions' => ['nullable', 'string'],
