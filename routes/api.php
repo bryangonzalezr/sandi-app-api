@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\ServicePortionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
 use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('login');
@@ -129,6 +130,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Rutas Chat
     Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage'])->name('chat.getMessage');
     Route::post('/messages/{user}', [ChatMessageController::class, 'sendMessage'])->name('chat.sendMessage');
+    Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
 
     //Health Enums
     Route::prefix('enum')->group(function () {
