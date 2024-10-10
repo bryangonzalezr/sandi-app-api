@@ -15,23 +15,19 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     python3 \
     python3-pip \
-    python3-venv \
     && docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath curl \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && pecl install uv mongodb \
+    && docker-php-ext-enable uv mongodb \
+    && docker-php-ext-configure pcntl --enable-pcntl \
+    && docker-php-ext-install pcntl \
+    && pip3 install numpy \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create a Python virtual environment
-RUN python3 -m venv /opt/venv
+# Copia el archivo de configuración de PHP para producción
+COPY ./docker/8.3/php.ini /usr/local/etc/php/
 
-# Activate the virtual environment and install Python packages
-RUN . /opt/venv/bin/activate && pip install --upgrade pip && pip install numpy
-
-# Ensure that the virtual environment's Python and pip are used globally
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Instala la extensión de MongoDB
-RUN pecl install mongodb && docker-php-ext-enable mongodb
-
-# Instala Composer
+# Copia Composer desde otra imagen
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Establece el directorio de trabajo
@@ -42,9 +38,6 @@ COPY . .
 
 # Instala las dependencias de Composer
 RUN composer install --optimize-autoloader --no-dev
-
-# Copia el archivo de configuración de PHP para producción
-COPY ./docker/8.3/php.ini /usr/local/etc/php/
 
 # Establece el propietario correcto de los archivos
 RUN chown -R www-data:www-data /var/www
@@ -58,14 +51,8 @@ RUN php artisan optimize
 # Ejecuta las migraciones
 RUN php artisan migrate:fresh --seed
 
-# Comando para iniciar PHP-FPM
-CMD php artisan serve --host=0.0.0.0 --port=8080
+# Comando para iniciar Laravel Server y Reverb en paralelo
+CMD php artisan serve --host=0.0.0.0 --port=8080 & php artisan reverb:start
 
-# Expone el puerto que usará Laravel
-EXPOSE 8080
-
-# Comando para iniciar Reverb
-CMD php artisan reverb:start --host=0.0.0.0 --port=6001
-
-# Expone el puerto que usará Laravel Reverb
-EXPOSE 6001
+# Expone los puertos que usará Laravel y Reverb
+EXPOSE 8080 6001

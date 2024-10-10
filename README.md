@@ -71,6 +71,14 @@ sail php artisan optimize
 ```
 ---
 
+### Laravel Reverb
+
+* Para que el chat funcione correctamente se debe correr el siguiente comando:
+```
+sail php artisan reverb:start
+```
+---
+
 ## Posibles errores y sus soluciones
 
 * Error 500: Unsupported operand types: string * int
@@ -80,6 +88,12 @@ sail php artisan optimize
 * Error 419
 * Causa: Cors o CSRF
 * Solución: Asegurarse que en el .env el campo SANCTUM_STATEFUL_DOMAINS contenga dominios del frontend o que SESSION_DOMAIN contenga el dominio del backend
+---
+* Error 405
+* Causa: Ruta inexistente o falta token actualizado
+---
+* Error 403
+* Causa: Usuario no tiene permisos para acceder o utilizar
 
 
 
