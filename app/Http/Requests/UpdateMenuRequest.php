@@ -11,7 +11,7 @@ class UpdateMenuRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class UpdateMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean'],
+            'timespan' => ['required', 'numeric'],
+            'total_calories' => ['required', 'numeric'],
+            'menus' => ['required', 'array'],
+            'menus.*' => ['required', 'array'],
+            'menus.*.*.label' => ['required', 'string'],
+            'menus.*.*.dietLabels' => ['nullable', 'array'],
+            'menus.*.*.healthLabels' => ['nullable', 'array'],
+            'menus.*.*.cautions' => ['nullable', 'array'],
+            'menus.*.*.ingredientLines' => ['required', 'array'],
+            'menus.*.*.calories' => ['required', 'numeric'],
+            'menus.*.*.mealType' => ['nullable', 'array'],
+            'menus.*.*.dishType' => ['nullable', 'array'],
+            'menus.*.*.instructions' => ['nullable', 'string'],
         ];
     }
 }

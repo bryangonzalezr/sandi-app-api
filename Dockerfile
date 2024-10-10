@@ -63,3 +63,9 @@ CMD php artisan serve --host=0.0.0.0 --port=8080
 
 # Expone el puerto que usará Laravel
 EXPOSE 8080
+
+# Comando para iniciar Reverb
+CMD php artisan reverb:start --host=0.0.0.0 --port=6001
+
+# Expone el puerto que usará Laravel Reverb
+EXPOSE 6001

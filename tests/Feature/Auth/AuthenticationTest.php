@@ -8,40 +8,28 @@ use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function test_users_can_authenticate_using_the_login_endpoint(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->nutritionist()->create();
 
-        $response = $this->post('/login', [
+        $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => 'password',
         ]);
-
-        $this->assertAuthenticated();
-        $response->assertNoContent();
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('token',$response);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->nutritionist()->create();
 
-        $this->post('/login', [
+        $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
 
-        $this->assertGuest();
+        $response->assertStatus(401);
     }
 
-    public function test_users_can_logout(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user)->post('/logout');
-
-        $this->assertGuest();
-        $response->assertNoContent();
-    }
 }

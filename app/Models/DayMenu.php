@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use MongoDB\Laravel\Eloquent\HybridRelations;
 use MongoDB\Laravel\Eloquent\Model as MongoModel;
-use MongoDB\Laravel\Relations\BelongsToMany;
 
 class DayMenu extends MongoModel
 {
-    use HasFactory;
+    use HasFactory, HybridRelations;
 
     protected $connection = 'mongodb';
 
@@ -16,6 +17,9 @@ class DayMenu extends MongoModel
 
     protected $fillable = [
         'name',
+        'user_id',
+        'sandi_recipe',
+        'type',
         'recipes',
         'total_calories',
     ];
@@ -28,8 +32,8 @@ class DayMenu extends MongoModel
         ];
     }
 
-    public function users(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

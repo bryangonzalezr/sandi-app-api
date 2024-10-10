@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\Health;
+use App\Helpers\PaginationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Http\Resources\MenuListResource;
 use App\Http\Resources\MenuResource;
 use App\Models\ApiMenu;
+use App\Models\DayMenu;
 use App\Models\Menu;
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,15 +34,60 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
+        $user = User::find(Auth::id());
+
+        $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
+            $query->where('nutritionist_id', Auth::id());
+        })->pluck('patient_id');
+
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
             if ($request->type === 'semanal') {
                 $query->where('timespan', 7);
             } elseif ($request->type === 'mensual') {
                 $query->whereBetween('timespan', [28, 31]);
             }
-        })->get();
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->orderBy('created_at','asc')
+        ->paginate(15);
 
         return MenuResource::collection($menus);
+    }
+
+    public function menusList(Request $request)
+    {
+        $user = User::find(Auth::id());
+
+        $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
+            $query->where('nutritionist_id', Auth::id());
+        })->pluck('patient_id');
+
+        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+
+        $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
+            if ($request->type === 'semanal') {
+                $query->where('timespan', 7);
+            } elseif ($request->type === 'mensual') {
+                $query->whereBetween('timespan', [28, 31]);
+            }
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+
+        $menus_list = $day_menus->merge($menus);
+
+        $paginate = PaginationHelper::paginate($menus_list, 15);
+
+        return MenuListResource::collection($paginate);
     }
 
     /**
@@ -47,7 +96,12 @@ class MenuController extends Controller
     public function store(StoreMenuRequest $request)
     {
         $menu = Menu::create($request->validated());
-
+        if ($menu->timespan == 7) {
+            $menu["type"] = "semanal";
+        } elseif ($menu->whereBetween('timespan', [28, 31])) {
+            $menu["type"] = "mensual";
+        }
+        $menu->save();
         return new MenuResource($menu);
     }
 
@@ -84,7 +138,7 @@ class MenuController extends Controller
     public function generateMenu(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find(Auth::id());
+            $auth_user = User::find($request->input('user_id'));
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -100,6 +154,13 @@ class MenuController extends Controller
                 "menus" => null,
                 "total_calories" => 0,
             ];
+
+            if($request->filled('patient_id')){
+                $patient = User::find($request->input('patient_id'));
+                if ($patient->hasRole('paciente')){
+                    $menu['user_id'] = $request->input('patient_id');
+                }
+            }
 
             $day_menu = [
                 "recipes" => [],
@@ -120,8 +181,6 @@ class MenuController extends Controller
                 "cautions",
                 "ingredientLines",
                 "calories",
-                "glycemicIndex",
-                "inflammatoryIndex",
                 "totalTime",
             ];
 
@@ -189,8 +248,9 @@ class MenuController extends Controller
                     }
                     $count_api++;
                 }
-                $menu["menus"] = $day_menu["recipes"];
+                $menu["menus"][$i+1] = $day_menu["recipes"];
                 $menu["total_calories"] += $day_menu["total_calories"];
+                $day_menu["recipes"] = [];
             }
             return response()->json($menu);
         } catch (\Exception $e) {

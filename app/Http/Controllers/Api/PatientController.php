@@ -26,7 +26,7 @@ class PatientController extends Controller
     public function index()
     {
         $patients = Patient::where('nutritionist_id', Auth::id())->get();
-        $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->get();
+        $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->paginate(15);
         return UserResource::collection($patient_users);
     }
 

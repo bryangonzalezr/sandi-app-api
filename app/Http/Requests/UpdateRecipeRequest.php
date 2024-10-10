@@ -23,17 +23,16 @@ class UpdateRecipeRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string'],
-            'diet_labels' => ['required', 'array'],
-            'health_labels' => ['required', 'array'],
-            'cautions' => ['required', 'array'],
-            'ingredient_lines' => ['required', 'array'],
+            'dietLabels' => ['nullable', 'array'],
+            'healthLabels' => ['nullable', 'array'],
+            'cautions' => ['nullable', 'array'],
+            'ingredientLines' => ['required', 'array'],
             'calories' => ['required', 'numeric'],
-            'glycemic_index' => ['nullable', 'numeric'],
-            'inflammatory_index' => ['nullable', 'numeric'],
-            'meal_type' => ['required', 'string'],
-            'dish_type' => ['required', 'string'],
+            'mealType' => ['nullable', 'array'],
+            'dishType' => ['nullable', 'array'],
             'instructions' => ['nullable', 'string'],
-            'user_id' => ['required', 'numeric'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean']
         ];
     }
 }

@@ -15,12 +15,15 @@ use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Laravel\Eloquent\HybridRelations;
 use Spatie\Permission\Traits\HasRoles;
 use MongoDB\Laravel\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes, HasApiTokens ,HybridRelations;
 
     protected $connection = 'pgsql';
+
+    public $guard_name = 'web';
 
     /**
      * The attributes that are mass assignable.
@@ -68,7 +71,7 @@ class User extends Authenticatable
     protected function isNutritionist(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->hasRole('nutritionist'),
+            get: fn ($value) => $this->hasRole('nutricionista'),
         );
     }
 
@@ -102,19 +105,19 @@ class User extends Authenticatable
         return $this->hasMany(Recipe::class, 'user_id');
     }
 
-    public function dayMenus()
+    public function dayMenus(): HasMany
     {
-        return $this->belongsToMany(DayMenu::class, 'user_day_menus', 'day_menu_id', 'user_id');
+        return $this->hasMany(DayMenu::class, 'user_day_menus', 'day_menu_id', 'user_id');
     }
 
-    public function weekMenus()
+    public function weekMenus(): HasMany
     {
-        return $this->belongsToMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->where('timespan', 7);
+        return $this->hasMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->where('timespan', 7);
     }
 
-    public function monthMenus()
+    public function monthMenus(): HasMany
     {
-        return $this->belongsToMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->whereBetween('timespan', [28, 31]);
+        return $this->hasMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->whereBetween('timespan', [28, 31]);
     }
 
     public function patients()
@@ -145,5 +148,15 @@ class User extends Authenticatable
     public function nutritionalRequirement()
     {
         return $this->hasOne(NutritionalRequirement::class, 'patient_id');
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'receiver_id');
     }
 }

@@ -15,17 +15,15 @@ class Recipe extends MongoModel
 
     protected $fillable = [
         'label',
-        'diet_labels',
-        'health_labels',
-        'cautions',
-        'ingredient_lines',
+        'dietLabels',
+        'healthLabels',
+        'ingredientLines',
         'calories',
-        'glycemic_index',
-        'inflammatory_index',
-        'meal_type',
-        'dish_type',
+        'mealType',
+        'dishType',
         'instructions',
         'user_id',
+        'sandi_recipe'
     ];
 
     public function user()

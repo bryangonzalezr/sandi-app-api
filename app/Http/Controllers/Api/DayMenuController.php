@@ -9,6 +9,7 @@ use App\Http\Requests\StoreDayMenuRequest;
 use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
 use App\Models\DayMenu;
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -29,7 +30,19 @@ class DayMenuController extends Controller
      */
     public function index()
     {
-        $day_menus = DayMenu::all();
+        $user = User::find(Auth::id());
+
+        $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
+            $query->where('nutritionist_id', Auth::id());
+        })->pluck('patient_id');
+
+        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient) {
+            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('paciente'), function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->orderBy('created_at','asc')
+        ->paginate(15);
 
         return DayMenuResource::collection($day_menus);
     }
@@ -40,6 +53,7 @@ class DayMenuController extends Controller
     public function store(StoreDayMenuRequest $request)
     {
         $day_menu = DayMenu::create($request->validated());
+        $day_menu["type"] = "diario";
 
         return new DayMenuResource($day_menu);
     }
@@ -77,7 +91,7 @@ class DayMenuController extends Controller
     public function generateDayMenu(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find(Auth::id());
+            $auth_user = User::find($request->input('user_id'));
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -88,6 +102,14 @@ class DayMenuController extends Controller
                 "recipes" => [],
                 "total_calories" => 0,
             ];
+
+            if($request->filled('patient_id')){
+                $patient = User::find($request->input('patient_id'));
+                if ($patient->hasRole('paciente')){
+                    $day_menu['user_id'] = $request->input('patient_id');
+                }
+            }
+
             $params = [
                 'type' => 'public',
                 'beta' => false,

@@ -32,11 +32,15 @@ class VisitController extends Controller
      */
     public function store(StoreVisitRequest $request)
     {
+        if (is_string($request->input('patient_id'))) {
+            $request['patient_id'] = (int) $request->patient_id;
+        }
 
         $visit = Visit::create([
             'patient_id' => $request->patient_id,
             'date' => $request->date,
         ]);
+
         //$patient_table = Patient::where('patient_id', $visit->patient_id)->first();
         //$request = app(StoreNutritionalProfileRequest::class, ['first_visit' => $patient_table->first_visit]);
         $patient_user = User::where('id', $request->patient_id)->first();

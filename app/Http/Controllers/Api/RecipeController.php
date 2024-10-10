@@ -8,6 +8,7 @@ use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Http\Resources\RecipeResource;
+use App\Models\Patient;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,23 +26,20 @@ class RecipeController extends Controller
         $this->middleware(['can:recipe.delete'])->only('delete');
         $this->middleware(['can:recipe.generate'])->only('getRecipeFromApi');
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $recipes = Recipe::all();
-
-        return RecipeResource::collection($recipes);
-    }
-
-    /**
+        /**
      * Muestra el listado de recetas
      * de los pacientes del nutricionista
      */
-    public function recipes(User $user)
+    public function index()
     {
-        $recipes = Recipe::where('user_id', $user->id)->get();
+        $user = User::find(Auth::id());
+        /* $patient = Patient::when($user->hasRole('nutricionista'), function ($query) use ($user){
+            $query->where('nutritionist_id', $user->id);
+        })->pluck('patient_id'); */
+
+        $recipes = Recipe::where('user_id', $user->id)
+        ->orderBy('created_at','asc')
+        ->paginate(15);
 
         return RecipeResource::collection($recipes);
     }
@@ -82,14 +80,14 @@ class RecipeController extends Controller
         $recipe->delete();
 
         return response()->json([
-            'message' => 'Receta eliminado satisfactoriamente',
+            'message' => 'Receta eliminada satisfactoriamente',
         ]);
     }
 
     public function getRecipeFromApi(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find(Auth::id());
+            $auth_user = User::find($request->input('user_id'));
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -108,13 +106,10 @@ class RecipeController extends Controller
                 "label",
                 "dietLabels",
                 "healthLabels",
-                "mealType",
                 "dishType",
                 "cautions",
                 "ingredientLines",
                 "calories",
-                "glycemicIndex",
-                "inflammatoryIndex",
                 "totalTime",
             ];
 
@@ -150,6 +145,12 @@ class RecipeController extends Controller
                     ]);
                 } else {
                     $recipe = $hits[array_rand($hits)];
+                    if($request->filled('patient_id')){
+                        $patient = User::find($request->input('patient_id'));
+                        if ($patient->hasRole('paciente')){
+                            $recipe['user_id'] = $request->input('patient_id');
+                        }
+                    }
                 }
 
                 return response()->json($recipe);

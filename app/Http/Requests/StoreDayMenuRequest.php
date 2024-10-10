@@ -24,17 +24,15 @@ class StoreDayMenuRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean'],
             'recipes' => ['required', 'array'],
             'recipes.*.label' => ['required', 'string'],
-            'recipes.*.diet_labels' => ['required', 'array'],
-            'recipes.*.health_labels' => ['required', 'array'],
-            'recipes.*.cautions' => ['required', 'array'],
-            'recipes.*.ingredient_lines' => ['required', 'array'],
+            'recipes.*.dietLabels' => ['nullable', 'array'],
+            'recipes.*.healthLabels' => ['required', 'array'],
+            'recipes.*.ingredientLines' => ['required', 'array'],
             'recipes.*.calories' => ['required', 'numeric'],
-            'recipes.*.glycemic_index' => ['nullable', 'numeric'],
-            'recipes.*.inflammatory_index' => ['nullable', 'numeric'],
-            'recipes.*.meal_type' => ['required', 'string'],
-            'recipes.*.dish_type' => ['required', 'string'],
+            'recipes.*.mealType' => ['required', 'array'],
             'recipes.*.instructions' => ['nullable', 'string'],
             'total_calories' => ['required', 'numeric'],
         ];

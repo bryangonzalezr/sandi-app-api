@@ -2,23 +2,35 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function test_new_users_can_register(): void
     {
-        $response = $this->post('/register', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $user = User::factory()->make();
+
+        $response = $this->postJson(route('register'), [
+            'name' => $user->name,
+            'last_name' => $user->last_name,
+            'sex' => $user->sex,
+            'birthdate' => $user->birthdate,
+            'age' => Carbon::parse($user->birthdate)->age,
+            'phone_number' => $user->phone_number,
+            'civil_status' => $user->civil_status,
+            'description' => $user->description,
+            'objectives' => $user->objectives,
+            'email' => $user->email,
             'password' => 'password',
             'password_confirmation' => 'password',
+            'role' => 'nutricionista'
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertNoContent();
+        $response->assertStatus(200);
     }
 }

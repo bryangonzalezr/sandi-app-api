@@ -23,9 +23,19 @@ class StoreMenuRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
+            'user_id' => ['required', 'numeric', 'exists:users,id'],
+            'sandi_recipe' => ['required', 'boolean'],
             'timespan' => ['required', 'numeric'],
             'total_calories' => ['required', 'numeric'],
             'menus' => ['required', 'array'],
+            'menus.*' => ['required', 'array'],
+            'menus.*.*.label' => ['required', 'string'],
+            'menus.*.*.dietLabels' => ['nullable', 'array'],
+            'menus.*.*.healthLabels' => ['nullable', 'array'],
+            'menus.*.*.ingredientLines' => ['required', 'array'],
+            'menus.*.*.calories' => ['required', 'numeric'],
+            'menus.*.*.mealType' => ['required', 'array'],
+            'menus.*.*.instructions' => ['nullable', 'string'],
         ];
     }
 }

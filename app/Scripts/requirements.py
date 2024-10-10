@@ -182,7 +182,7 @@ def macronutrients(get, weight, ideal_weight, nutritional_state):
 
     protein = round((get * 0.2 * weights[nutritional_state]) / 4 ,0)
     lipids = round((get * 0.26 * weights[nutritional_state]) / 4 ,0)
-    carbohydrates = round((get * 0.54 * weights[nutritional_state]) / 4 , 0)
+    carbohydrates = round((get * 0.54 * weights[nutritional_state]) / 9 , 0)
     return protein, lipids, carbohydrates
 
 def waterConsumption(get):
