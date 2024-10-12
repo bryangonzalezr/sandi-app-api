@@ -1,7 +1,7 @@
-# Use the official PHP 8.3 image with FPM for production
+# Usa la imagen oficial de PHP 8.3 con FPM para producción
 FROM php:8.3-fpm
 
-# Install system dependencies and extensions required for both PHP and Python
+# Instala dependencias del sistema y extensiones requeridas para PHP
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -18,12 +18,19 @@ RUN apt-get update && apt-get install -y \
 # Instala la extensión de MongoDB
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# Intala python3 y pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+# Instala Python 3, pip y el módulo para crear entornos virtuales
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 
-RUN pip install numpy
+# Crea un entorno virtual para Python
+RUN python3 -m venv /opt/venv
 
-# Instala ComposerW
+# Activa el entorno virtual y luego instala numpy
+RUN /opt/venv/bin/pip install --upgrade pip && /opt/venv/bin/pip install numpy
+
+# Asegura que el entorno virtual esté disponible en el contenedor
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Establece el directorio de trabajo
