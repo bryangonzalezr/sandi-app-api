@@ -13,21 +13,17 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libssl-dev \
     libpq-dev \
-    python3 \
-    python3-pip \
-    && docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath curl \
-    && pecl install uv mongodb \
-    && docker-php-ext-enable uv mongodb \
-    && docker-php-ext-configure pcntl --enable-pcntl \
-    && docker-php-ext-install pcntl \
-    && pip3 install numpy \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath curl
 
-# Copia el archivo de configuración de PHP para producción
-COPY ./docker/8.3/php.ini /usr/local/etc/php/
+# Instala la extensión de MongoDB
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# Copia Composer desde otra imagen
+# Intala python3 y pip
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+RUN pip install numpy
+
+# Instala ComposerW
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Establece el directorio de trabajo
@@ -38,6 +34,9 @@ COPY . .
 
 # Instala las dependencias de Composer
 RUN composer install --optimize-autoloader --no-dev
+
+# Copia el archivo de configuración de PHP para producción
+COPY ./docker/8.3/php.ini /usr/local/etc/php/
 
 # Establece el propietario correcto de los archivos
 RUN chown -R www-data:www-data /var/www
