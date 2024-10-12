@@ -21,10 +21,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        env('MOBILE_URL', 'http://localhost:8100'),
-        env('FRONTEND_URL', 'http://localhost:5174')
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
