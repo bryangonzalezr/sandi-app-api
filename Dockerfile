@@ -58,7 +58,7 @@ RUN php artisan optimize
 RUN php artisan migrate:fresh --seed
 
 # Comando para iniciar Laravel Server y Reverb en paralelo
-CMD php artisan serve --host=0.0.0.0 --port=8080 & php artisan reverb:start
+CMD php artisan serve --host=0.0.0.0 --port=8080
 
 # Expone los puertos que usará Laravel y Reverb
-EXPOSE 8080 6001
+EXPOSE 8080
