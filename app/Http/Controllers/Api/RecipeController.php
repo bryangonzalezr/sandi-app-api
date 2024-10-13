@@ -50,7 +50,6 @@ class RecipeController extends Controller
     public function store(StoreRecipeRequest $request)
     {
         $recipe = Recipe::create($request->validated());
-
         return new RecipeResource($recipe);
     }
 
@@ -107,6 +106,7 @@ class RecipeController extends Controller
                 "dietLabels",
                 "healthLabels",
                 "dishType",
+                "mealType",
                 "cautions",
                 "ingredientLines",
                 "calories",
