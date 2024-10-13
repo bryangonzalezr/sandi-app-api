@@ -126,8 +126,6 @@ class DayMenuController extends Controller
                 "cautions",
                 "ingredientLines",
                 "calories",
-                "glycemicIndex",
-                "inflammatoryIndex",
                 "totalTime",
             ];
 
