@@ -31,7 +31,7 @@ class UpdateDayMenuRequest extends FormRequest
             'recipes.*.healthLabels' => ['nullable', 'array'],
             'recipes.*.cautions' => ['nullable', 'array'],
             'recipes.*.ingredientLines' => ['required', 'array'],
-            'recipes.*.calories' => ['required', 'numeric'],
+            'recipes.*.calories' => ['nullable', 'numeric'],
             'recipes.*.mealType' => ['nullable', 'array'],
             'recipes.*.dishType' => ['nullable', 'array'],
             'recipes.*.instructions' => ['nullable', 'string'],

@@ -65,10 +65,14 @@ class MenuController extends Controller
             $query->where('nutritionist_id', Auth::id());
         })->pluck('patient_id');
 
-        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient) {
-            $query->whereIn('user_id', $patient);
+        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
+            $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
+                $query->where('user_id', $request->input('patient'));
+            });
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
+        })->when($request->filled('sandi'), function ($query) use ($request) {
+            $query->where('sandi_recipe', $request->input('sandi'));
         })->get();
 
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
@@ -76,11 +80,17 @@ class MenuController extends Controller
                 $query->where('timespan', 7);
             } elseif ($request->type === 'mensual') {
                 $query->whereBetween('timespan', [28, 31]);
+            } elseif($request->type === 'diario'){
+                $query->where('timespan', 1);
             }
-        })->when($user->hasRole('nutricionista'), function ($query) use ($patient) {
-            $query->whereIn('user_id', $patient);
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
+            $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
+                $query->where('user_id', $request->input('patient'));
+            });
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
+        })->when($request->filled('sandi'), function ($query) use ($request) {
+            $query->where('sandi_recipe', $request->input('sandi'));
         })->get();
 
         $menus_list = $day_menus->merge($menus);

@@ -34,7 +34,7 @@ class UpdateMenuRequest extends FormRequest
             'menus.*.*.healthLabels' => ['nullable', 'array'],
             'menus.*.*.cautions' => ['nullable', 'array'],
             'menus.*.*.ingredientLines' => ['required', 'array'],
-            'menus.*.*.calories' => ['required', 'numeric'],
+            'menus.*.*.calories' => ['nullable', 'numeric'],
             'menus.*.*.mealType' => ['nullable', 'array'],
             'menus.*.*.dishType' => ['nullable', 'array'],
             'menus.*.*.instructions' => ['nullable', 'string'],
