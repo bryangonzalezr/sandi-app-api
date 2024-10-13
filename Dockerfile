@@ -55,7 +55,7 @@ RUN php artisan key:generate
 RUN php artisan optimize
 
 # Ejecuta las migraciones
-RUN php artisan migrate --seed
+RUN php artisan migrate:fresh --seed --force
 
 # Comando para iniciar Laravel Server y Reverb en paralelo
 CMD php artisan serve --host=0.0.0.0 --port=8080
