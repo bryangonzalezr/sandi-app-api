@@ -30,7 +30,7 @@ class PatientController extends Controller
         $request->validate(['archivados' => 'nullable|boolean']);
 
         $patients = Patient::where('nutritionist_id', Auth::id())
-        ->when('archivados', function ($query) use ($request){
+        ->when($request->filled('archivados'), function ($query) use ($request){
             $query->onlyTrashed();
         })
         ->get();
