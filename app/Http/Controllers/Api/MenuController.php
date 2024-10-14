@@ -117,11 +117,15 @@ class MenuController extends Controller
     {
         $menu = Menu::create($request->validated());
         if ($menu->timespan == 7) {
-            $menu["type"] = "semanal";
+            $menu->update([
+                "type" => "semanal"
+            ]);
         } elseif ($menu->whereBetween('timespan', [28, 31])) {
-            $menu["type"] = "mensual";
+            $menu->update([
+                "type" => "mensual"
+            ]);
         }
-        $menu->save();
+
         return new MenuResource($menu);
     }
 
@@ -140,11 +144,15 @@ class MenuController extends Controller
     {
         $menu->update($request->validated());
         if ($menu->timespan == 7) {
-            $menu["type"] = "semanal";
+            $menu->update([
+                "type" => "semanal"
+            ]);
         } elseif ($menu->whereBetween('timespan', [28, 31])) {
-            $menu["type"] = "mensual";
+            $menu->update([
+                "type" => "mensual"
+            ]);
         }
-        $menu->save();
+
 
         return new MenuResource($menu);
     }
