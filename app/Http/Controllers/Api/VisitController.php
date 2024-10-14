@@ -32,21 +32,16 @@ class VisitController extends Controller
      */
     public function store(StoreVisitRequest $request)
     {
-        if (is_string($request->input('patient_id'))) {
-            $request['patient_id'] = (int) $request->patient_id;
-        }
-
         $visit = Visit::create([
-            'patient_id' => $request->patient_id,
+            'patient_id' => $request->integer('patient_id'),
             'date' => $request->date,
         ]);
 
         //$patient_table = Patient::where('patient_id', $visit->patient_id)->first();
         //$request = app(StoreNutritionalProfileRequest::class, ['first_visit' => $patient_table->first_visit]);
-        $patient_user = User::where('id', $request->patient_id)->first();
+        $patient_user = User::where('id', $request->integer('patient_id'))->first();
 
-        $nutritional_profile = NutritionalProfile::where('patient_id', $request->patient_id)->first();
-
+        $nutritional_profile = NutritionalProfile::where('patient_id', $request->integer('patient_id'))->first();
         $nutritional_profile->update($request->validated());
 
         $progress_path = app_path('Scripts') . '/progress.py';
@@ -92,7 +87,7 @@ class VisitController extends Controller
             ]); */
 
             $progress = Progress::create([
-                'patient_id'          => $request->patient_id,
+                'patient_id'          => $request->integer('patient_id'),
                 'height'              => $request->input('height'),
                 'weight'              => $request->input('weight'),
                 'date'                => $request->input('date'),
