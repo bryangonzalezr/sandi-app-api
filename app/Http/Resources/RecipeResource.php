@@ -19,6 +19,7 @@ class RecipeResource extends JsonResource
         $healthLabels = TranslationHelper::translateCollection(collect($this->healthLabels)); */
 
         return [
+            '_id' => $this->_id,
             'label' => $this->label,
             'dietLabels' => $this->dietLabels,
             'healthLabels' => $this->healthLabels,

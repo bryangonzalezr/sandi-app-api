@@ -15,6 +15,7 @@ class DayMenuResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            '_id' => $this->_id,
             'name' => $this->name,
             'user' => $this->user->name . " " . $this->user->last_name,
             'sandi_recipe' => $this->sandi_recipe,
