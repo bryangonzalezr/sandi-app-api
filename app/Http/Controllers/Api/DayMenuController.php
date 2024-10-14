@@ -100,6 +100,7 @@ class DayMenuController extends Controller
 
             $day_menu = [
                 "recipes" => [],
+                "type"  => "diario",
                 "total_calories" => 0,
             ];
 

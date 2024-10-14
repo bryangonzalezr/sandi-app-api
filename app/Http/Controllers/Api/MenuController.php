@@ -72,7 +72,9 @@ class MenuController extends Controller
             $query->where('nutritionist_id', Auth::id());
         })->pluck('patient_id');
 
-        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
+        $day_menus = DayMenu::when($request->filled('type'), function ($query) use ($request, $user, $patient) {
+                $query->where('type', $request->input('type'));
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
             $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
                 $query->where('user_id', $request->integer('patient'));
             });
@@ -168,8 +170,15 @@ class MenuController extends Controller
                 'timespan' => 'required|integer',
             ]);
 
+            if ($request->timespan == 7){
+                $menu_type = 'semanal';
+            } elseif ($request->timespan >= 28 && $request->timespan < 32){
+                $menu_type = 'mensual';
+            }
+
             $menu = [
                 "menus" => null,
+                "type" => $menu_type ?? null,
                 "total_calories" => 0,
             ];
 
