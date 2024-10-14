@@ -30,16 +30,16 @@ class RecipeController extends Controller
      * Muestra el listado de recetas
      * de los pacientes del nutricionista
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = User::find(Auth::id());
-        /* $patient = Patient::when($user->hasRole('nutricionista'), function ($query) use ($user){
-            $query->where('nutritionist_id', $user->id);
-        })->pluck('patient_id'); */
 
-        $recipes = Recipe::where('user_id', $user->id)
-        ->orderBy('created_at','asc')
-        ->paginate(15);
+        $query = Recipe::where('user_id', $user->id)
+        ->orderBy('created_at','asc');
+
+        $recipes = $request->boolean('paginate')
+            ? $query->paginate(15)
+            : $query->get();
 
         return RecipeResource::collection($recipes);
     }
