@@ -16,8 +16,14 @@ class DayMenuFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->addProvider(new \FakerRestaurant\Provider\en_US\Restaurant($this->faker));
         return [
-            //
+            'name' => $this->faker->foodName(),
+            'user_id' => 0,
+            'sandi_recipe' => false,
+            'type' => 'diario',
+            'recipes' => [],
+            'total_calories' => $this->faker->randomFloat(4),
         ];
     }
 }

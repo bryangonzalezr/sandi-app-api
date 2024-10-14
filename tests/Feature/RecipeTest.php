@@ -113,6 +113,10 @@ class RecipeTest extends TestCase
             'user_id'      => $patient->id,
             'sandi_recipe' => true
         ]);
+
+        $response->assertStatus(201);
+
+
     }
 
     public function test_nutritionist_can_save_recipe_from_sandi(): void
@@ -127,7 +131,6 @@ class RecipeTest extends TestCase
         $getRecipe = $this->postJson(route('recipes.generate'), [
             'query'            => $this->faker->foodName(),
             'user_id'          => 4,
-            ''
         ]);
 
         $getRecipe->assertStatus(200);
@@ -151,5 +154,66 @@ class RecipeTest extends TestCase
             'user_id'      => $nutritionist->id,
             'sandi_recipe' => true
         ]);
+
+        $response->assertStatus(201);
+    }
+
+    public function test_nutritionist_can_edit_recipe(): void
+    {
+        $user = User::find(3);
+        $this->actingAs($user);
+
+        # Se crea una receta primero
+        $recipe = Recipe::factory()->make();
+        $response = $this->postJson(route('recipes.store'), [
+            'label' => $recipe->label,
+            'dietLabels' => $recipe->dietLabels,
+            'healthLabels' => $recipe->healthLabels,
+            'ingredientLines' => $recipe->ingredientLines,
+            'calories' => $recipe->calories,
+            'mealType' => $recipe->mealType,
+            'dishType' => $recipe->dishType,
+            'instructions' => $recipe->instructions,
+            'user_id'      => $user->id,
+            'sandi_recipe' => $recipe->sandi_recipe
+        ]);
+
+        $response->assertStatus(201);
+
+        # Generamos una receta nueva y la usamos para editar la creada anteriormente
+        $recipe = Recipe::factory()->make();
+        $response = $this->putJson(route('recipes.update', ['recipe' => $response["data"]["_id"]]), [
+            'label' => $recipe->label,
+            'dietLabels' => $recipe->dietLabels,
+            'healthLabels' => $recipe->healthLabels,
+            'ingredientLines' => $recipe->ingredientLines,
+            'calories' => $recipe->calories,
+            'mealType' => $recipe->mealType,
+            'dishType' => $recipe->dishType,
+            'instructions' => $recipe->instructions,
+            'user_id'      => $user->id,
+            'sandi_recipe' => $recipe->sandi_recipe
+        ]);
+
+        $response->assertStatus(200);
+    }
+
+    public function test_nutritionist_can_delete_recipe(): void
+    {
+        $user = User::find(3);
+        $this->actingAs($user);
+
+        # Se crea una receta primero
+
+        $recipe = $this->getJson(route('recipes.index'));
+
+        $recipe->assertStatus(200);
+        $total_recipes= count($recipe['data']);
+
+        # Generamos una receta nueva y la usamos para editar la creada anteriormente
+
+        $response = $this->deleteJson(route('recipes.destroy', ['recipe' => $recipe['data'][rand(0, $total_recipes-1)]['_id']]));
+
+        $response->assertStatus(200);
     }
 }
