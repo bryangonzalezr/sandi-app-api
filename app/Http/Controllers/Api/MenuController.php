@@ -139,6 +139,12 @@ class MenuController extends Controller
     public function update(UpdateMenuRequest $request, Menu $menu)
     {
         $menu->update($request->validated());
+        if ($menu->timespan == 7) {
+            $menu["type"] = "semanal";
+        } elseif ($menu->whereBetween('timespan', [28, 31])) {
+            $menu["type"] = "mensual";
+        }
+        $menu->save();
 
         return new MenuResource($menu);
     }
