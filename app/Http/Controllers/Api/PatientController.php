@@ -7,9 +7,11 @@ use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
+use App\Models\ChatMessage;
 use App\Models\NutritionalPlan;
 use App\Models\Patient;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
@@ -23,9 +25,13 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $patients = Patient::where('nutritionist_id', Auth::id())->get();
+        $patients = Patient::where('nutritionist_id', Auth::id())
+        ->when('archivados', function ($query) use ($request){
+            $query->onlyTrashed();
+        })
+        ->get();
         $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->paginate(15);
         return UserResource::collection($patient_users);
     }
@@ -35,8 +41,6 @@ class PatientController extends Controller
      */
     public function store(StorePatientRequest $request)
     {
-
-
         $patient_user = User::where('email', $request->patient_email)->first();
         if ($patient_user == null){
             return response()->json([
@@ -79,14 +83,24 @@ class PatientController extends Controller
      */
     public function destroy(User $patient)
     {
-        $patient_user = Patient::where('patient_id', $patient->id)->first();
         $patient->removeRole('paciente');
         $patient->assignRole('usuario_basico');
-        $plan = NutritionalPlan::where('patient_id', $patient->id)->first();
-        if($plan){
-            $plan->delete();
-        }
-        $patient_user->delete();
+
+        $plan = NutritionalPlan::where('patient_id', $patient->id)->delete();
+
+        $messages = ChatMessage::query()
+        ->with(['sender', 'receiver'])
+        ->where(function($query) use ($patient){
+            $query->where('sender_id', Auth::id())
+                ->where('receiver_id', $patient->id);
+        })
+        ->orWhere(function($query) use ($patient){
+            $query->where('sender_id', $patient->id)
+                ->where('receiver_id', Auth::id());
+        })
+        ->delete();
+
+        $patient_user = Patient::where('patient_id', $patient->id)->delete();
 
         return response()->json([
             'message' => 'Paciente desvinculado satisfactoriamente'
@@ -103,6 +117,18 @@ class PatientController extends Controller
         $patient->removeRole('usuario_basico');
         $patient->assignRole('paciente');
         $patient->nutritionalPlan?->restore();
+
+        $messages = ChatMessage::onlyTrashed()
+        ->with(['sender', 'receiver'])
+        ->where(function($query) use ($patient){
+            $query->where('sender_id', Auth::id())
+                ->where('receiver_id', $patient->id);
+        })
+        ->orWhere(function($query) use ($patient){
+            $query->where('sender_id', $patient->id)
+                ->where('receiver_id', Auth::id());
+        })
+        ->restore();
 
         return response()->json([
             'message' => 'Paciente restaurado satisfactoriamente'

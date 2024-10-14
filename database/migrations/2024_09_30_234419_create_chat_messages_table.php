@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId("receiver_id");
             $table->string("text");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

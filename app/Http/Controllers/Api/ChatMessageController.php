@@ -8,6 +8,7 @@ use App\Http\Requests\StoreChatMessageRequest;
 use App\Http\Requests\UpdateChatMessageRequest;
 use App\Models\ChatMessage;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ChatMessageController extends Controller
@@ -16,7 +17,7 @@ class ChatMessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function getMessage(User $user)
+    public function getMessage(User $user, Request $request)
     {
         $message = ChatMessage::query()
         ->with(['sender', 'receiver'])
@@ -27,6 +28,8 @@ class ChatMessageController extends Controller
         ->orWhere(function($query) use ($user){
             $query->where('sender_id', $user->id)
                 ->where('receiver_id', Auth::id());
+        })->when($request->filled('archivados'), function ($query) use ($request){
+            $query->onlyTrashed();
         })
         ->orderBy('id', 'asc')
         ->get();
