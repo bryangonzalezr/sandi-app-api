@@ -59,6 +59,13 @@ class MenuController extends Controller
 
     public function menusList(Request $request)
     {
+        $request->validate(
+            [
+                'patient' => ['nullable', 'numeric'],
+                'sandi' => ['nullable', 'boolean'],
+                'type' => ['nullable', 'string']
+            ]
+            );
         $user = User::find(Auth::id());
 
         $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
@@ -67,12 +74,12 @@ class MenuController extends Controller
 
         $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
             $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
-                $query->where('user_id', $request->input('patient'));
+                $query->where('user_id', $request->integer('patient'));
             });
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
-            $query->where('sandi_recipe', $request->input('sandi'));
+            $query->where('sandi_recipe', $request->boolean('sandi'));
         })->get();
 
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
@@ -84,13 +91,14 @@ class MenuController extends Controller
                 $query->where('timespan', 1);
             }
         })->when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
-            $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
-                $query->where('user_id', $request->input('patient'));
+            $query->whereIn('user_id', $patient)
+                  ->when($request->filled('patient'), function ($query) use ($request){
+                $query->where('user_id', $request->integer('patient'));
             });
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
-            $query->where('sandi_recipe', $request->input('sandi'));
+            $query->where('sandi_recipe', $request->boolean('sandi'));
         })->get();
 
         $menus_list = $day_menus->merge($menus);
