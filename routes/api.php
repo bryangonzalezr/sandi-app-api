@@ -68,12 +68,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('perfil-nutricional/{nutritionalProfile}', [NutritionalProfileController::class, 'destroy'])->name('nutritionalProfiles.destroy');
 
     // Rutas Pacientes
-    Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index');
+    Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index')->withTrashed();
     Route::get('paciente/{patient}', [PatientController::class, 'show'])->name('patients.show');
     Route::post('paciente', [PatientController::class, 'store'])->name('patients.store');
     Route::put('paciente/{patient}', [PatientController::class, 'update'])->name('patients.update');
     Route::delete('paciente/{patient}', [PatientController::class, 'destroy'])->name('patients.destroy');
-    Route::put('paciente/restore/{patient}', [PatientController::class, 'restore'])->name('patients.restore');
+    Route::put('paciente/restore/{patient}', [PatientController::class, 'restore'])->name('patients.restore')->withTrashed();
 
     // Rutas Planes Nutricionales
     Route::get('planes-nutricionales', [NutritionalPlanController::class, 'index'])->name('nutritionalPlans.index');
