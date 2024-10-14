@@ -31,7 +31,9 @@ class PatientController extends Controller
 
         $patients = Patient::where('nutritionist_id', Auth::id())
         ->when($request->filled('archivados'), function ($query) use ($request){
-            $query->onlyTrashed();
+            if ($request->boolean('archivados')){
+                $query->onlyTrashed();
+            }
         })
         ->get();
         $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->paginate(15);

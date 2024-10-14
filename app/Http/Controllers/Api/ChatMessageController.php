@@ -31,7 +31,9 @@ class ChatMessageController extends Controller
             $query->where('sender_id', $user->id)
                 ->where('receiver_id', Auth::id());
         })->when($request->filled('archivados'), function ($query) use ($request){
-            $query->onlyTrashed();
+            if ($request->boolean('archivados')){
+                $query->onlyTrashed();
+            }
         })
         ->orderBy('id', 'asc')
         ->get();
