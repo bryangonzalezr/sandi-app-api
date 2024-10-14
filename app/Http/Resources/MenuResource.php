@@ -27,7 +27,9 @@ class MenuResource extends JsonResource
             'timespan' => $this->timespan,
             'type' => $this->type ?? $type,
             'total_calories' => $this->total_calories,
-            'menus' => $this->menus
+            'menus' => $this->menus,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

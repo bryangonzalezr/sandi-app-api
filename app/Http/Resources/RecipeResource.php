@@ -28,7 +28,9 @@ class RecipeResource extends JsonResource
             'dishType' => $this->dishType,
             'instructions' => $this->instructions,
             'user_id' => $this->user_id,
-            'sandi_recipe' => $this->sandi_recipe
+            'sandi_recipe' => $this->sandi_recipe,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

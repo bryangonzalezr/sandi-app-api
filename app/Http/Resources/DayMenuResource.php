@@ -21,6 +21,8 @@ class DayMenuResource extends JsonResource
             "type" => $this->type ?? "diario",
             "recipes"        => $this->recipes,
             "total_calories" => $this->total_calories,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }
