@@ -27,6 +27,8 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate(['archivados' => 'nullable|boolean']);
+
         $patients = Patient::where('nutritionist_id', Auth::id())
         ->when('archivados', function ($query) use ($request){
             $query->onlyTrashed();

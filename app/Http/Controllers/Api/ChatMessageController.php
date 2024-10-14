@@ -19,6 +19,8 @@ class ChatMessageController extends Controller
      */
     public function getMessage(User $user, Request $request)
     {
+        $request->validate(['archivados' => 'nullable|boolean']);
+
         $message = ChatMessage::query()
         ->with(['sender', 'receiver'])
         ->where(function($query) use ($user){
