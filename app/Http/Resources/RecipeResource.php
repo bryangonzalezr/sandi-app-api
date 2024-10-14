@@ -13,19 +13,19 @@ class RecipeResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $dietLabels = TranslationHelper::translateCollection(collect($this->dietLabels));
+/*         $dietLabels = TranslationHelper::translateCollection(collect($this->dietLabels));
         $mealType = TranslationHelper::translateCollection(collect($this->mealType));
         $dishType = TranslationHelper::translateCollection(collect($this->dishType));
-        $healthLabels = TranslationHelper::translateCollection(collect($this->healthLabels));
+        $healthLabels = TranslationHelper::translateCollection(collect($this->healthLabels)); */
 
         return [
             'label' => $this->label,
-            'dietLabels' => $dietLabels,
-            'healthLabels' => $healthLabels,
+            'dietLabels' => $this->dietLabels,
+            'healthLabels' => $this->healthLabels,
             'ingredientLines' => $this->ingredientLines,
             'calories' => $this->calories,
-            'mealType' => $mealType,
-            'dishType' => $dishType,
+            'mealType' => $this->mealType,
+            'dishType' => $this->dishType,
             'instructions' => $this->instructions,
             'user_id' => $this->user_id,
             'sandi_recipe' => $this->sandi_recipe
