@@ -36,7 +36,11 @@ class PatientController extends Controller
             }
         })
         ->get();
-        $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->paginate(15);
+        $patient_users = User::whereIn('id', $patients->pluck('patient_id'));
+
+        $patient_users = $request->boolean('paginate')
+        ? $patient_users->paginate(15)
+        : $patient_users->get();
         return UserResource::collection($patient_users);
     }
 
