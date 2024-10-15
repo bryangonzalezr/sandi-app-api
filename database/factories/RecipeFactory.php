@@ -21,6 +21,7 @@ class RecipeFactory extends Factory
      */
     public function definition(): array
     {
+        $this->faker->addProvider(new \FakerRestaurant\Provider\en_US\Restaurant($this->faker));
         $diet_labels = ['balanced','high-fiber','high-protein','low-carb','low-fat','low-sodium'];
         $meal_type = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Teatime'];
         $dish_type = [
@@ -42,7 +43,7 @@ class RecipeFactory extends Factory
             'Sweets'
         ];
         return [
-            'label' => $this->faker->word(),
+            'label' => $this->faker->foodName(),
             'dietLabels' => $this->faker->randomElements($diet_labels,rand(1,count($diet_labels))),
             'healthLabels' => $this->faker->randomElements(Health::cases()),
             'ingredientLines' => $this->faker->sentences(rand(3, 7)),

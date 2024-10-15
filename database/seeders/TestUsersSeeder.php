@@ -262,7 +262,7 @@ class TestUsersSeeder extends Seeder
             'patient_id' => $user->id,
             'height' => 1.55,
             'weight' => 47,
-            'physical_status' => 'Alta',
+            'physical_status' => 'Pesada',
             'physical_comentario' => 'Todos los días en las mañanas, 5 días a la semana, puro cardio,descanso fines de semana.',
             'habits' => [
                 'alcohol' =>  'Alto',

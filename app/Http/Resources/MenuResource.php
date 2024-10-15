@@ -21,13 +21,16 @@ class MenuResource extends JsonResource
         }
 
         return [
+            '_id' => $this->_id,
             'name' => $this->name,
             'user' => $this->user->name . " " . $this->user->last_name,
             'sandi_recipe' => $this->sandi_recipe,
             'timespan' => $this->timespan,
             'type' => $this->type ?? $type,
             'total_calories' => $this->total_calories,
-            'menus' => $this->menus
+            'menus' => $this->menus,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

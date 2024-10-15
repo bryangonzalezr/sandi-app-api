@@ -11,14 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chat_messages', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId("sender_id");
-            $table->foreignId("receiver_id");
-            $table->string("text");
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        DB::connection('mongodb')->collection('menus')->delete();
     }
 
     /**
@@ -26,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chat_messages');
+        //
     }
 };

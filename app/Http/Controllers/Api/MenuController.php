@@ -59,20 +59,29 @@ class MenuController extends Controller
 
     public function menusList(Request $request)
     {
+        $request->validate(
+            [
+                'patient' => ['nullable', 'numeric'],
+                'sandi' => ['nullable', 'boolean'],
+                'type' => ['nullable', 'string']
+            ]
+            );
         $user = User::find(Auth::id());
 
         $patient = Patient::when($user->hasRole('nutricionista'), function ($query) {
             $query->where('nutritionist_id', Auth::id());
         })->pluck('patient_id');
 
-        $day_menus = DayMenu::when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
+        $day_menus = DayMenu::when($request->filled('type'), function ($query) use ($request, $user, $patient) {
+                $query->where('type', $request->input('type'));
+        })->when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
             $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
-                $query->where('user_id', $request->input('patient'));
+                $query->where('user_id', $request->integer('patient'));
             });
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
-            $query->where('sandi_recipe', $request->input('sandi'));
+            $query->where('sandi_recipe', $request->boolean('sandi'));
         })->get();
 
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
@@ -84,13 +93,14 @@ class MenuController extends Controller
                 $query->where('timespan', 1);
             }
         })->when($user->hasRole('nutricionista'), function ($query) use ($patient, $request) {
-            $query->whereIn('user_id', $patient)->when($request->filled('patient'), function ($query) use ($request){
-                $query->where('user_id', $request->input('patient'));
+            $query->whereIn('user_id', $patient)
+                  ->when($request->filled('patient'), function ($query) use ($request){
+                $query->where('user_id', $request->integer('patient'));
             });
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
-            $query->where('sandi_recipe', $request->input('sandi'));
+            $query->where('sandi_recipe', $request->boolean('sandi'));
         })->get();
 
         $menus_list = $day_menus->merge($menus);
@@ -107,11 +117,15 @@ class MenuController extends Controller
     {
         $menu = Menu::create($request->validated());
         if ($menu->timespan == 7) {
-            $menu["type"] = "semanal";
+            $menu->update([
+                "type" => "semanal"
+            ]);
         } elseif ($menu->whereBetween('timespan', [28, 31])) {
-            $menu["type"] = "mensual";
+            $menu->update([
+                "type" => "mensual"
+            ]);
         }
-        $menu->save();
+
         return new MenuResource($menu);
     }
 
@@ -129,6 +143,16 @@ class MenuController extends Controller
     public function update(UpdateMenuRequest $request, Menu $menu)
     {
         $menu->update($request->validated());
+        if ($menu->timespan == 7) {
+            $menu->update([
+                "type" => "semanal"
+            ]);
+        } elseif ($menu->whereBetween('timespan', [28, 31])) {
+            $menu->update([
+                "type" => "mensual"
+            ]);
+        }
+
 
         return new MenuResource($menu);
     }
@@ -160,8 +184,15 @@ class MenuController extends Controller
                 'timespan' => 'required|integer',
             ]);
 
+            if ($request->timespan == 7){
+                $menu_type = 'semanal';
+            } elseif ($request->timespan >= 28 && $request->timespan < 32){
+                $menu_type = 'mensual';
+            }
+
             $menu = [
                 "menus" => null,
+                "type" => $menu_type ?? null,
                 "total_calories" => 0,
             ];
 

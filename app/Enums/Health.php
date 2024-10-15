@@ -8,68 +8,69 @@ enum Health: string
 {
     use EnumToArray;
 
-    case Alcohol = 'alcohol-free';
-    case Crustaceos = 'crustacean-free';
-    case Lacteos = 'dairy-free';
-    case Huevos = 'egg-free';
-    case Pescado = 'fish-free';
-    case Gluten = 'gluten-free';
+    case LibreEnAlcohol = 'alcohol-free';
+    case LibreEnCrustaceos = 'crustacean-free';
+    case LibreEnLacteos = 'dairy-free';
+    case LibreEnHuevos = 'egg-free';
+    case LibreEnPescado = 'fish-free';
+    case LibreEnGluten = 'gluten-free';
     case KetoAmigable = 'keto-friendly';
     case AptoParaRiñones = 'kidney-friendly';
     case Kosher = 'kosher';
-    // case BajoEnPotasio = 'low-potassium';
-    // case BajoEnAzucar = 'low-sugar';
-    case Lupino = 'lupine-free';
+    case BajoEnPotasio = 'low-potassium';
+    case BajoEnAzucar = 'low-sugar';
+    case LibreEnLupino = 'lupine-free';
     case Mediterraneo = 'mediterranean';
-    case Molusco = 'mollusk-free';
-    case Mostaza = 'mustard-free';
-    case Aceite = 'no-oil-added';
+    case LibreEnMolusco = 'mollusk-free';
+    case LibreEnMostaza = 'mustard-free';
+    case SinAceiteAñadido = 'no-oil-added';
     case DietaPaleo = 'paleo';
-    case Mani = 'peanut-free';
+    case LibreEnMani = 'peanut-free';
     case Pescetariano = 'pescatarian';
-    case Cerdo = 'pork-free';
-    case CarneRoja = 'red-meat-free';
-    case Sesamo = 'sesame-free';
-    case Marisco = 'shellfish-free';
-    case Soya = 'soy-free';
+    case LibreEnCerdo = 'pork-free';
+    case LibreEnCarneRoja = 'red-meat-free';
+    case LibreEnSesamo = 'sesame-free';
+    case LibreEnMarisco = 'shellfish-free';
+    case LibreEnSoya = 'soy-free';
     case AzucarConsciente = 'sugar-conscious';
-    case FrutosSecos = 'tree-nut-free';
+    case LibreEnFrutosSecos = 'tree-nut-free';
     case Vegano = 'vegan';
     case Vegetariano = 'vegetarian';
-    case Trigo = 'wheat-free';
+    case LibreEnTrigo = 'wheat-free';
 
     public static function translation(): array
     {
         return [
-             'Alcohol' => 'Alcohol',
-             'Crustaceos' => 'Crustaceos',
-             'Lacteos' => 'Lacteos',
-             'Huevos' => 'Huevos',
-             'Pescado' => 'Pescado',
-             'Gluten' => 'Gluten',
+             'LibreEnAlcohol' => 'Alcohol',
+             'LibreEnCrustaceos' => 'Crustaceos',
+             'LibreEnLacteos' => 'Lacteos',
+             'LibreEnHuevos' => 'Huevos',
+             'LibreEnPescado' => 'Pescado',
+             'LibreEnGluten' => 'Gluten',
              'KetoAmigable' => 'Keto Amigable',
              'AptoParaRiñones' => 'Apto Para Riñones',
              'Kosher' => 'Kosher',
-            //  'BajoEnPotasio' => 'Bajo en Potasio',
-            //  'BajoEnAzucar' => 'Bajo en Azucar',
-             'Lupino' => 'Lupino',
+             'BajoEnPotasio' => 'Bajo en Potasio',
+             'BajoEnAzucar' => 'Bajo en Azucar',
+             'LibreEnLupino' => 'Lupino',
              'Mediterraneo' => 'Mediterraneo',
-             'Molusco' => 'Molusco',
-             'Mostaza' => 'Mostaza',
-             'Aceite' => 'Aceite',
+             'LibreEnMolusco' => 'Molusco',
+             'LibreEnMostaza' => 'Mostaza',
+             'SinAceiteAñadido' => 'Aceite',
              'DietaPaleo' => 'Dieta Paleo',
-             'Mani' => 'Mani',
+             'LibreEnMani' => 'Mani',
              'Pescetariano' => 'Pescatariano',
-             'Cerdo' => 'Cerdo',
-             'CarneRoja' => 'Carne Roja',
-             'Sesamo' => 'Sesamo',
-             'Marisco' => 'Marisco',
-             'Soya' => 'Soya',
+             'LibreEnCerdo' => 'Cerdo',
+             'LibreEnCarneRoja' => 'Carne Roja',
+             'LibreEnSesamo' => 'Sesamo',
+             'LibreEnMarisco' => 'Marisco',
+             'LibreEnSoya' => 'Soya',
              'AzucarConsciente' => 'Azucar Consciente',
-             'FrutosSecos' => 'Frutos Secos',
+             'LibreEnFrutosSecos' => 'Frutos Secos',
              'Vegano' => 'Vegano',
              'Vegetariano' => 'Vegetariano',
-             'Trigo' => 'Trigo',
+             'LibreEnTrigo' => 'Trigo',
         ];
+
     }
 }
