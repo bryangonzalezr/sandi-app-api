@@ -10,4 +10,6 @@ enum RestFactor: string
     case Absoluto = 'Absoluto';
     case Relativo = 'Relativo';
     case Ambulatorio = 'Ambulatorio';
+
+    case No = 'No';
 }

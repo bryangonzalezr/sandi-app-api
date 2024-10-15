@@ -97,7 +97,7 @@ class User extends Authenticatable
 
     public function nutritionalPlan()
     {
-        return $this->hasMany(NutritionalPlan::class, 'patient_id');
+        return $this->hasMany(NutritionalPlan::class, 'patient_id')->withTrashed();
     }
 
     public function recipes()
