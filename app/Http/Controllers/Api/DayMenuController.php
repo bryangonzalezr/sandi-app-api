@@ -53,8 +53,9 @@ class DayMenuController extends Controller
     public function store(StoreDayMenuRequest $request)
     {
         $day_menu = DayMenu::create($request->validated());
-        $day_menu["type"] = "diario";
-        $day_menu->save();
+        $day_menu->update([
+            "type" =>"diario"
+        ]);
 
         return new DayMenuResource($day_menu);
     }
@@ -73,8 +74,9 @@ class DayMenuController extends Controller
     public function update(UpdateDayMenuRequest $request, DayMenu $dayMenu)
     {
         $dayMenu->update($request->validated());
-        $dayMenu["type"] = "diario";
-        $dayMenu->save();
+        $dayMenu->update([
+            "type" =>"diario"
+        ]);
 
         return new DayMenuResource($dayMenu);
     }
