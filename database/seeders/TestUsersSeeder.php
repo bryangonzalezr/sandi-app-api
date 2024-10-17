@@ -161,7 +161,7 @@ class TestUsersSeeder extends Seeder
                 'digestion_measures' => 'Normal',
             ],
             'nutritional_anamnesis' => [
-                'plan_anterior' => 'No',
+                'plan_anterior' => false,
                 'agua' => true,
             ],
         ]);

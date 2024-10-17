@@ -29,6 +29,7 @@ class StoreMenuRequest extends FormRequest
             'total_calories' => ['required', 'numeric'],
             'menus' => ['required', 'array'],
             'menus.*' => ['required', 'array'],
+            'menus.*.*._id' => ['required', 'string'],
             'menus.*.*.label' => ['required', 'string'],
             'menus.*.*.dietLabels' => ['nullable', 'array'],
             'menus.*.*.healthLabels' => ['nullable', 'array'],
