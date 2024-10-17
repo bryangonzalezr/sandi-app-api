@@ -121,6 +121,12 @@ class DayMenuController extends Controller
                 'app_key' => config('recipe_api.edamam.key'),
             ];
 
+            $ignore_params = [
+                'timespan',
+                'user_id',
+                'patient_id',
+            ];
+
             $fields = [
                 "label",
                 "dietLabels",
@@ -144,7 +150,10 @@ class DayMenuController extends Controller
                     }
                 } elseif ($key === "query") {
                     $params["q"] = $value;
-                } else {
+                } elseif (in_array($key,$ignore_params)){
+                    continue;
+                }
+                else {
                     $params[$key] = $value;
                 }
             }
@@ -175,6 +184,11 @@ class DayMenuController extends Controller
                     $recipe = $hits[array_rand($hits)];
                     $day_menu["recipes"][] = $recipe['recipe'];
                     $day_menu["total_calories"] += $recipe['recipe']['calories'];
+
+                    $url = "https://api.edamam.com/api/recipes/v2?". http_build_query($params);
+                    foreach ($fields as $field) {
+                        $url .= '&field=' . urlencode($field);
+                    }
                 }
 
             } else {
