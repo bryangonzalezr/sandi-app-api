@@ -58,7 +58,7 @@ class NutritionalRequirementController extends Controller
         }
 
         $morbid_antecedents[] = $nutritionalProfile->morbid_antecedents["otros"] == null ? 'No' : $nutritionalProfile->morbid_antecedents["otros"];
-        $rest_factor = $request->rest_type == null ? RestFactor::No : $request->rest_type->value;
+        $rest_factor = $request->rest_type == null ? RestFactor::No->value : $request->rest_type->value;
         $requirements_path = app_path('Scripts') . '/requirements.py';
         $params = [
             $requirements_path,   // Ruta del script
@@ -99,7 +99,7 @@ class NutritionalRequirementController extends Controller
             ],
             [
                 'method'        => $request->method,
-                'rest_type'     => $request->factor,
+                'rest_type'     => $rest_factor,
                 'get'           => floatval($response[1]),
                 'proteina'      => floatval($response[2]),
                 'lipidos'       => floatval($response[3]),
