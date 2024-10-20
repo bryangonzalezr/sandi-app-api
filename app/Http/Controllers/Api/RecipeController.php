@@ -101,6 +101,12 @@ class RecipeController extends Controller
                 'app_key' => config('recipe_api.edamam.key'),
             ];
 
+            $ignore_params = [
+                'timespan',
+                'user_id',
+                'patient_id',
+            ];
+
             $fields = [
                 "label",
                 "dietLabels",
@@ -124,7 +130,10 @@ class RecipeController extends Controller
                         }
                     } elseif ($key === "query") {
                         $params["q"] = $value;
-                    } else {
+                    } elseif (in_array($key,$ignore_params)){
+                        continue;
+                    }
+                    else {
                         $params[$key] = $value;
                     }
                 }

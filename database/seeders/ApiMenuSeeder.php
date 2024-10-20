@@ -31,12 +31,20 @@ class ApiMenuSeeder extends Seeder
                 "76af779ee7be383ca87791752ba3b97e"
             ],
             [
-                "c195c2ff",
-                "27c970d4b9549791d894c768942eb022"
+                "36be0ae6",
+                "812b4692cbfba8ca77410921c0d29bea"
             ],
             [
-                "6b8f20a1",
-                "4ede376307df124ee48272ca5bbf1150"
+                "bc2419e8",
+                "37d381e462fe6118168b95915b51ac35"
+            ],
+            [
+                "c71a1471",
+                "b1b3462cb0c0a306aff14e4932d5a84d"
+            ],
+            [
+                "ecdfe56e",
+                "4b2c6e940893b987ca1a70c7e43e63eb"
             ]
         ];
 

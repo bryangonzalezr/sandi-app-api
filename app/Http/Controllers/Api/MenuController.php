@@ -213,6 +213,12 @@ class MenuController extends Controller
                 'app_id' => $api_tokens->api_id,
                 'app_key' => $api_tokens->api_key,
             ];
+            $ignore_params = [
+                'timespan',
+                'user_id',
+                'patient_id',
+            ];
+
             $fields = [
                 "label",
                 "dietLabels",
@@ -236,7 +242,10 @@ class MenuController extends Controller
                         }
                     } elseif ($key === "query") {
                         $params["q"] = $value;
-                    } else {
+                    } elseif (in_array($key,$ignore_params)){
+                        continue;
+                    }
+                    else {
                         $params[$key] = $value;
                     }
                 }
@@ -253,21 +262,25 @@ class MenuController extends Controller
 
             $count_api = 0;
             $skip = 0;
+            $api_tokens = ApiMenu::all();
             for($i=0; $i<$request->timespan; $i++){
                 foreach ($meal_types as $meal_type) {
                     $url .= '&mealType=' . urlencode($meal_type);
-
                     // Realizar la solicitud a la API
                     if($count_api === 10){
-                        $skip = $skip == $api_tokens->count() ? 1 : $skip + 1;
-                        $api_tokens = ApiMenu::find($skip);
 
-                        $params['app_id'] = $api_tokens->api_id;
-                        $params['app_key'] = $api_tokens->api_key;
+                        $skip = $skip == count($api_tokens) ? 1 : $skip + 1;
+
+                        $api_token = ApiMenu::find($skip);
+
+                        $params['app_id'] = $api_token->api_id;
+                        $params['app_key'] = $api_token->api_key;
                         $url = "https://api.edamam.com/api/recipes/v2?" . http_build_query($params);
+                        $url .= '&mealType=' . urlencode($meal_type);
                         foreach ($fields as $field) {
                             $url .= '&field=' . urlencode($field);
                         }
+
                         $count_api = 0;
                     }
                     $response = Http::get($url);
@@ -282,7 +295,11 @@ class MenuController extends Controller
                             $recipe = $hits[array_rand($hits)];
                             $day_menu["recipes"][] = $recipe['recipe'];
                             $day_menu["total_calories"] += $recipe['recipe']['calories'];
+                            $url = "https://api.edamam.com/api/recipes/v2?" . http_build_query($params);
 
+                            foreach ($fields as $field) {
+                                $url .= '&field=' . urlencode($field);
+                            }
                         }
                     } else {
                         return response()->json($response->json(), $response->status());
