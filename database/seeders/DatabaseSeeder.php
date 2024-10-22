@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ApiMenuSeeder::class,
             FoodIndicatorsSeeder::class,
             TestUsersSeeder::class,
+            CommuneSeeder::class,
         ]);
     }
 }

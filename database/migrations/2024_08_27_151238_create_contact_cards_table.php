@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('nutritionist_id')->constrained('users');
             $table->string('description')->nullable();
-            $table->string('phone_number');
-            $table->string('email');
             $table->string('address');
-
+            $table->string('slogan')->nullable();
+            $table->string('specialties')->nullable();
+            $table->string('experiences')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

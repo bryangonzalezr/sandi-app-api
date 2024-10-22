@@ -159,4 +159,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChatMessage::class, 'receiver_id');
     }
+
+    public function contactCard()
+    {
+        return $this->hasOne(ContactCard::class, 'nutritionist_id');
+    }
 }
