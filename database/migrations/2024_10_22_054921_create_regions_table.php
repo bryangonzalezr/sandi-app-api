@@ -11,7 +11,6 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->char('ordinal', 4);
-            $table->timestamps();
         });
     }
 

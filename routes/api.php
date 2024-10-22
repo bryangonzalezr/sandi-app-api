@@ -1,6 +1,8 @@
 <?php
 
+use \App\Http\Controllers\Api\ShoppingListController;
 use App\Http\Controllers\Api\ChatMessageController;
+use App\Http\Controllers\Api\CommuneController;
 use App\Http\Controllers\Api\ContactCardController;
 use App\Http\Controllers\Api\DayMenuController;
 use App\Http\Controllers\Api\EnumController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PortionController;
 use App\Http\Controllers\Api\ProgressController;
 use App\Http\Controllers\Api\RecipeController;
+use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\ServicePortionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
@@ -132,6 +135,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/messages/{user}', [ChatMessageController::class, 'sendMessage'])->name('chat.sendMessage');
     Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
+    //Rutas de Regiones
+    Route::apiResource('regions', RegionController::class)->only('index', 'show');
+
+    //Rutas de Comunas
+    Route::apiResource('communes', CommuneController::class)->only('index', 'show');
+
+
+    // Rutas Lista de compras
+    //Route::get('/obtener-datos-ingredientes', [ShoppingListController::class, 'scrape'])->name('ingredient-info');
 
     //Health Enums
     Route::prefix('enum')->group(function () {
