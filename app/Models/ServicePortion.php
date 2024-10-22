@@ -21,7 +21,7 @@ class ServicePortion extends MongoModel
         'once',
         'cena',
         'total_calorias',
-        'patient_id'
+        'patient_id',
     ];
 
     public function patient()

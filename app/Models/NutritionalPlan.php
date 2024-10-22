@@ -34,12 +34,12 @@ class NutritionalPlan extends MongoModel
         return $this->belongsTo(User::class, 'patient_id');
     }
 
-    public function nutritionalRequirements()
+    public function nutritionalRequirement()
     {
-        return $this->hasMany(NutritionalRequirement::class, 'nutritional_requirement_id');
+        return $this->hasOne(NutritionalRequirement::class, 'nutritional_requirement_id');
     }
 
-    public function portions()
+    public function portion()
     {
         return $this->hasOne(Portion::class, 'portion_id');
     }
