@@ -29,6 +29,11 @@ class ServicePortion extends MongoModel
         return $this->belongsTo(User::class, 'patient_id');
     }
 
+    public function nutritionalPlan()
+    {
+        return $this->belongsTo(NutritionalPlan::class);
+    }
+
     // Define un mutador para calcular y establecer total_calorias
    /*  public function setTotalCaloriasAttribute()
     {

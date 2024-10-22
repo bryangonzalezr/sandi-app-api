@@ -31,6 +31,9 @@ class UpdateNutritionalPlanRequest extends FormRequest
             'general_recommendations' => ['nullable', 'string', 'max:255'],
             'forbidden_foods' => ['nullable', 'string', 'max:255'],
             'free_foods' => ['nullable', 'string', 'max:255'],
+            'nutritional_requirement_id' => ['required', 'integer', 'exists:nutritional_requirements,id'],
+            'portions' => ['required', 'integer', 'exists:portions,id'],
+            'service_portions' => ['required', 'integer', 'exists:service_portions,_id'],
         ];
     }
 }

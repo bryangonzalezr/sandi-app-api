@@ -33,4 +33,9 @@ class NutritionalRequirement extends Model
     {
         return $this->belongsTo(User::class, 'patient_id');
     }
+
+    public function nutritionalPlan()
+    {
+        return $this->belongsTo(NutritionalPlan::class);
+    }
 }
