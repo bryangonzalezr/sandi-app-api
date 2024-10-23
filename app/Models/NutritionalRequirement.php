@@ -36,6 +36,6 @@ class NutritionalRequirement extends Model
 
     public function nutritionalPlan()
     {
-        return $this->belongsTo(NutritionalPlan::class);
+        return $this->hasOne(NutritionalPlan::class, 'nutritional_requirement_id');
     }
 }

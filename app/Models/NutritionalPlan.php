@@ -36,16 +36,16 @@ class NutritionalPlan extends MongoModel
 
     public function nutritionalRequirement()
     {
-        return $this->hasOne(NutritionalRequirement::class, 'nutritional_requirement_id');
+        return $this->belongsTo(NutritionalRequirement::class, 'nutritional_requirement_id');
     }
 
     public function portion()
     {
-        return $this->hasOne(Portion::class, 'portion_id');
+        return $this->belongsTo(Portion::class, 'portion_id');
     }
 
     public function servicePortion()
     {
-        return $this->hasOne(ServicePortion::class, 'service_portion_id');
+        return $this->belongsTo(ServicePortion::class, 'service_portion_id');
     }
 }
