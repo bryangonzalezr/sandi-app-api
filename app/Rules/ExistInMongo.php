@@ -2,7 +2,11 @@
 
 namespace App\Rules;
 
+use App\Models\DayMenu;
 use App\Models\Menu;
+use App\Models\NutritionalPlan;
+use App\Models\Recipe;
+use App\Models\ServicePortion;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -21,8 +25,14 @@ class ExistInMongo implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!Menu::where($this->field, $value)->exists()) {
-            $fail('Este menú no existe');
+        $menu = !Menu::where($this->field, $value)->exists();
+        $day_menu = !DayMenu::where($this->field, $value)->exists();
+        $recipe = !Recipe::where($this->field, $value)->exists();
+        $nutritionalPlan = !NutritionalPlan::where($this->field, $value)->exists();
+        $service_portion = !ServicePortion::where($this->field, $value)->exists();
+
+        if ($menu || $day_menu || $recipe || $nutritionalPlan || $service_portion) {
+            $fail('Este elemento no existe');
         }
     }
 }
