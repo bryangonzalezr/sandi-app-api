@@ -15,7 +15,7 @@ class NutritionalPlanResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            '_id' => $this->_id,
             'patient' => $this->patient,
             'desayuno' => $this->desayuno,
             'colacion' => $this->colacion,
