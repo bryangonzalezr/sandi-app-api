@@ -10,7 +10,7 @@ use App\Models\ServicePortion;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class ExistInMongo implements ValidationRule
+class ExistServicePortion implements ValidationRule
 {
     protected $field;
 
@@ -27,12 +27,13 @@ class ExistInMongo implements ValidationRule
     {
         $menu = !Menu::where($this->field, $value)->exists();
         $day_menu = !DayMenu::where($this->field, $value)->exists();
-        $recipe = !Recipe::where($this->field, $value)->exists();
-        $nutritionalPlan = !NutritionalPlan::where($this->field, $value)->exists();
-        $service_portion = !ServicePortion::where($this->field, $value)->exists();
 
-        if ($menu || $day_menu || $recipe || $nutritionalPlan || $service_portion) {
-            $fail('Este elemento no existe');
+        if ($attribute == 'menu_id' && $menu) {
+            $fail('Este'. $attribute .'no existe');
+        }
+
+        if ($attribute == 'day_menu_id' && $day_menu){
+            $fail('Este'. $attribute .'no existe');
         }
     }
 }

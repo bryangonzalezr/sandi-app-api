@@ -44,8 +44,8 @@ class NutritionalPlan extends MongoModel
         return $this->hasOne(Portion::class, 'portion_id');
     }
 
-    public function servicePortions()
+    public function servicePortion()
     {
-        return $this->hasMany(ServicePortion::class, 'service_portion_id');
+        return $this->hasOne(ServicePortion::class, 'service_portion_id');
     }
 }
