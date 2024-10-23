@@ -24,10 +24,28 @@ class NutritionalPlan extends MongoModel
         'general_recommendations',
         'forbidden_foods',
         'free_foods',
+        'nutritional_requirement_id',
+        'portion_id',
+        'service_portion_id',
     ];
 
     public function patient()
     {
         return $this->belongsTo(User::class, 'patient_id');
+    }
+
+    public function nutritionalRequirement()
+    {
+        return $this->belongsTo(NutritionalRequirement::class, 'nutritional_requirement_id');
+    }
+
+    public function portion()
+    {
+        return $this->belongsTo(Portion::class, 'portion_id');
+    }
+
+    public function servicePortion()
+    {
+        return $this->belongsTo(ServicePortion::class, 'service_portion_id');
     }
 }

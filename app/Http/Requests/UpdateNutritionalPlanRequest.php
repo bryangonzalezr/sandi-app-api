@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ExistInMongo;
+use App\Rules\ExistServicePortion;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateNutritionalPlanRequest extends FormRequest
@@ -31,6 +33,9 @@ class UpdateNutritionalPlanRequest extends FormRequest
             'general_recommendations' => ['nullable', 'string', 'max:255'],
             'forbidden_foods' => ['nullable', 'string', 'max:255'],
             'free_foods' => ['nullable', 'string', 'max:255'],
+            'nutritional_requirement_id' => ['required', 'integer', 'exists:nutritional_requirements,id'],
+            'portion_id' => ['required', 'integer', 'exists:portions,id'],
+            'service_portion_id' => ['required', 'string', new ExistServicePortion('_id')],
         ];
     }
 }

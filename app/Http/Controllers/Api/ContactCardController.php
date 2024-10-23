@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreContactCardRequest;
 use App\Http\Requests\UpdateContactCardRequest;
+use App\Http\Resources\ContactCardResource;
 use App\Models\ContactCard;
+use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContactCardController extends Controller
 {
@@ -20,9 +24,15 @@ class ContactCardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $contact_cards = ContactCard::with('nutritionist')
+        ->when($request->filled('commune'), function ($query) use ($request) {
+            $query->where('commune_id', $request->integer('commune'));
+        })->paginate(3);
+
+        return ContactCardResource::collection($contact_cards);
     }
 
     /**
@@ -30,7 +40,9 @@ class ContactCardController extends Controller
      */
     public function store(StoreContactCardRequest $request)
     {
-        //
+        $contact_card = ContactCard::create($request->validated());
+        $contact_card->load('nutritionist');
+        return new ContactCardResource($contact_card);
     }
 
     /**
@@ -38,7 +50,8 @@ class ContactCardController extends Controller
      */
     public function show(ContactCard $contactCard)
     {
-        //
+        $contactCard->load('nutritionist');
+        return new ContactCardResource($contactCard);
     }
 
     /**
@@ -46,7 +59,9 @@ class ContactCardController extends Controller
      */
     public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
     {
-        //
+        $contactCard->update($request->validated());
+        $contactCard->load('nutritionist');
+        return new ContactCardResource($contactCard);
     }
 
     /**
@@ -54,6 +69,9 @@ class ContactCardController extends Controller
      */
     public function destroy(ContactCard $contactCard)
     {
-        //
+        $contactCard->delete();
+        return response()->json([
+            'message' => 'Tarjeta de contacto desactivada exitosamente'
+        ]);
     }
 }

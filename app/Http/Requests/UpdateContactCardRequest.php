@@ -11,7 +11,7 @@ class UpdateContactCardRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdateContactCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nutritionist_id' => ['required', 'integer', 'exists:nutritionists,id'],
+            'commune_id' => ['required', 'integer', 'exists:communes,id'],
+            'address' => ['required', 'string'],
+            'slogan' => ['nullable', 'string'],
+            'specialties' => ['nullable', 'string'],
+            'experiences' => ['nullable', 'array'],
+            'description' => ['required', 'string'],
         ];
     }
 }
