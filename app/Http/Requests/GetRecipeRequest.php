@@ -35,7 +35,6 @@ class GetRecipeRequest extends FormRequest
             'excluded'         => ['array', 'nullable'],
             'nutrients'        => ['array', 'nullable'],
             'timespan'         => ['numeric', 'nullable'],
-            'user_id'          => ['numeric', 'required', 'exists:users,id'],
             'patient_id'       => ['numeric', 'nullable', 'exists:users,id']
         ];
     }

@@ -14,6 +14,7 @@ use App\Models\ApiMenu;
 use App\Models\DayMenu;
 use App\Models\Menu;
 use App\Models\Patient;
+use App\Models\ShoppingList;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -126,6 +127,17 @@ class MenuController extends Controller
             ]);
         }
 
+        /* $list = [];
+        foreach($menu->menus as $day_menu){
+            foreach($day_menu as $recipe){
+                $list = $this->scrape($recipe->ingredientLines);
+            }
+        }
+        $shopping_list = ShoppingList::create([
+            'menu_id' => $menu->id,
+            'list'    => $list
+        ]); */
+
         return new MenuResource($menu);
     }
 
@@ -172,7 +184,7 @@ class MenuController extends Controller
     public function generateMenu(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find($request->input('user_id'));
+            $auth_user = User::find(Auth::id());
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -227,6 +239,7 @@ class MenuController extends Controller
                 "dishType",
                 "cautions",
                 "ingredientLines",
+                "ingredients",
                 "calories",
                 "totalTime",
             ];
@@ -315,6 +328,21 @@ class MenuController extends Controller
             return response()->json([
                 'message' => 'Error al generar el menú',
             ], 500);
+        }
+    }
+
+    private function scrape($ingredient)
+    {
+        $output = [];
+        $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
+        $response = exec('python3 ' . $scrapper_path . ' ' . $ingredient, $output);
+        $response = explode(',', $response);
+        if ($response[0] == 'error') {
+            return response()->json([
+                'message' => $response[1]
+            ]);
+        }elseif ($response[0] == 'ok') {
+            return $response[1];
         }
     }
 }
