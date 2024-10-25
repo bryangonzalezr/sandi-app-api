@@ -86,7 +86,7 @@ class RecipeController extends Controller
     public function getRecipeFromApi(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find($request->input('user_id'));
+            $auth_user = User::find(Auth::id());
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
