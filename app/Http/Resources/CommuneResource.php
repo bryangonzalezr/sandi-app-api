@@ -12,8 +12,8 @@ class CommuneResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'   => $this->id,
-            'name' => $this->name,
+            'ordinal'   => $this->ordinal,
+            'name'      => $this->name,
         ];
     }
 }
