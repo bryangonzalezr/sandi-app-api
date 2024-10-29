@@ -27,7 +27,7 @@ class ContactCardController extends Controller
     public function index(Request $request)
     {
 
-        $contact_cards = ContactCard::with('nutritionist')
+        $contact_cards = ContactCard::with(['nutritionist', 'commune','experience'])
         ->when($request->filled('commune'), function ($query) use ($request) {
             $query->where('commune_id', $request->integer('commune'));
         })->paginate(3);
@@ -41,7 +41,7 @@ class ContactCardController extends Controller
     public function store(StoreContactCardRequest $request)
     {
         $contact_card = ContactCard::create($request->validated());
-        $contact_card->load('nutritionist');
+        $contact_card->load(['nutritionist', 'commune','experience']);
         return new ContactCardResource($contact_card);
     }
 
@@ -50,7 +50,7 @@ class ContactCardController extends Controller
      */
     public function show(ContactCard $contactCard)
     {
-        $contactCard->load('nutritionist');
+        $contactCard->load(['nutritionist', 'commune','experience']);
         return new ContactCardResource($contactCard);
     }
 
@@ -60,7 +60,7 @@ class ContactCardController extends Controller
     public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
     {
         $contactCard->update($request->validated());
-        $contactCard->load('nutritionist');
+        $contactCard->load(['nutritionist', 'commune', 'experience']);
         return new ContactCardResource($contactCard);
     }
 
