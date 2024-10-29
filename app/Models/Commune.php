@@ -20,4 +20,9 @@ class Commune extends Model
     {
         return $this->belongsTo(Province::class, 'province_id');
     }
+
+    public function contactCards()
+    {
+        return $this->hasMany(ContactCard::class);
+    }
 }
