@@ -16,7 +16,7 @@ class ContactCardController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['can:contact_card.view'])->only(['index','show']);
+        // $this->middleware(['can:contact_card.view'])->only(['index','show']);
         $this->middleware(['can:contact_card.create'])->only('store');
         $this->middleware(['can:contact_card.update'])->only('update');
         $this->middleware(['can:contact_card.delete'])->only('delete');
