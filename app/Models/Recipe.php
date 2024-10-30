@@ -18,6 +18,7 @@ class Recipe extends MongoModel
         'dietLabels',
         'healthLabels',
         'ingredientLines',
+        'ingredients',
         'calories',
         'mealType',
         'dishType',

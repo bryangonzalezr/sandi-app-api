@@ -20,7 +20,7 @@ class DayMenuController extends Controller
     public function __construct()
     {
         $this->middleware(['can:menu.view'])->only(['index','show']);
-        $this->middleware(['can:menu.create'])->only('store');
+        //$this->middleware(['can:menu.create'])->only('store');
         $this->middleware(['can:menu.update'])->only('update');
         $this->middleware(['can:menu.delete'])->only('delete');
         $this->middleware(['can:menu.generate'])->only('generateMenu');
@@ -58,16 +58,16 @@ class DayMenuController extends Controller
             'type' => "diario"
         ]);
 
-        /* $list = [];
-        foreach($day_menu as $recipe){
-            $response = $this->scrape($recipe->ingredientLines);
-            $list = $response[];
+        $list = [];
+
+        foreach($day_menu->recipes as $recipe){
+
         }
 
         $shopping_list = ShoppingList::create([
             'menu_id' => $day_menu->id,
             'list'    => $list
-        ]); */
+        ]);
 
         return new DayMenuResource($day_menu);
     }
@@ -224,9 +224,11 @@ class DayMenuController extends Controller
         $response = exec('python3 ' . $scrapper_path . ' ' . $ingredient, $output);
         $response = explode(',', $response);
         if ($response[0] == 'error') {
-            dump("A DORMIR");
+            return response()->json([
+                "message" => $response[1]
+            ]);
         }elseif ($response[0] == 'ok') {
-            dump($response[1]);
+            return response()->json($response[1]);
         }
     }
 }
