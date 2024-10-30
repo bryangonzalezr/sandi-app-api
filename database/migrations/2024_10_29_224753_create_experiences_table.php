@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('nutritionist_id')->constrained('users');
             $table->string('type');
             $table->string('title');
-            $table->string('institucion');
+            $table->string('institution');
             $table->string('description');
             $table->date('start_date');
             $table->date('end_date');
