@@ -14,6 +14,7 @@ use App\Models\ApiMenu;
 use App\Models\DayMenu;
 use App\Models\Menu;
 use App\Models\Patient;
+use App\Models\Recipe;
 use App\Models\ShoppingList;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -116,14 +117,27 @@ class MenuController extends Controller
      */
     public function store(StoreMenuRequest $request)
     {
-        $menu = Menu::create($request->validated());
+        $day_menus = [];
+        $recipes = [];
+        foreach($request->input('menus') as $day_menu){
+            foreach($day_menu as $recipe){
+                $created_recipe = Recipe::firstOrCreate($recipe);
+                array_push($recipes, $created_recipe);
+            }
+            array_push($day_menus, $recipes);
+            $recipes = [];
+        }
+
+        $menu = Menu::firstOrcreate($request->validated());
         if ($menu->timespan == 7) {
             $menu->update([
-                "type" => "semanal"
+                "type" => "semanal",
+                "menus" => $day_menus
             ]);
         } elseif ($menu->whereBetween('timespan', [28, 31])) {
             $menu->update([
-                "type" => "mensual"
+                "type" => "mensual",
+                "menus" => $day_menus
             ]);
         }
 

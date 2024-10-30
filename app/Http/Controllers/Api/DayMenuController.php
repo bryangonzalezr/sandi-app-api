@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
 use App\Models\DayMenu;
 use App\Models\Patient;
+use App\Models\Recipe;
 use App\Models\ShoppingList;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -53,12 +54,19 @@ class DayMenuController extends Controller
      */
     public function store(StoreDayMenuRequest $request)
     {
-        $day_menu = DayMenu::create($request->validated());
+        $recipes = [];
+        foreach($request->input('recipes') as $recipe){
+            $created_recipe = Recipe::firstOrCreate($recipe);
+            array_push($recipes, $created_recipe);
+        }
+
+        $day_menu = DayMenu::firstOrCreate($request->validated());
         $day_menu->update([
-            'type' => "diario"
+            'type' => "diario",
+            'recipes' => $recipes
         ]);
 
-        $list = [];
+        /* $list = [];
 
         foreach($day_menu->recipes as $recipe){
 
@@ -67,7 +75,7 @@ class DayMenuController extends Controller
         $shopping_list = ShoppingList::create([
             'menu_id' => $day_menu->id,
             'list'    => $list
-        ]);
+        ]); */
 
         return new DayMenuResource($day_menu);
     }
