@@ -21,7 +21,7 @@ class RecipeController extends Controller
     {
         $this->middleware(['can:recipe.view'])->only(['index', 'show']);
         //$this->middleware(['can:recipe.view_any'])->only('');
-        $this->middleware(['can:recipe.create'])->only('store');
+        //$this->middleware(['can:recipe.create'])->only('store');
         $this->middleware(['can:recipe.update'])->only('update');
         $this->middleware(['can:recipe.delete'])->only('delete');
         $this->middleware(['can:recipe.generate'])->only('getRecipeFromApi');
@@ -86,7 +86,7 @@ class RecipeController extends Controller
     public function getRecipeFromApi(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find($request->input('user_id'));
+            $auth_user = User::find(Auth::id());
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 

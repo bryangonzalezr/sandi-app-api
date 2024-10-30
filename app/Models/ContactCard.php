@@ -18,12 +18,21 @@ class ContactCard extends Model
         'address',
         'slogan',
         'specialties',
-        'experiences',
         'description',
     ];
 
     public function nutritionist()
     {
         return $this->belongsTo(User::class, 'nutritionist_id');
+    }
+
+    public function commune()
+    {
+        return $this->belongsTo(Commune::class, 'commune_id');
+    }
+
+    public function experience()
+    {
+        return $this->hasMany(Experience::class);
     }
 }

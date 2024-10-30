@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
 use App\Models\DayMenu;
 use App\Models\Patient;
+use App\Models\ShoppingList;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -19,7 +20,7 @@ class DayMenuController extends Controller
     public function __construct()
     {
         $this->middleware(['can:menu.view'])->only(['index','show']);
-        $this->middleware(['can:menu.create'])->only('store');
+        //$this->middleware(['can:menu.create'])->only('store');
         $this->middleware(['can:menu.update'])->only('update');
         $this->middleware(['can:menu.delete'])->only('delete');
         $this->middleware(['can:menu.generate'])->only('generateMenu');
@@ -96,7 +97,7 @@ class DayMenuController extends Controller
     public function generateDayMenu(GetRecipeRequest $request)
     {
         try {
-            $auth_user = User::find($request->input('user_id'));
+            $auth_user = User::find(Auth::id());
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
@@ -204,6 +205,20 @@ class DayMenuController extends Controller
                 'message' => 'Error al obtener recetas de la API',
                 'error' => $e->getMessage(),
             ], 500);
+        }
+    }
+
+    private function scrape($ingredient)
+    {
+        $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
+        $response = exec('python3 ' . $scrapper_path . ' ' . $ingredient, $output);
+        $response = explode(',', $response);
+        if ($response[0] == 'error') {
+            return response()->json([
+                "message" => $response[1]
+            ]);
+        }elseif ($response[0] == 'ok') {
+            return response()->json($response[1]);
         }
     }
 }

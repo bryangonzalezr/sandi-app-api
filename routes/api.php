@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CommuneController;
 use App\Http\Controllers\Api\ContactCardController;
 use App\Http\Controllers\Api\DayMenuController;
 use App\Http\Controllers\Api\EnumController;
+use App\Http\Controllers\Api\ExperienceController;
 use App\Http\Controllers\Api\FoodIndicatorController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\NutritionalPlanController;
@@ -129,6 +130,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('tarjeta', [ContactCardController::class, 'store'])->name('contactCards.store');
     Route::put('tarjeta/{contactCard}', [ContactCardController::class, 'update'])->name('contactCards.update');
     Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'destroy'])->name('contactCards.destroy');
+
+    // Rutas Experiencias
+    Route::get('experiencias', [ExperienceController::class, 'index'])->name('experiences.index');
+    Route::get('experiencias/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
+    Route::post('experiencias', [ExperienceController::class, 'store'])->name('experiences.store');
+    Route::put('experiencias/{experience}', [ExperienceController::class, 'update'])->name('experiences.update');
+    Route::delete('experiencias/{experience}', [ExperienceController::class, 'destroy'])->name('experiences.destroy');
 
     // Rutas Chat
     Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage'])->name('chat.getMessage');

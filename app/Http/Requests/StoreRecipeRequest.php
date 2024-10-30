@@ -27,6 +27,7 @@ class StoreRecipeRequest extends FormRequest
             'healthLabels' => ['nullable', 'array'],
             'cautions' => ['nullable', 'array'],
             'ingredientLines' => ['required', 'array'],
+            'ingredients' => ['nullable', 'array'],
             'calories' => ['required', 'numeric'],
             'mealType' => ['nullable', 'array'],
             'dishType' => ['nullable', 'array'],
