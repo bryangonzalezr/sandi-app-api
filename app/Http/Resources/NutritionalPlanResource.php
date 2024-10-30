@@ -28,6 +28,7 @@ class NutritionalPlanResource extends JsonResource
             'nutritional_requirement' => $this->nutritionalRequirement,
             'portion' => $this->portion,
             'service_portion' => $this->servicePortion,
+            'created_at' => $this->created_at
         ];
     }
 }
