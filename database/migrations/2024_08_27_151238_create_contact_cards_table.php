@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('contact_cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('nutritionist_id')->constrained('users');
-            $table->foreignId('commune_id')->constrained('communes');
             $table->string('description')->nullable();
             $table->string('address');
             $table->string('slogan')->nullable();
