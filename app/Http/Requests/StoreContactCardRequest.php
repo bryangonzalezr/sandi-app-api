@@ -22,7 +22,7 @@ class StoreContactCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nutritionist_id' => ['required', 'integer', 'exists:nutritionists,id'],
+            'nutritionist_id' => ['required', 'integer', 'exists:users,id'],
             'commune_id' => ['required', 'integer', 'exists:communes,id'],
             'address' => ['required', 'string'],
             'slogan' => ['nullable', 'string'],

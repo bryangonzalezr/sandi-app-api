@@ -16,10 +16,10 @@ class ContactCardController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware(['can:contact_card.view'])->only(['index','show']);
-        $this->middleware(['can:contact_card.create'])->only('store');
-        $this->middleware(['can:contact_card.update'])->only('update');
-        $this->middleware(['can:contact_card.delete'])->only('delete');
+        $this->middleware(['can:contact_cards.view'])->only(['index','show']);
+        $this->middleware(['can:contact_cards.create'])->only('store');
+        $this->middleware(['can:contact_cards.update'])->only('update');
+        $this->middleware(['can:contact_cards.delete'])->only('delete');
     }
     /**
      * Display a listing of the resource.
