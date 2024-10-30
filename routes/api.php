@@ -133,10 +133,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Rutas Experiencias
     Route::get('experiencias', [ExperienceController::class, 'index'])->name('experiences.index');
-    Route::get('experiencias/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
-    Route::post('experiencias', [ExperienceController::class, 'store'])->name('experiences.store');
-    Route::put('experiencias/{experience}', [ExperienceController::class, 'update'])->name('experiences.update');
-    Route::delete('experiencias/{experience}', [ExperienceController::class, 'destroy'])->name('experiences.destroy');
+    Route::get('experiencia/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
+    Route::post('experiencia', [ExperienceController::class, 'store'])->name('experiences.store');
+    Route::put('experiencia/{experience}', [ExperienceController::class, 'update'])->name('experiences.update');
+    Route::delete('experiencia/{experience}', [ExperienceController::class, 'destroy'])->name('experiences.destroy');
 
     // Rutas Chat
     Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage'])->name('chat.getMessage');
@@ -151,7 +151,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // Rutas Lista de compras
-    //Route::get('/obtener-datos-ingredientes', [ShoppingListController::class, 'scrape'])->name('ingredient-info');
+    Route::get('/shopping-lists', [ShoppingListController::class, 'index'])->name('shoppinList.index');
+    Route::get('/shopping-list', [ShoppingListController::class, 'show'])->name('shoppingList.show');
 
     //Health Enums
     Route::prefix('enum')->group(function () {
