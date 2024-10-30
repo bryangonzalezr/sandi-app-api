@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('nutritionist_id')->constrained('users');
-            $table->foreignId('contact_card_id');
             $table->string('type');
             $table->string('title');
             $table->string('institucion');

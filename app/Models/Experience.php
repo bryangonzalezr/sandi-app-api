@@ -12,7 +12,6 @@ class Experience extends Model
 
     protected $fillable = [
         "nutritionist_id",
-        "contact_card_id",
         "type",
         "title",
         "institution",
@@ -24,10 +23,5 @@ class Experience extends Model
     public function nutritionist(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function contactCard(): BelongsTo
-    {
-        return $this->belongsTo(ContactCard::class, 'contact_card_id');
     }
 }
