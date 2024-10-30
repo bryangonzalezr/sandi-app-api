@@ -132,7 +132,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'destroy'])->name('contactCards.destroy');
 
     // Rutas Experiencias
-    Route::get('experiencias', [ExperienceController::class, 'index'])->name('contactCards.index');
+    Route::get('experiencias', [ExperienceController::class, 'index'])->name('experiences.index');
     Route::get('experiencias/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
     Route::post('experiencias', [ExperienceController::class, 'store'])->name('experiences.store');
     Route::put('experiencias/{experience}', [ExperienceController::class, 'update'])->name('experiences.update');
