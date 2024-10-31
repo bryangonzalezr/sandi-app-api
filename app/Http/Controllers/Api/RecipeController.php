@@ -115,6 +115,7 @@ class RecipeController extends Controller
                 "mealType",
                 "cautions",
                 "ingredientLines",
+                "ingredients",
                 "calories",
                 "totalTime",
             ];
