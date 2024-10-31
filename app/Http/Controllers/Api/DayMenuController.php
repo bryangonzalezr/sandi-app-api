@@ -156,6 +156,7 @@ class DayMenuController extends Controller
                 "dishType",
                 "cautions",
                 "ingredientLines",
+                "ingredients",
                 "calories",
                 "totalTime",
             ];

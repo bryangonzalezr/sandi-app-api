@@ -141,16 +141,17 @@ class MenuController extends Controller
             ]);
         }
 
-        /* $list = [];
+        $list = [];
         foreach($menu->menus as $day_menu){
             foreach($day_menu as $recipe){
-                $list = $this->scrape($recipe->ingredientLines);
+                $scrape = $this->scrape($recipe->ingredient);
+                array_push($list, $scrape);
             }
         }
         $shopping_list = ShoppingList::create([
             'menu_id' => $menu->id,
             'list'    => $list
-        ]); */
+        ]);
 
         return new MenuResource($menu);
     }
