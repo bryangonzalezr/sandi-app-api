@@ -14,4 +14,16 @@ enum ExperienceType: string
     case Practica = 'Practica';
     case Voluntariado = 'Voluntariado';
     case ActividadExtracurricular = 'Actividad Extracurricular';
+
+    public static function translation(): array
+    {
+        return [
+        'FormacionAcademica' => 'Formación Académica',
+        'TrabajoPartTime' => 'Trabajo de Tiempo Parcial',
+        'TrabajoFullTime' => 'Trabajo de Tiempo Completo',
+        'Practica' => 'Practica',
+        'Voluntariado' => 'Voluntariado',
+        'ActividadExtracurricular' => 'Actividad Extracurricular'
+        ];
+    }
 }
