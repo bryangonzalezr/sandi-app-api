@@ -27,7 +27,7 @@ class ContactCardController extends Controller
     public function index(Request $request)
     {
 
-        $contact_cards = ContactCard::with(['nutritionist', 'commune','experience'])
+        $contact_cards = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences'])
         ->when($request->filled('commune'), function ($query) use ($request) {
             $query->where('commune_id', $request->integer('commune'));
         })->paginate(3);
