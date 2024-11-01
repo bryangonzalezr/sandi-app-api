@@ -11,7 +11,7 @@ enum ExperienceType: string
     case FormacionAcademica = 'Formación Académica';
     case TrabajoPartTime = 'Trabajo de Tiempo Parcial';
     case TrabajoFullTime = 'Trabajo de Tiempo Completo';
-    case Practica = 'Practica';
+    case Practica = 'Práctica';
     case Voluntariado = 'Voluntariado';
     case ActividadExtracurricular = 'Actividad Extracurricular';
 
@@ -21,7 +21,7 @@ enum ExperienceType: string
         'FormacionAcademica' => 'Formación Académica',
         'TrabajoPartTime' => 'Trabajo de Tiempo Parcial',
         'TrabajoFullTime' => 'Trabajo de Tiempo Completo',
-        'Practica' => 'Practica',
+        'Practica' => 'Práctica',
         'Voluntariado' => 'Voluntariado',
         'ActividadExtracurricular' => 'Actividad Extracurricular'
         ];
