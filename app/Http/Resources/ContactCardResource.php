@@ -14,7 +14,7 @@ class ContactCardResource extends JsonResource
         return [
             'id' => $this->id,
             'commune_id' => $this->commune,
-            'nutritionist_id' => $this->nutritionist_id,
+            'nutritionist_id' => $this->nutritionist,
             'description' => $this->description,
             'slogan' => $this->slogan,
             'specialties' => $this->specialties,
