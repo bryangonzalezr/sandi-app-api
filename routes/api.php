@@ -157,5 +157,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Health Enums
     Route::prefix('enum')->group(function () {
         Route::get('/health-types', [EnumController::class, 'healthTypes']);
+        Route::get('/experience-types', [EnumController::class, 'experienceTypes']);
     });
 });
