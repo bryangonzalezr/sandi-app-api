@@ -41,7 +41,7 @@ class ContactCardController extends Controller
     public function store(StoreContactCardRequest $request)
     {
         $contact_card = ContactCard::create($request->validated());
-        $contact_card->load(['nutritionist', 'commune','experience']);
+        $contact_card->load(['nutritionist', 'commune', 'nutritionist.experiences']);
         return new ContactCardResource($contact_card);
     }
 
@@ -50,7 +50,7 @@ class ContactCardController extends Controller
      */
     public function show(ContactCard $contactCard)
     {
-        $contactCard->load(['nutritionist', 'commune','experience']);
+        $contactCard->load(['nutritionist', 'commune','nutritionist.experiences']);
         return new ContactCardResource($contactCard);
     }
 
@@ -60,7 +60,7 @@ class ContactCardController extends Controller
     public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
     {
         $contactCard->update($request->validated());
-        $contactCard->load(['nutritionist', 'commune', 'experience']);
+        $contactCard->load(['nutritionist', 'commune', 'nutritionist.experiences']);
         return new ContactCardResource($contactCard);
     }
 

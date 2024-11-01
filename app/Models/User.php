@@ -100,11 +100,6 @@ class User extends Authenticatable
         return $this->hasOne(NutritionalPlan::class, 'patient_id');
     }
 
-    public function filedNutritionalPlan()
-    {
-        return $this->hasMany(NutritionalPlan::class, 'patient_id')->onlyTrashed();
-    }
-
     public function recipes()
     {
         return $this->hasMany(Recipe::class, 'user_id');
@@ -168,5 +163,10 @@ class User extends Authenticatable
     public function contactCard()
     {
         return $this->hasOne(ContactCard::class, 'nutritionist_id');
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany(Experience::class, 'nutritionist_id');
     }
 }

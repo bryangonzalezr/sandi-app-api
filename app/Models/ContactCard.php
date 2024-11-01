@@ -30,9 +30,4 @@ class ContactCard extends Model
     {
         return $this->belongsTo(Commune::class, 'commune_id');
     }
-
-    public function experience()
-    {
-        return $this->hasMany(Experience::class);
-    }
 }
