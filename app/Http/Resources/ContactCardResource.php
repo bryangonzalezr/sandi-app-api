@@ -21,7 +21,7 @@ class ContactCardResource extends JsonResource
             'phone_number' => $this->nutritionist->phone_number,
             'email' => $this->nutritionist->email,
             'address' => $this->address,
-            'experiences' => $this->nutritionist->experiences,
+            'experiences' => ExperienceResource::collection($this->nutritionist->experiences),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
