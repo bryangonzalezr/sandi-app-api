@@ -18,10 +18,10 @@ class ContactCardResource extends JsonResource
             'description' => $this->description,
             'slogan' => $this->slogan,
             'specialties' => $this->specialties,
-            'phone_number' => $this->nutritionist()->phone_number,
-            'email' => $this->nutritionist()->email,
+            'phone_number' => $this->nutritionist->phone_number,
+            'email' => $this->nutritionist->email,
             'address' => $this->address,
-            'experiences' => $this->nutritionist()->experiences,
+            'experiences' => $this->nutritionist->experiences,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
