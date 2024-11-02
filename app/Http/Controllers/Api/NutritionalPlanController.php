@@ -65,7 +65,7 @@ class NutritionalPlanController extends Controller
     {
         $nutritionalPlan = $patient->nutritionalPlan;
         $return = $nutritionalPlan ? new NutritionalPlanResource($nutritionalPlan) :
-                    response()->json(["data" => []]);
+                    response()->json(["data" => null]);
         return $return;
     }
 
