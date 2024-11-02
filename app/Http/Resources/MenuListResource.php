@@ -20,6 +20,7 @@ class MenuListResource extends JsonResource
             'user' => $this->user->name . " " . $this->user->last_name,
             'type'  => $this->type ?? "diario",
             'sandi_recipe' => $this->sandi_recipe,
+            'total_calories' => $this->total_calories,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'list' => [
