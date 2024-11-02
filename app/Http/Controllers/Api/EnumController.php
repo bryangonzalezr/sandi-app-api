@@ -23,7 +23,9 @@ class EnumController extends Controller
 
     public function experienceTypes()
     {
-        $experienceTypes = ExperienceType::get();
+        $experienceTypes = collect(ExperienceType::get())->sortBy('value')->map(function ($item, $key) {
+            return (object) $item;
+        });
 
         return EnumResource::collection($experienceTypes);
     }
