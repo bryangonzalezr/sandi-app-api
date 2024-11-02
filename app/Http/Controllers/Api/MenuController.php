@@ -117,28 +117,41 @@ class MenuController extends Controller
      */
     public function store(StoreMenuRequest $request)
     {
-        $day_menus = [];
-        $recipes = [];
-        foreach($request->input('menus') as $day_menu){
-            foreach($day_menu as $recipe){
-                $created_recipe = Recipe::firstOrCreate($recipe);
-                array_push($recipes, $created_recipe);
-            }
-            array_push($day_menus, $recipes);
+        if($request->boolean('sandi_recipe')){
+            $day_menus = [];
             $recipes = [];
-        }
+            foreach($request->input('menus') as $day_menu){
+                foreach($day_menu as $recipe){
+                    $created_recipe = Recipe::firstOrCreate($recipe);
+                    array_push($recipes, $created_recipe);
+                }
+                array_push($day_menus, $recipes);
+                $recipes = [];
+            }
 
-        $menu = Menu::firstOrcreate($request->validated());
-        if ($menu->timespan == 7) {
-            $menu->update([
-                "type" => "semanal",
-                "menus" => $day_menus
-            ]);
-        } elseif ($menu->whereBetween('timespan', [28, 31])) {
-            $menu->update([
-                "type" => "mensual",
-                "menus" => $day_menus
-            ]);
+            $menu = Menu::firstOrcreate($request->validated());
+            if ($menu->timespan == 7) {
+                $menu->update([
+                    "type" => "semanal",
+                    "menus" => $day_menus
+                ]);
+            } elseif ($menu->whereBetween('timespan', [28, 31])) {
+                $menu->update([
+                    "type" => "mensual",
+                    "menus" => $day_menus
+                ]);
+            }
+        } else{
+            $menu = Menu::firstOrcreate($request->validated());
+            if ($menu->timespan == 7) {
+                $menu->update([
+                    "type" => "semanal",
+                ]);
+            } elseif ($menu->whereBetween('timespan', [28, 31])) {
+                $menu->update([
+                    "type" => "mensual",
+                ]);
+            }
         }
 
         $list = [];

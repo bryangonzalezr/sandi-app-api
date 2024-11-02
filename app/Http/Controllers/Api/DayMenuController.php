@@ -54,17 +54,24 @@ class DayMenuController extends Controller
      */
     public function store(StoreDayMenuRequest $request)
     {
-        $recipes = [];
-        foreach($request->input('recipes') as $recipe){
-            $created_recipe = Recipe::firstOrCreate($recipe);
-            array_push($recipes, $created_recipe);
-        }
+        if ($request->boolean('sandi_recipe')){
+            $recipes = [];
+            foreach($request->input('recipes') as $recipe){
+                $created_recipe = Recipe::firstOrCreate($recipe);
+                array_push($recipes, $created_recipe);
+            }
 
-        $day_menu = DayMenu::firstOrCreate($request->validated());
-        $day_menu->update([
-            'type' => "diario",
-            'recipes' => $recipes
-        ]);
+            $day_menu = DayMenu::firstOrCreate($request->validated());
+            $day_menu->update([
+                'type' => "diario",
+                'recipes' => $recipes
+            ]);
+        } else {
+            $day_menu = DayMenu::firstOrCreate($request->validated());
+            $day_menu->update([
+                'type' => "diario",
+            ]);
+        }
 
         $list = [];
 
