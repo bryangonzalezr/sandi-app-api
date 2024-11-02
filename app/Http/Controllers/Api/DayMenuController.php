@@ -66,16 +66,20 @@ class DayMenuController extends Controller
             'recipes' => $recipes
         ]);
 
-        /* $list = [];
+        $list = [];
 
         foreach($day_menu->recipes as $recipe){
-
+            foreach($recipe->ingredients as $ingredient){
+                $formatted_ingredient = str_replace(' ','_',$ingredient);
+                $scrape = $this->scrape($formatted_ingredient);
+                array_push($list, $scrape);
+            }
         }
 
         $shopping_list = ShoppingList::create([
             'menu_id' => $day_menu->id,
             'list'    => $list
-        ]); */
+        ]);
 
         return new DayMenuResource($day_menu);
     }
@@ -230,14 +234,16 @@ class DayMenuController extends Controller
     private function scrape($ingredient)
     {
         $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
+        $output = [];
         $response = exec('python3 ' . $scrapper_path . ' ' . $ingredient, $output);
         $response = explode(',', $response);
+
         if ($response[0] == 'error') {
             return response()->json([
                 "message" => $response[1]
             ]);
         }elseif ($response[0] == 'ok') {
-            return response()->json($response[1]);
+            return json_decode($response[1]);
         }
     }
 }

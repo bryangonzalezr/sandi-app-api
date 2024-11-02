@@ -142,10 +142,14 @@ class MenuController extends Controller
         }
 
         $list = [];
+
         foreach($menu->menus as $day_menu){
             foreach($day_menu as $recipe){
-                $scrape = $this->scrape($recipe->ingredient);
-                array_push($list, $scrape);
+                foreach($recipe->ingredients as $ingredient){
+                    $formatted_ingredient = str_replace(' ','_',$ingredient);
+                    $scrape = $this->scrape($formatted_ingredient);
+                    array_push($list, $scrape);
+                }
             }
         }
         $shopping_list = ShoppingList::create([
