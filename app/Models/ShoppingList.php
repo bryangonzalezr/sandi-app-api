@@ -15,7 +15,8 @@ class ShoppingList extends Model
 
     protected $fillable = [
         'menu_id',
-        'list'
+        'list',
+        'amounts'
     ];
 
     public function dayMenu()

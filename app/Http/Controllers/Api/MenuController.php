@@ -10,6 +10,7 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuListResource;
 use App\Http\Resources\MenuResource;
+use App\Jobs\ShoppingListJob;
 use App\Models\ApiMenu;
 use App\Models\DayMenu;
 use App\Models\Menu;
@@ -65,7 +66,8 @@ class MenuController extends Controller
             [
                 'patient' => ['nullable', 'numeric'],
                 'sandi' => ['nullable', 'boolean'],
-                'type' => ['nullable', 'string']
+                'type' => ['nullable', 'string'],
+                'paginate' => ['nullable', 'boolean']
             ]
             );
         $user = User::find(Auth::id());
@@ -107,7 +109,7 @@ class MenuController extends Controller
 
         $menus_list = $day_menus->merge($menus);
 
-        $paginate = PaginationHelper::paginate($menus_list, 15);
+        $paginate = $request->boolean('paginate') ? PaginationHelper::paginate($menus_list, 15) : $menus_list;
 
         return MenuListResource::collection($paginate);
     }
@@ -122,8 +124,8 @@ class MenuController extends Controller
             $recipes = [];
             foreach($request->input('menus') as $day_menu){
                 foreach($day_menu as $recipe){
-                    $created_recipe = Recipe::firstOrCreate($recipe);
-                    array_push($recipes, $created_recipe);
+                    $created_recipe = Recipe::create($recipe);
+                    array_push($recipes, collect($created_recipe));
                 }
                 array_push($day_menus, $recipes);
                 $recipes = [];
@@ -154,21 +156,30 @@ class MenuController extends Controller
             }
         }
 
-        $list = [];
+        ShoppingListJob::dispatch($menu)->onQueue('shoppingList');
+        /* $list = [];
+        $count_ingredients = [];
 
         foreach($menu->menus as $day_menu){
             foreach($day_menu as $recipe){
-                foreach($recipe->ingredients as $ingredient){
+                foreach($recipe["ingredients"] as $ingredient){
                     $formatted_ingredient = str_replace(' ','_',$ingredient);
-                    $scrape = $this->scrape($formatted_ingredient);
-                    array_push($list, $scrape);
+                    if(array_key_exists($formatted_ingredient, $count_ingredients)){
+                        $count_ingredients[$formatted_ingredient] += 1;
+                        continue;
+                    } else{
+                        $scrape = $this->scrape($formatted_ingredient);
+                        array_push($list, $scrape);
+                    }
+
                 }
             }
         }
         $shopping_list = ShoppingList::create([
             'menu_id' => $menu->id,
-            'list'    => $list
-        ]);
+            'list'    => $list,
+            'amount'  => $count_ingredients
+        ]); */
 
         return new MenuResource($menu);
     }
@@ -363,7 +374,7 @@ class MenuController extends Controller
         }
     }
 
-    private function scrape($ingredient)
+    /* private function scrape($ingredient)
     {
         $output = [];
         $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
@@ -374,7 +385,7 @@ class MenuController extends Controller
                 'message' => $response[1]
             ]);
         }elseif ($response[0] == 'ok') {
-            return $response[1];
+            return json_decode($response[1]);
         }
-    }
+    } */
 }

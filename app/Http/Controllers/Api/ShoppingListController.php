@@ -10,6 +10,7 @@ use App\Models\ShoppingList;
 use App\Observers\SupermarketCrawlerObserver;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Crawler\Crawler;
 
 class ShoppingListController extends Controller
@@ -20,6 +21,14 @@ class ShoppingListController extends Controller
         $shopping_list = ShoppingList::all();
 
         return ShoppingListResource::collection($shopping_list);
+    }
+
+    public function getProgress($menuId)
+    {
+        $progressKey = 'shopping_list_progress_' . $menuId;
+        return response()->json([
+            'progress' => Cache::get($progressKey, 0)
+        ]);
     }
 
     public function store(StoreShoppingListRequest $request)

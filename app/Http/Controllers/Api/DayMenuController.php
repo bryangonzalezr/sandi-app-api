@@ -8,6 +8,7 @@ use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreDayMenuRequest;
 use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
+use App\Jobs\ShoppingListJob;
 use App\Models\DayMenu;
 use App\Models\Patient;
 use App\Models\Recipe;
@@ -57,8 +58,8 @@ class DayMenuController extends Controller
         if ($request->boolean('sandi_recipe')){
             $recipes = [];
             foreach($request->input('recipes') as $recipe){
-                $created_recipe = Recipe::firstOrCreate($recipe);
-                array_push($recipes, $created_recipe);
+                $created_recipe = Recipe::create($recipe);
+                array_push($recipes, collect($created_recipe));
             }
 
             $day_menu = DayMenu::firstOrCreate($request->validated());
@@ -66,6 +67,7 @@ class DayMenuController extends Controller
                 'type' => "diario",
                 'recipes' => $recipes
             ]);
+
         } else {
             $day_menu = DayMenu::firstOrCreate($request->validated());
             $day_menu->update([
@@ -73,20 +75,28 @@ class DayMenuController extends Controller
             ]);
         }
 
-        $list = [];
-
+        ShoppingListJob::dispatch($day_menu)->onQueue('shoppingList');
+        /* $list = [];
+        $count_ingredients = [];
         foreach($day_menu->recipes as $recipe){
-            foreach($recipe->ingredients as $ingredient){
+            foreach($recipe["ingredients"] as $ingredient){
                 $formatted_ingredient = str_replace(' ','_',$ingredient);
-                $scrape = $this->scrape($formatted_ingredient);
-                array_push($list, $scrape);
+                if(array_key_exists($formatted_ingredient, $count_ingredients)){
+                    $count_ingredients[$formatted_ingredient] += 1;
+                    continue;
+                } else{
+                    $scrape = $this->scrape($formatted_ingredient);
+                    array_push($list, $scrape);
+                    $count_ingredients[$formatted_ingredient] = 1;
+                }
             }
         }
 
         $shopping_list = ShoppingList::create([
             'menu_id' => $day_menu->id,
-            'list'    => $list
-        ]);
+            'list'    => $list,
+            'amounts' => $count_ingredients
+        ]); */
 
         return new DayMenuResource($day_menu);
     }
@@ -238,7 +248,7 @@ class DayMenuController extends Controller
         }
     }
 
-    private function scrape($ingredient)
+    /* private function scrape($ingredient)
     {
         $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
         $output = [];
@@ -252,5 +262,5 @@ class DayMenuController extends Controller
         }elseif ($response[0] == 'ok') {
             return json_decode($response[1]);
         }
-    }
+    } */
 }
