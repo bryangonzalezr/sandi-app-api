@@ -71,8 +71,10 @@ class ContactCardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
+    public function update(UpdateContactCardRequest $request, User $user)
     {
+        $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
+        ->where('nutritionist_id', $user->id)->first();
 
         $contactCard->update($request->validated());
 
