@@ -71,10 +71,8 @@ class ContactCardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContactCardRequest $request, User $user)
+    public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
     {
-        $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
-        ->where('nutritionist_id', $user->id)->first();
 
         $contactCard->update($request->validated());
 
@@ -84,9 +82,8 @@ class ContactCardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(ContactCard $contactCard)
     {
-        $contactCard = ContactCard::where('nutritionist_id', $user->id)->first();
         $contactCard->delete();
         return response()->json([
             'message' => 'Tarjeta de contacto desactivada exitosamente'
