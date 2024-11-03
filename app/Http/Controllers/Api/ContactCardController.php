@@ -44,7 +44,8 @@ class ContactCardController extends Controller
      */
     public function store(StoreContactCardRequest $request)
     {
-        $contact_card = ContactCard::firstOrCreate([
+        $contact_card = ContactCard::with(['nutritionist', 'commune', 'nutritionist.experiences', 'commune.provinces.regions'])
+        ->firstOrCreate([
             'nutritionist_id' => Auth::id()
         ],[
             'commune_id' => $request->input('commune_id'),
@@ -53,7 +54,7 @@ class ContactCardController extends Controller
             'specialties' => $request->input('specialties'),
             'description' => $request->input('description'),
         ]);
-        $contact_card->load(['nutritionist', 'commune', 'nutritionist.experiences', 'commune.provinces.regions']);
+
         return new ContactCardResource($contact_card);
     }
 
