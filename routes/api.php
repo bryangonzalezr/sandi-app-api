@@ -126,10 +126,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Rutas Tarjetas de contacto
     Route::get('tarjetas', [ContactCardController::class, 'index'])->name('contactCards.index');
-    Route::get('tarjeta/{contactCard}', [ContactCardController::class, 'show'])->name('contactCards.show');
+    Route::get('tarjeta/{user}', [ContactCardController::class, 'show'])->name('contactCards.show');
     Route::post('tarjeta', [ContactCardController::class, 'store'])->name('contactCards.store');
-    Route::put('tarjeta/{contactCard}', [ContactCardController::class, 'update'])->name('contactCards.update');
-    Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'destroy'])->name('contactCards.destroy');
+    Route::put('tarjeta/{user}', [ContactCardController::class, 'update'])->name('contactCards.update');
+    Route::delete('tarjeta/{user}', [ContactCardController::class, 'destroy'])->name('contactCards.destroy');
 
     // Rutas Experiencias
     Route::get('experiencias', [ExperienceController::class, 'index'])->name('experiences.index');

@@ -44,7 +44,15 @@ class ContactCardController extends Controller
      */
     public function store(StoreContactCardRequest $request)
     {
-        $contact_card = ContactCard::create($request->validated());
+        $contact_card = ContactCard::firstOrCreate([
+            'nutritionist_id' => Auth::id()
+        ],[
+            'commune_id' => $request->input('commune_id'),
+            'address' => $request->input('address'),
+            'slogan' => $request->input('slogan'),
+            'specialties' => $request->input('specialties'),
+            'description' => $request->input('description'),
+        ]);
         $contact_card->load(['nutritionist', 'commune', 'nutritionist.experiences', 'commune.provinces.regions']);
         return new ContactCardResource($contact_card);
     }
@@ -52,27 +60,32 @@ class ContactCardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ContactCard $contactCard)
+    public function show(User $user)
     {
-        $contactCard->load(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions']);
+        $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
+        ->where('nutritionist_id', $user->id)->get();
         return new ContactCardResource($contactCard);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
+    public function update(UpdateContactCardRequest $request, User $user)
     {
+        $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
+        ->where('nutritionist_id', $user->id)->first();
+
         $contactCard->update($request->validated());
-        $contactCard->load(['nutritionist', 'commune', 'nutritionist.experiences', 'commune.provinces.regions']);
+
         return new ContactCardResource($contactCard);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ContactCard $contactCard)
+    public function destroy(User $user)
     {
+        $contactCard = ContactCard::where('nutritionist_id', $user->id)->first();
         $contactCard->delete();
         return response()->json([
             'message' => 'Tarjeta de contacto desactivada exitosamente'
