@@ -64,7 +64,7 @@ class ContactCardController extends Controller
     public function show(User $user)
     {
         $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
-        ->where('nutritionist_id', $user->id)->get();
+        ->where('nutritionist_id', $user->id)->first();
         return new ContactCardResource($contactCard);
     }
 
