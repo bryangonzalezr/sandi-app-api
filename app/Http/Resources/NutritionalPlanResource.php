@@ -26,6 +26,7 @@ class NutritionalPlanResource extends JsonResource
             'forbidden_foods' => $this->forbidden_foods,
             'free_foods' => $this->free_foods,
             'nutritional_requirement' => $this->nutritionalRequirement,
+            'total_calorias' => $this->portion->total_calorias,
             'portion' => $this->portion,
             'service_portion' => $this->servicePortion,
             'created_at' => $this->created_at
