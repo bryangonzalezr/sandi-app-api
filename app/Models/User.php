@@ -107,17 +107,22 @@ class User extends Authenticatable
 
     public function dayMenus(): HasMany
     {
-        return $this->hasMany(DayMenu::class, 'user_day_menus', 'day_menu_id', 'user_id');
+        return $this->hasMany(DayMenu::class, 'user_id');
+    }
+
+    public function menus(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'user_id');
     }
 
     public function weekMenus(): HasMany
     {
-        return $this->hasMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->where('timespan', 7);
+        return $this->hasMany(Menu::class,'user_id')->where('timespan', 7);
     }
 
     public function monthMenus(): HasMany
     {
-        return $this->hasMany(Menu::class, 'user_menus', 'menu_id', 'user_id')->whereBetween('timespan', [28, 31]);
+        return $this->hasMany(Menu::class,'user_id')->whereBetween('timespan', [28, 31]);
     }
 
     public function patients()
