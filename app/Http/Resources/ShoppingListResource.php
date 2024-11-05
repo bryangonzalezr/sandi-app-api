@@ -14,18 +14,20 @@ class ShoppingListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $menu = $this->menu ?? $this->dayMenu;
+
         return [
             '_id' => $this->_id,
-            'dayMenu' => [
-                '_id' => $this->dayMenu?->_id,
-                'name' => $this->dayMenu?->name
-            ],
             'menu' => [
-                '_id' => $this->menu?->_id,
-                'name' => $this->menu?->name
+                '_id' => $this->menu_id,
+                'name' => $menu->name,
+                'sandi_recipe' => $menu->sandi_recipe,
+                'type' => $menu->type
             ],
             'list' => $this->list,
-            'amounts' => $this->amounts
+            'amounts' => $this->amounts,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }
