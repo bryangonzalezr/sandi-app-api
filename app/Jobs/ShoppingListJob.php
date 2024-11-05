@@ -23,12 +23,10 @@ class ShoppingListJob implements ShouldQueue
     public function __construct(
         public $menu,
         public string $menuType,
-        public string $action,
     )
     {
         $this->menu = $menu;
         $this->menuType = $menuType;
-        $this->action = $action;
     }
 
     /**
