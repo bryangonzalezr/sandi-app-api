@@ -75,6 +75,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index')->withTrashed();
     Route::get('paciente/{patient}', [PatientController::class, 'show'])->name('patients.show');
     Route::post('paciente', [PatientController::class, 'store'])->name('patients.store');
+    Route::post('basico-paciente',[PatientController::class, 'basicUserToPatient'])->name('patients.basic');
     Route::put('paciente/{patient}', [PatientController::class, 'update'])->name('patients.update');
     Route::delete('paciente/{patient}', [PatientController::class, 'destroy'])->name('patients.destroy');
     Route::put('paciente/restore/{patient}', [PatientController::class, 'restore'])->name('patients.restore')->withTrashed();

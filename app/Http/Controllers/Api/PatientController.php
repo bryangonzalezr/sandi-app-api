@@ -91,6 +91,39 @@ class PatientController extends Controller
         return new UserResource($patient_user);
     }
 
+    public function basicUserToPatient(Request $request)
+    {
+        $request->validate([
+                'patient_email' => ['required', 'string', 'email', 'exists:users,email'],
+        ]);
+
+        $patient_user = User::where('email', $request->patient_email)->first();
+        $patient = Patient::where('patient_id', $patient_user->id)->withTrashed()->first();
+
+        if ($patient_user == null){
+            return response()->json([
+                'message' => 'El correo electrónico no se encuentra registrado en el sistema'
+            ], 404);
+        }
+
+        if ($patient_user->hasRole('usuario_basico') && !$patient){
+            $patient_user->removeRole('usuario_basico');
+            $patient_user->assignRole('paciente');
+
+            $patient = Patient::firstOrCreate([
+                'patient_id' => $patient_user->id
+            ],[
+                'nutritionist_id' => Auth::id(),
+            ]);
+
+            return new UserResource($patient_user);
+        }else{
+            return response()->json([
+                'message' => 'Este usuario ya es o fue un paciente'
+            ], 409);
+        }
+    }
+
     /**
      * Display the specified resource.
      */
