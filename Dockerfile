@@ -32,11 +32,11 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     && apt-get clean
 
-# Download the correct version of ChromeDriver
+# Download the correct version of ChromeDriver using the Google Cloud Storage API
 RUN CHROME_MAJOR_VERSION=$(google-chrome --version | grep -oP '\d+') && \
     CHROME_MINOR_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+') && \
-    CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION) && \
-    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
+    CHROMEDRIVER_VERSION=$(curl -s https://storage.googleapis.com/chromium-chromedriver/LATEST_RELEASE_$CHROME_MAJOR_VERSION) && \
+    gsutil cp gs://chromium-chromedriver/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip /tmp/chromedriver.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     rm /tmp/chromedriver.zip
 
