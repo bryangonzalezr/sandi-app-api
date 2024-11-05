@@ -33,13 +33,13 @@ class ShoppingListController extends Controller
 
     public function getProgress($menuId)
     {
-        $shoppingList = ShoppingList::where('menu_id', $menuId)->get();
         $progressKey = 'shopping_list_progress_' . $menuId;
-        $progressData = [
+        $data = Cache::get($progressKey);
+        /* $progressData = [
             'progress' => 0,
             'status' => 'active'
-        ];
-        $data = Cache::get($progressKey, $progressData);
+        ]; */
+
         if ($data['progress'] >= 100){
             Cache::get($progressKey, [
                 'progress' => 100,
