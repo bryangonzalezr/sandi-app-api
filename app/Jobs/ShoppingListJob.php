@@ -81,7 +81,7 @@ class ShoppingListJob implements ShouldQueue
                         $processed_ingredients += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         $progress = round(($processed_ingredients / $total_ingredients) * 100,1, PHP_ROUND_HALF_UP);
                         $progressData['progress'] = $progress;
-                        $progressData['status'] = $progress >= 100 ? 'inactive' : 'active_'. $this->action;
+                        $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
                         Cache::put($progressKey, $progressData, now()->addMinutes(10));
                     }
                 }
@@ -104,7 +104,7 @@ class ShoppingListJob implements ShouldQueue
                             $processed_ingredients += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                             $progress = ($processed_ingredients / $total_ingredients) * 100;
                             $progressData['progress'] = $progress;
-                            $progressData['status'] = $progress >= 100 ? 'inactive' : 'active_'. $this->action;
+                            $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
                             Cache::put($progressKey, $progressData, now()->addMinutes(10));
                         }
                     }
