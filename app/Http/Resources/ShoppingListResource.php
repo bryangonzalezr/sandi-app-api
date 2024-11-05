@@ -14,7 +14,7 @@ class ShoppingListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $menu = $this->menu ?? $this->dayMenu;
+        $menu = $this?->menu ?? $this?->dayMenu;
 
         return [
             '_id' => $this->_id,
