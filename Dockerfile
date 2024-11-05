@@ -1,7 +1,7 @@
-# Usa la imagen oficial de PHP 8.3 con FPM para producción
+# Use the official PHP 8.3 with FPM image for production
 FROM php:8.3-fpm
 
-# Instala dependencias del sistema y extensiones requeridas para PHP
+# Install system dependencies and required PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -15,16 +15,16 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath curl
 
-# Instala la extensión de MongoDB
+# Install the MongoDB extension
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-# Instala Google Chrome
+# Install Google Chrome
 RUN apt-get update && apt-get install -y wget \
     && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && apt-get install -y ./google-chrome-stable_current_amd64.deb \
     && rm ./google-chrome-stable_current_amd64.deb
 
-# Instala dependencias necesarias para ChromeDriver
+# Install dependencies needed for ChromeDriver
 RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libnss3 \
@@ -32,55 +32,56 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     && apt-get clean
 
-# Descarga ChromeDriver en función de la versión de Google Chrome instalada
-RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
-    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip" && \
+# Download the correct version of ChromeDriver
+RUN CHROME_MAJOR_VERSION=$(google-chrome --version | grep -oP '\d+') && \
+    CHROME_MINOR_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+') && \
+    CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION) && \
+    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     rm /tmp/chromedriver.zip
 
-# Instala Python 3, pip y el módulo para crear entornos virtuales
+# Install Python 3, pip, and the virtual environment module
 RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 
-# Crea un entorno virtual para Python
+# Create a Python virtual environment
 RUN python3 -m venv /opt/venv
 
-# Activa el entorno virtual y luego instala numpy, selenium y webdriver-manager
+# Activate the virtual environment and install required Python packages
 RUN /opt/venv/bin/pip install --upgrade pip && \
     /opt/venv/bin/pip install numpy selenium webdriver-manager
 
-# Asegura que el entorno virtual esté disponible en el contenedor
+# Ensure the virtual environment is available in the container
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Instala Composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establece el directorio de trabajo
+# Set the working directory
 WORKDIR /var/www
 
-# Copia los archivos de la aplicación a la imagen
+# Copy the application files to the image
 COPY . .
 
-# Instala las dependencias de Composer
+# Install Composer dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Copia el archivo de configuración de PHP para producción
+# Copy the PHP configuration file for production
 COPY ./docker/8.3/php.ini /usr/local/etc/php/
 
-# Establece el propietario correcto de los archivos
+# Ensure the correct ownership of the files
 RUN chown -R www-data:www-data /var/www
 
-# Genera la clave de la aplicación
+# Generate the application key
 RUN php artisan key:generate
 
-# Genera la caché de configuración
+# Generate the configuration cache
 RUN php artisan optimize
 
-# Ejecuta las migraciones
+# Run the migrations
 RUN php artisan migrate:fresh --seed --force
 
-# Comando para iniciar Laravel Server
+# Command to start the Laravel server
 CMD php artisan serve --host=0.0.0.0 --port=8080
 
-# Expone el puerto que usará Laravel
+# Expose the port used by Laravel
 EXPOSE 8080
-
