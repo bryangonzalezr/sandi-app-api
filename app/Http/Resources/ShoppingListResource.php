@@ -14,11 +14,11 @@ class ShoppingListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if($this?->dayMenu == null || $this?->menu == null){
+        if (is_null($this->resource)) {
             return [];
-        }else{
-            $menu = $this->menu ?? $this->dayMenu;
         }
+
+        $menu = $this->menu ?? $this->dayMenu;
 
         return [
             '_id' => $this->_id,
