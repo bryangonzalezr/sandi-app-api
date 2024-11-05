@@ -55,11 +55,11 @@ class ShoppingListController extends Controller
         return new ShoppingListResource($shopping_list);
     }
 
-    public function scrapping(DayMenu $dayMenu)
+    /* public function scrapping(DayMenu $dayMenu)
     {
         ShoppingListJob::dispatch(
             $dayMenu,
             $dayMenu->type
         )->onQueue('shoppingList');
-    }
+    } */
 }

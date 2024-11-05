@@ -97,8 +97,14 @@ class DayMenuController extends Controller
     public function update(UpdateDayMenuRequest $request, DayMenu $dayMenu)
     {
         $dayMenu->update($request->validated());
-        $dayMenu["type"] = "diario";
-        $dayMenu->save();
+        $dayMenu->update([
+            'type' => "diario",
+        ]);
+
+        ShoppingListJob::dispatch(
+            $dayMenu,
+            $dayMenu->type
+        )->onQueue('shoppingList');
 
         return new DayMenuResource($dayMenu);
     }
@@ -108,6 +114,7 @@ class DayMenuController extends Controller
      */
     public function destroy(DayMenu $dayMenu)
     {
+        //dd($dayMenu->shoppingList);
         $dayMenu->delete();
 
         return response()->json([

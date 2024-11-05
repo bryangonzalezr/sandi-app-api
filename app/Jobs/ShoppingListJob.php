@@ -36,86 +36,82 @@ class ShoppingListJob implements ShouldQueue
     {
         try{
             $list = [];
-        $count_ingredients = [];
-        $total_ingredients = 0;
-        $processed_ingredients = 0;
+            $count_ingredients = [];
+            $total_ingredients = 0;
+            $processed_ingredients = 0;
 
-        // Identificador único para el progreso
-        $progressKey = 'shopping_list_progress_' . $this->menu->id;
-        $progressData = [
-            'progress' => 0,
-            'status' => 'active'
-        ];
+            // Identificador único para el progreso
+            $progressKey = 'shopping_list_progress_' . $this->menu->id;
+            $progressData = [
+                'progress' => 0,
+                'status' => 'active'
+            ];
 
-        // Calcula el total de ingredientes para definir el progreso
-        if ($this->menu->type == 'diario') {
-            foreach ($this->menu->recipes as $recipe) {
-                $total_ingredients += count($recipe["ingredients"]);
-            }
-        } else {
-            foreach ($this->menu->menus as $day_menu) {
-                foreach ($day_menu as $recipe) {
+            // Calcula el total de ingredientes para definir el progreso
+            if ($this->menu->type == 'diario') {
+                foreach ($this->menu->recipes as $recipe) {
                     $total_ingredients += count($recipe["ingredients"]);
                 }
-            }
-        }
-
-        if ($this->menu->type == 'diario'){
-            foreach($this->menu->recipes as $recipe){
-                foreach($recipe["ingredients"] as $ingredient){
-                    $formatted_ingredient = str_replace(' ','_',$ingredient);
-                    if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                        $count_ingredients[$formatted_ingredient] += 1;
-                        continue;
-                    } else{
-                        $scrape = $this->scrape($formatted_ingredient);
-                        array_push($list, $scrape);
-                        $count_ingredients[$formatted_ingredient] = 1;
+            } else {
+                foreach ($this->menu->menus as $day_menu) {
+                    foreach ($day_menu as $recipe) {
+                        $total_ingredients += count($recipe["ingredients"]);
                     }
-                    // Incrementa el progreso y actualiza la cache
-                    $processed_ingredients++;
-                    $progress = ($processed_ingredients / $total_ingredients) * 100;
-                    $progressData['progress'] = $progress;
-                    $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
-                    Cache::put($progressKey, $progressData, now()->addMinutes(10));
                 }
             }
-        } else{
-            foreach($this->menu->menus as $day_menu){
-                foreach($day_menu as $recipe){
+
+            if ($this->menu->type == 'diario'){
+                foreach($this->menu->recipes as $recipe){
                     foreach($recipe["ingredients"] as $ingredient){
-                        $formatted_ingredient = str_replace(' ','_',$ingredient);
+                        $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
                         if(array_key_exists($formatted_ingredient, $count_ingredients)){
                             $count_ingredients[$formatted_ingredient] += 1;
                             continue;
                         } else{
                             $scrape = $this->scrape($formatted_ingredient);
                             array_push($list, $scrape);
+                            $count_ingredients[$formatted_ingredient] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         }
-
                         // Incrementa el progreso y actualiza la cache
                         $processed_ingredients++;
                         $progress = ($processed_ingredients / $total_ingredients) * 100;
                         $progressData['progress'] = $progress;
                         $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
                         Cache::put($progressKey, $progressData, now()->addMinutes(10));
-
                     }
                 }
-            }
-        }
+            } /* else{
+                foreach($this->menu->menus as $day_menu){
+                    foreach($day_menu as $recipe){
+                        foreach($recipe["ingredients"] as $ingredient){
+                            $formatted_ingredient = str_replace(' ','_',$ingredient);
+                            if(array_key_exists($formatted_ingredient, $count_ingredients)){
+                                $count_ingredients[$formatted_ingredient] += 1;
+                                continue;
+                            } else{
+                                $scrape = $this->scrape($formatted_ingredient);
+                                array_push($list, $scrape);
+                            }
 
+                            // Incrementa el progreso y actualiza la cache
+                            $processed_ingredients++;
+                            $progress = ($processed_ingredients / $total_ingredients) * 100;
+                            $progressData['progress'] = $progress;
+                            $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
+                            Cache::put($progressKey, $progressData, now()->addMinutes(10));
 
-        // Una vez terminado el trabajo, marca como "completado"
+                        }
+                    }
+                }
+            } */
 
-
-        $shopping_list = ShoppingList::updateOrCreate([
-            'menu_id' => $this->menu->id,
-        ],[
-            'list'    => $list,
-            'amounts' => $count_ingredients,
-            'menu_type' => $this->menuType
-        ]);
+            $shopping_list = ShoppingList::updateOrCreate([
+                'menu_id' => $this->menu->id,
+            ],[
+                'list'    => $list,
+                'amounts' => $count_ingredients,
+                'menu_type' => $this->menuType
+            ]);
 
         } catch (Exception $error) {
             $progressData['status'] = 'failed';

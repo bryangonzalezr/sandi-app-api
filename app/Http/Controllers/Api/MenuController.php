@@ -156,10 +156,10 @@ class MenuController extends Controller
             }
         }
 
-        ShoppingListJob::dispatch(
+        /* ShoppingListJob::dispatch(
             $menu,
             $menu->type
-        )->onQueue('shoppingList');
+        )->onQueue('shoppingList'); */
 
         return new MenuResource($menu);
     }
@@ -187,7 +187,6 @@ class MenuController extends Controller
                 "type" => "mensual"
             ]);
         }
-
 
         return new MenuResource($menu);
     }

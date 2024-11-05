@@ -99,6 +99,8 @@ class RecipeController extends Controller
                 'measure'  => $ingredient['measure']
             ];
         }
+
+
         $recipe->update([
             'label' => $request->label,
             'dietLabels' => $request->dietLabels,
