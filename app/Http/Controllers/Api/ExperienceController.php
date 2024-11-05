@@ -39,8 +39,8 @@ class ExperienceController extends Controller
                 "title" => $request->title,
                 "institution" => $request->institution,
                 "description" => $request->description,
-                "start_date" => Carbon::parse($request->start_date)->format('Y-m-d'),
-                "end_date" => Carbon::parse($request->end_date)->format('Y-m-d'),
+                "start_date" => Carbon::createFromFormat('d/m/Y' ,$request->start_date)->toDateString(),
+                "end_date" => Carbon::createFromFormat('d/m/Y' ,$request->start_date)->toDateString(),
             ]
         );
 
