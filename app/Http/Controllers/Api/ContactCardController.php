@@ -27,10 +27,14 @@ class ContactCardController extends Controller
     public function index(Request $request)
     {
 
-        $contact_cards = ContactCard::with(['nutritionist', 'commune','experience'])
+        $query = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences','commune.provinces.regions'])
         ->when($request->filled('commune'), function ($query) use ($request) {
             $query->where('commune_id', $request->integer('commune'));
-        })->paginate(3);
+        });
+
+        $contact_cards = $request->boolean('paginate')
+            ? $query->paginate(5)
+            : $query->get();
 
         return ContactCardResource::collection($contact_cards);
     }
@@ -40,27 +44,40 @@ class ContactCardController extends Controller
      */
     public function store(StoreContactCardRequest $request)
     {
-        $contact_card = ContactCard::create($request->validated());
-        $contact_card->load(['nutritionist', 'commune','experience']);
+        $contact_card = ContactCard::with(['nutritionist', 'commune', 'nutritionist.experiences', 'commune.provinces.regions'])
+        ->firstOrCreate([
+            'nutritionist_id' => Auth::id()
+        ],[
+            'commune_id' => $request->input('commune_id'),
+            'address' => $request->input('address'),
+            'slogan' => $request->input('slogan'),
+            'specialties' => $request->input('specialties'),
+            'description' => $request->input('description'),
+        ]);
+
         return new ContactCardResource($contact_card);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(ContactCard $contactCard)
+    public function show(User $user)
     {
-        $contactCard->load(['nutritionist', 'commune','experience']);
+        $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
+        ->where('nutritionist_id', $user->id)->first();
         return new ContactCardResource($contactCard);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContactCardRequest $request, ContactCard $contactCard)
+    public function update(UpdateContactCardRequest $request, User $user)
     {
+        $contactCard = ContactCard::with(['nutritionist', 'commune','nutritionist.experiences', 'commune.provinces.regions'])
+        ->where('nutritionist_id', $user->id)->first();
+
         $contactCard->update($request->validated());
-        $contactCard->load(['nutritionist', 'commune', 'experience']);
+
         return new ContactCardResource($contactCard);
     }
 

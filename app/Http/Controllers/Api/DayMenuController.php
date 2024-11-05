@@ -8,6 +8,7 @@ use App\Http\Requests\GetRecipeRequest;
 use App\Http\Requests\StoreDayMenuRequest;
 use App\Http\Requests\UpdateDayMenuRequest;
 use App\Http\Resources\DayMenuResource;
+use App\Jobs\ShoppingListJob;
 use App\Models\DayMenu;
 use App\Models\Patient;
 use App\Models\Recipe;
@@ -43,7 +44,7 @@ class DayMenuController extends Controller
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
-        ->orderBy('created_at','asc')
+        ->orderBy('created_at','desc')
         ->paginate(15);
 
         return DayMenuResource::collection($day_menus);
@@ -54,28 +55,30 @@ class DayMenuController extends Controller
      */
     public function store(StoreDayMenuRequest $request)
     {
-        $recipes = [];
-        foreach($request->input('recipes') as $recipe){
-            $created_recipe = Recipe::firstOrCreate($recipe);
-            array_push($recipes, $created_recipe);
+        if ($request->boolean('sandi_recipe')){
+            $recipes = [];
+            foreach($request->input('recipes') as $recipe){
+                $created_recipe = Recipe::create($recipe);
+                array_push($recipes, collect($created_recipe));
+            }
+
+            $day_menu = DayMenu::firstOrCreate($request->validated());
+            $day_menu->update([
+                'type' => "diario",
+                'recipes' => $recipes
+            ]);
+
+        } else {
+            $day_menu = DayMenu::firstOrCreate($request->validated());
+            $day_menu->update([
+                'type' => "diario",
+            ]);
         }
 
-        $day_menu = DayMenu::firstOrCreate($request->validated());
-        $day_menu->update([
-            'type' => "diario",
-            'recipes' => $recipes
-        ]);
-
-        /* $list = [];
-
-        foreach($day_menu->recipes as $recipe){
-
-        }
-
-        $shopping_list = ShoppingList::create([
-            'menu_id' => $day_menu->id,
-            'list'    => $list
-        ]); */
+        ShoppingListJob::dispatch(
+            $day_menu,
+            $day_menu->type,
+        )->onQueue('shoppingList');
 
         return new DayMenuResource($day_menu);
     }
@@ -95,8 +98,13 @@ class DayMenuController extends Controller
     {
         $dayMenu->update($request->validated());
         $dayMenu->update([
-            "type" =>"diario"
+            'type' => "diario",
         ]);
+
+        ShoppingListJob::dispatch(
+            $dayMenu,
+            $dayMenu->type,
+        )->onQueue('shoppingList');
 
         return new DayMenuResource($dayMenu);
     }
@@ -106,6 +114,7 @@ class DayMenuController extends Controller
      */
     public function destroy(DayMenu $dayMenu)
     {
+        //dd($dayMenu->shoppingList);
         $dayMenu->delete();
 
         return response()->json([
@@ -228,17 +237,19 @@ class DayMenuController extends Controller
         }
     }
 
-    private function scrape($ingredient)
+    /* private function scrape($ingredient)
     {
         $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
+        $output = [];
         $response = exec('python3 ' . $scrapper_path . ' ' . $ingredient, $output);
         $response = explode(',', $response);
+
         if ($response[0] == 'error') {
             return response()->json([
                 "message" => $response[1]
             ]);
         }elseif ($response[0] == 'ok') {
-            return response()->json($response[1]);
+            return json_decode($response[1]);
         }
-    }
+    } */
 }

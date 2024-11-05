@@ -15,7 +15,7 @@ class CommuneController extends Controller
      */
     public function index(Request $request)
     {
-        $communes = Commune::when($request->filled('region'), function ($q) use ($request) {
+        $communes = Commune::with(['provinces', 'provinces.regions'])->when($request->filled('region'), function ($q) use ($request) {
             $q->whereHas('provinces', function ($q) use ($request) {
                 $q->whereHas('regions', function ($q) use ($request) {
                     $q->where('ordinal', $request->input('region'));

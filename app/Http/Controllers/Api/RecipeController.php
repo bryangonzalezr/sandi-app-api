@@ -35,7 +35,7 @@ class RecipeController extends Controller
         $user = User::find(Auth::id());
 
         $query = Recipe::where('user_id', $user->id)
-        ->orderBy('created_at','asc');
+        ->orderBy('created_at','desc');
 
         $recipes = $request->boolean('paginate')
             ? $query->paginate(15)
@@ -49,7 +49,30 @@ class RecipeController extends Controller
      */
     public function store(StoreRecipeRequest $request)
     {
-        $recipe = Recipe::create($request->validated());
+        $ingredients = [];
+        foreach($request->ingredients as $ingredient){
+            $ingredients[] = [
+                'food' => $ingredient['food'],
+                'quantity' => str_contains($ingredient['quantity'], '/') ?
+                              $this->fractionToFloat($ingredient['quantity']) :
+                              (int) $ingredient['quantity'],
+                'measure'  => $ingredient['measure']
+            ];
+        }
+
+        $recipe = Recipe::create([
+            'label' => $request->label,
+            'dietLabels' => $request->dietLabels,
+            'healthLabels' => $request->healthLabels,
+            'ingredientLines' => $request->ingredientLines,
+            'ingredients' => $ingredients,
+            'calories' => $request->calories,
+            'mealType' => $request->mealType,
+            'dishType' => $request->dishType,
+            'instructions' => $request->instructions,
+            'user_id' => $request->user_id,
+            'sandi_recipe' => $request->sandi_recipe
+        ]);
         return new RecipeResource($recipe);
     }
 
@@ -66,7 +89,31 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
-        $recipe->update($request->validated());
+        $ingredients = [];
+        foreach($request->ingredients as $ingredient){
+            $ingredients[] = [
+                'food' => $ingredient['food'],
+                'quantity' => str_contains($ingredient['quantity'], '/') ?
+                              $this->fractionToFloat($ingredient['quantity']) :
+                              (int) $ingredient['quantity'],
+                'measure'  => $ingredient['measure']
+            ];
+        }
+
+
+        $recipe->update([
+            'label' => $request->label,
+            'dietLabels' => $request->dietLabels,
+            'healthLabels' => $request->healthLabels,
+            'ingredientLines' => $request->ingredientLines,
+            'ingredients' => $ingredients,
+            'calories' => $request->calories,
+            'mealType' => $request->mealType,
+            'dishType' => $request->dishType,
+            'instructions' => $request->instructions,
+            'user_id' => $request->user_id,
+            'sandi_recipe' => $request->sandi_recipe
+        ]);
 
         return new RecipeResource($recipe);
     }
@@ -81,6 +128,24 @@ class RecipeController extends Controller
         return response()->json([
             'message' => 'Receta eliminada satisfactoriamente',
         ]);
+    }
+
+    private function fractionToFloat(string $fraction)
+    {
+        if (str_contains($fraction, ' ')){
+            $quantity = explode(' ', $fraction);
+            $list = explode('/', $quantity[1]);
+            $numerador = (int) $list[0];
+            $denominador = (int) $list[1];
+            $float_quantity = (int) $quantity[0] + ($numerador / $denominador);
+        } else{
+            $list = explode('/', $fraction);
+            $numerador = (int) $list[0];
+            $denominador = (int) $list[1];
+            $float_quantity = $numerador / $denominador;
+        }
+
+        return $float_quantity;
     }
 
     public function getRecipeFromApi(GetRecipeRequest $request)

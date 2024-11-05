@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ExistInMongo;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateExperienceRequest extends FormRequest
+class StoreShoppingListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +23,6 @@ class UpdateExperienceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "type" => ['required', 'string'],
-            "title" => ['required', 'string'],
-            "institution" => ['required', 'string'],
-            "description" => ['required', 'string'],
-            "start_date" => ['required', 'date_format:d/m/Y'],
-            "end_date" => ['nullable', 'date_format:d/m/Y'],
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Recipe;
+use App\Rules\NumericString;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDayMenuRequest extends FormRequest
@@ -32,6 +33,10 @@ class StoreDayMenuRequest extends FormRequest
             'recipes.*.dietLabels' => ['nullable', 'array'],
             'recipes.*.healthLabels' => ['required', 'array'],
             'recipes.*.ingredientLines' => ['required', 'array'],
+            'recipes.*.ingredients' => ['required', 'array'],
+            'recipes.*.ingredients.*.food' => ['required', 'string'],
+            'recipes.*.ingredients.*.quantity' => ['required', new NumericString],
+            'recipes.*.ingredients.*.measure' => ['required', 'string'],
             'recipes.*.calories' => ['nullable', 'numeric'],
             'recipes.*.mealType' => ['nullable', 'array'],
             'recipes.*.instructions' => ['nullable', 'string'],

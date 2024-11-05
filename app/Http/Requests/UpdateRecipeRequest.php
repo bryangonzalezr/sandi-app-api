@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NumericString;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRecipeRequest extends FormRequest
@@ -27,7 +28,10 @@ class UpdateRecipeRequest extends FormRequest
             'healthLabels' => ['nullable', 'array'],
             'cautions' => ['nullable', 'array'],
             'ingredientLines' => ['required', 'array'],
-            'ingredients' => ['nullable', 'array'],
+            'ingredients' => ['required', 'array'],
+            'ingredients.*.food' => ['required', 'string'],
+            'ingredients.*.quantity' => ['required',new NumericString],
+            'ingredients.*.measure' => ['required', 'string'],
             'calories' => ['required', 'numeric'],
             'mealType' => ['nullable', 'array'],
             'dishType' => ['nullable', 'array'],

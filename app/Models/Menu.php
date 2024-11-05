@@ -29,4 +29,9 @@ class Menu extends MongoModel
     {
         return $this->belongsTo(User::class);
     }
+
+    public function shoppingList()
+    {
+        return $this->hasOne(ShoppingList::class);
+    }
 }

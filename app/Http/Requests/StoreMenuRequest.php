@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NumericString;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMenuRequest extends FormRequest
@@ -34,6 +35,10 @@ class StoreMenuRequest extends FormRequest
             'menus.*.*.dietLabels' => ['nullable', 'array'],
             'menus.*.*.healthLabels' => ['nullable', 'array'],
             'menus.*.*.ingredientLines' => ['required', 'array'],
+            'menus.*.*.ingredients' => ['required', 'array'],
+            'menus.*.*.ingredients.*.food' => ['required', 'string'],
+            'menus.*.*.ingredients.*.quantity' => ['required', new NumericString],
+            'menus.*.*.ingredients.*.measure' => ['required', 'string'],
             'menus.*.*.calories' => ['nullable', 'numeric'],
             'menus.*.*.mealType' => ['nullable', 'array'],
             'menus.*.*.instructions' => ['nullable', 'string'],

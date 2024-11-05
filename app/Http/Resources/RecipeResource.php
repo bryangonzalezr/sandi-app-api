@@ -13,10 +13,6 @@ class RecipeResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-/*         $dietLabels = TranslationHelper::translateCollection(collect($this->dietLabels));
-        $mealType = TranslationHelper::translateCollection(collect($this->mealType));
-        $dishType = TranslationHelper::translateCollection(collect($this->dishType));
-        $healthLabels = TranslationHelper::translateCollection(collect($this->healthLabels)); */
 
         return [
             '_id' => $this->_id,
@@ -24,6 +20,7 @@ class RecipeResource extends JsonResource
             'dietLabels' => $this->dietLabels,
             'healthLabels' => $this->healthLabels,
             'ingredientLines' => $this->ingredientLines,
+            'ingredients' => $this->ingredients,
             'calories' => $this->calories,
             'mealType' => $this->mealType,
             'dishType' => $this->dishType,

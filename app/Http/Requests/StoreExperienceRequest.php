@@ -27,8 +27,8 @@ class StoreExperienceRequest extends FormRequest
             "title" => ['required', 'string'],
             "institution" => ['required', 'string'],
             "description" => ['required', 'string'],
-            "start_date" => ['required', 'date'],
-            "end_date" => ['required', 'date'],
+            "start_date" => ['required', 'date_format:d/m/Y'],
+            "end_date" => ['nullable', 'date_format:d/m/Y'],
         ];
     }
 }

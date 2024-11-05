@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NumericString;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateMenuRequest extends FormRequest
@@ -29,15 +30,17 @@ class UpdateMenuRequest extends FormRequest
             'total_calories' => ['required', 'numeric'],
             'menus' => ['required', 'array'],
             'menus.*' => ['required', 'array'],
-            'menus.*.*._id' => ['required', 'string'],
+            'menus.*.*._id' => ['nullable', 'string'],
             'menus.*.*.label' => ['required', 'string'],
             'menus.*.*.dietLabels' => ['nullable', 'array'],
             'menus.*.*.healthLabels' => ['nullable', 'array'],
-            'menus.*.*.cautions' => ['nullable', 'array'],
             'menus.*.*.ingredientLines' => ['required', 'array'],
+            'menus.*.*.ingredients' => ['required', 'array'],
+            'menus.*.*.ingredients.*.food' => ['required', 'string'],
+            'menus.*.*.ingredients.*.quantity' => ['required', new NumericString],
+            'menus.*.*.ingredients.*.measure' => ['required', 'string'],
             'menus.*.*.calories' => ['nullable', 'numeric'],
             'menus.*.*.mealType' => ['nullable', 'array'],
-            'menus.*.*.dishType' => ['nullable', 'array'],
             'menus.*.*.instructions' => ['nullable', 'string'],
         ];
     }

@@ -10,6 +10,7 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuListResource;
 use App\Http\Resources\MenuResource;
+use App\Jobs\ShoppingListJob;
 use App\Models\ApiMenu;
 use App\Models\DayMenu;
 use App\Models\Menu;
@@ -53,7 +54,7 @@ class MenuController extends Controller
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
-        ->orderBy('created_at','asc')
+        ->orderBy('created_at','desc')
         ->paginate(15);
 
         return MenuResource::collection($menus);
@@ -65,7 +66,8 @@ class MenuController extends Controller
             [
                 'patient' => ['nullable', 'numeric'],
                 'sandi' => ['nullable', 'boolean'],
-                'type' => ['nullable', 'string']
+                'type' => ['nullable', 'string'],
+                'paginate' => ['nullable', 'boolean']
             ]
             );
         $user = User::find(Auth::id());
@@ -84,7 +86,8 @@ class MenuController extends Controller
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
             $query->where('sandi_recipe', $request->boolean('sandi'));
-        })->get();
+        })->orderBy('created_at','desc')
+        ->get();
 
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
             if ($request->type === 'semanal') {
@@ -103,11 +106,12 @@ class MenuController extends Controller
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
             $query->where('sandi_recipe', $request->boolean('sandi'));
-        })->get();
+        })->orderBy('created_at','desc')
+        ->get();
 
         $menus_list = $day_menus->merge($menus);
 
-        $paginate = PaginationHelper::paginate($menus_list, 15);
+        $paginate = $request->boolean('paginate') ? PaginationHelper::paginate($menus_list, 15) : $menus_list;
 
         return MenuListResource::collection($paginate);
     }
@@ -117,40 +121,47 @@ class MenuController extends Controller
      */
     public function store(StoreMenuRequest $request)
     {
-        $day_menus = [];
-        $recipes = [];
-        foreach($request->input('menus') as $day_menu){
-            foreach($day_menu as $recipe){
-                $created_recipe = Recipe::firstOrCreate($recipe);
-                array_push($recipes, $created_recipe);
-            }
-            array_push($day_menus, $recipes);
+        if($request->boolean('sandi_recipe')){
+            $day_menus = [];
             $recipes = [];
-        }
+            foreach($request->input('menus') as $day_menu){
+                foreach($day_menu as $recipe){
+                    $created_recipe = Recipe::create($recipe);
+                    array_push($recipes, collect($created_recipe));
+                }
+                array_push($day_menus, $recipes);
+                $recipes = [];
+            }
 
-        $menu = Menu::firstOrcreate($request->validated());
-        if ($menu->timespan == 7) {
-            $menu->update([
-                "type" => "semanal",
-                "menus" => $day_menus
-            ]);
-        } elseif ($menu->whereBetween('timespan', [28, 31])) {
-            $menu->update([
-                "type" => "mensual",
-                "menus" => $day_menus
-            ]);
-        }
-
-        /* $list = [];
-        foreach($menu->menus as $day_menu){
-            foreach($day_menu as $recipe){
-                $list = $this->scrape($recipe->ingredientLines);
+            $menu = Menu::firstOrcreate($request->validated());
+            if ($menu->timespan == 7) {
+                $menu->update([
+                    "type" => "semanal",
+                    "menus" => $day_menus
+                ]);
+            } elseif ($menu->whereBetween('timespan', [28, 31])) {
+                $menu->update([
+                    "type" => "mensual",
+                    "menus" => $day_menus
+                ]);
+            }
+        } else{
+            $menu = Menu::firstOrcreate($request->validated());
+            if ($menu->timespan == 7) {
+                $menu->update([
+                    "type" => "semanal",
+                ]);
+            } elseif ($menu->whereBetween('timespan', [28, 31])) {
+                $menu->update([
+                    "type" => "mensual",
+                ]);
             }
         }
-        $shopping_list = ShoppingList::create([
-            'menu_id' => $menu->id,
-            'list'    => $list
-        ]); */
+
+        ShoppingListJob::dispatch(
+            $menu,
+            $menu->type,
+        )->onQueue('shoppingList');
 
         return new MenuResource($menu);
     }
@@ -179,6 +190,10 @@ class MenuController extends Controller
             ]);
         }
 
+        ShoppingListJob::dispatch(
+            $menu,
+            $menu->type,
+        )->onQueue('shoppingList');
 
         return new MenuResource($menu);
     }
@@ -345,7 +360,7 @@ class MenuController extends Controller
         }
     }
 
-    private function scrape($ingredient)
+    /* private function scrape($ingredient)
     {
         $output = [];
         $scrapper_path = app_path('Scripts/scrapper') . '/scrapper.py';
@@ -356,7 +371,7 @@ class MenuController extends Controller
                 'message' => $response[1]
             ]);
         }elseif ($response[0] == 'ok') {
-            return $response[1];
+            return json_decode($response[1]);
         }
-    }
+    } */
 }

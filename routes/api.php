@@ -75,6 +75,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index')->withTrashed();
     Route::get('paciente/{patient}', [PatientController::class, 'show'])->name('patients.show');
     Route::post('paciente', [PatientController::class, 'store'])->name('patients.store');
+    Route::post('basico-paciente',[PatientController::class, 'basicUserToPatient'])->name('patients.basic');
     Route::put('paciente/{patient}', [PatientController::class, 'update'])->name('patients.update');
     Route::delete('paciente/{patient}', [PatientController::class, 'destroy'])->name('patients.destroy');
     Route::put('paciente/restore/{patient}', [PatientController::class, 'restore'])->name('patients.restore')->withTrashed();
@@ -126,17 +127,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Rutas Tarjetas de contacto
     Route::get('tarjetas', [ContactCardController::class, 'index'])->name('contactCards.index');
-    Route::get('tarjeta/{contactCard}', [ContactCardController::class, 'show'])->name('contactCards.show');
+    Route::get('tarjeta/{user}', [ContactCardController::class, 'show'])->name('contactCards.show');
     Route::post('tarjeta', [ContactCardController::class, 'store'])->name('contactCards.store');
-    Route::put('tarjeta/{contactCard}', [ContactCardController::class, 'update'])->name('contactCards.update');
+    Route::put('tarjeta/{user}', [ContactCardController::class, 'update'])->name('contactCards.update');
     Route::delete('tarjeta/{contactCard}', [ContactCardController::class, 'destroy'])->name('contactCards.destroy');
 
     // Rutas Experiencias
     Route::get('experiencias', [ExperienceController::class, 'index'])->name('experiences.index');
-    Route::get('experiencias/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
-    Route::post('experiencias', [ExperienceController::class, 'store'])->name('experiences.store');
-    Route::put('experiencias/{experience}', [ExperienceController::class, 'update'])->name('experiences.update');
-    Route::delete('experiencias/{experience}', [ExperienceController::class, 'destroy'])->name('experiences.destroy');
+    Route::get('experiencia/{experience}', [ExperienceController::class, 'show'])->name('experiences.show');
+    Route::post('experiencia', [ExperienceController::class, 'store'])->name('experiences.store');
+    Route::put('experiencia/{experience}', [ExperienceController::class, 'update'])->name('experiences.update');
+    Route::delete('experiencia/{experience}', [ExperienceController::class, 'destroy'])->name('experiences.destroy');
 
     // Rutas Chat
     Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage'])->name('chat.getMessage');
@@ -151,10 +152,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // Rutas Lista de compras
-    //Route::get('/obtener-datos-ingredientes', [ShoppingListController::class, 'scrape'])->name('ingredient-info');
+    Route::get('/shopping-lists', [ShoppingListController::class, 'index'])->name('shoppinList.index');
+    Route::get('/shopping-list/{menuId}', [ShoppingListController::class, 'show'])->name('shoppingList.show');
+    Route::get('/progress-bar/{menuId}', [ShoppingListController::class, 'getProgress'])->name('shoppingList.progress');
 
     //Health Enums
     Route::prefix('enum')->group(function () {
         Route::get('/health-types', [EnumController::class, 'healthTypes']);
+        Route::get('/experience-types', [EnumController::class, 'experienceTypes']);
     });
 });
