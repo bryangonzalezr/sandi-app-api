@@ -214,10 +214,11 @@ class MenuController extends Controller
     {
         try {
             $auth_user = User::find(Auth::id());
+            $health = [];
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
-                $request['health'] = $nutritional_profile->allergies;
+                $health = $nutritional_profile->allergies;
             }
 
             $api_tokens = ApiMenu::first();
@@ -248,6 +249,9 @@ class MenuController extends Controller
                 "recipes" => [],
                 "total_calories" => 0,
             ];
+
+            $excluded = [];
+
             $params = [
                 'type' => 'public',
                 'beta' => false,
@@ -287,6 +291,11 @@ class MenuController extends Controller
                     } elseif (in_array($key,$ignore_params)){
                         continue;
                     }
+                    elseif($key === "excluded"){
+                        foreach ($value as $excluded_ingredient) {
+                            $excluded[] = $excluded_ingredient;
+                        }
+                    }
                     else {
                         $params[$key] = $value;
                     }
@@ -300,6 +309,14 @@ class MenuController extends Controller
 
             foreach ($fields as $field) {
                 $url .= '&field=' . urlencode($field);
+            }
+
+            foreach ($excluded as $food) {
+                $url .= '&excluded=' . urlencode($food);
+            }
+
+            foreach ($health as $allergy){
+                $url .= '&health=' . urlencode($allergy);
             }
 
             $count_api = 0;
@@ -323,6 +340,14 @@ class MenuController extends Controller
                             $url .= '&field=' . urlencode($field);
                         }
 
+                        foreach ($excluded as $food) {
+                            $url .= '&excluded=' . urlencode($food);
+                        }
+
+                        foreach ($health as $allergy){
+                            $url .= '&health=' . urlencode($allergy);
+                        }
+
                         $count_api = 0;
                     }
                     $response = Http::get($url);
@@ -341,6 +366,13 @@ class MenuController extends Controller
 
                             foreach ($fields as $field) {
                                 $url .= '&field=' . urlencode($field);
+                            }
+                            foreach ($excluded as $food) {
+                                $url .= '&excluded=' . urlencode($food);
+                            }
+
+                            foreach ($health as $allergy){
+                                $url .= '&health=' . urlencode($allergy);
                             }
                         }
                     } else {

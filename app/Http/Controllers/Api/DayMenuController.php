@@ -126,10 +126,12 @@ class DayMenuController extends Controller
     {
         try {
             $auth_user = User::find(Auth::id());
+            $health = [];
+
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
-                $request['health'] = $nutritional_profile->allergies;
+                $health = $nutritional_profile->allergies;
             }
 
             $day_menu = [
@@ -144,6 +146,8 @@ class DayMenuController extends Controller
                     $day_menu['user_id'] = $request->input('patient_id');
                 }
             }
+
+            $excluded = [];
 
             $params = [
                 'type' => 'public',
@@ -184,8 +188,11 @@ class DayMenuController extends Controller
                     $params["q"] = $value;
                 } elseif (in_array($key,$ignore_params)){
                     continue;
-                }
-                else {
+                }elseif($key === "excluded"){
+                    foreach ($value as $excluded_ingredient) {
+                        $excluded[] = $excluded_ingredient;
+                    }
+                }else {
                     $params[$key] = $value;
                 }
             }
@@ -198,6 +205,14 @@ class DayMenuController extends Controller
 
         foreach ($fields as $field) {
             $url .= '&field=' . urlencode($field);
+        }
+
+        foreach ($excluded as $food) {
+            $url .= '&excluded=' . urlencode($food);
+        }
+
+        foreach ($health as $allergy){
+            $url .= '&health=' . urlencode($allergy);
         }
 
         foreach($meal_types as $meal_type){
@@ -220,6 +235,13 @@ class DayMenuController extends Controller
                     $url = "https://api.edamam.com/api/recipes/v2?". http_build_query($params);
                     foreach ($fields as $field) {
                         $url .= '&field=' . urlencode($field);
+                    }
+                    foreach ($excluded as $food) {
+                        $url .= '&excluded=' . urlencode($food);
+                    }
+
+                    foreach ($health as $allergy){
+                        $url .= '&health=' . urlencode($allergy);
                     }
                 }
 
