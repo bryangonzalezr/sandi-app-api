@@ -22,10 +22,9 @@ class ShoppingListResource extends JsonResource
                 '_id' => $this->menu_id,
                 'name' => $menu->name,
                 'sandi_recipe' => $menu->sandi_recipe,
-                'type' => $menu->type
+                'type' => $this->menu_type
             ],
             'list' => $this->list,
-            'amounts' => $this->amounts,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

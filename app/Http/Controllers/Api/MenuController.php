@@ -158,7 +158,8 @@ class MenuController extends Controller
 
         ShoppingListJob::dispatch(
             $menu,
-            $menu->type
+            $menu->type,
+            'post'
         )->onQueue('shoppingList');
 
         return new MenuResource($menu);
@@ -190,7 +191,8 @@ class MenuController extends Controller
 
         ShoppingListJob::dispatch(
             $menu,
-            $menu->type
+            $menu->type,
+            'put'
         )->onQueue('shoppingList');
 
         return new MenuResource($menu);

@@ -16,7 +16,6 @@ class ShoppingList extends Model
     protected $fillable = [
         'menu_id',
         'list',
-        'amounts',
         'menu_type'
     ];
 

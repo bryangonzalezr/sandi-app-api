@@ -22,11 +22,13 @@ class ShoppingListJob implements ShouldQueue
      */
     public function __construct(
         public $menu,
-        public $menuType
+        public string $menuType,
+        public string $action,
     )
     {
         $this->menu = $menu;
         $this->menuType = $menuType;
+        $this->action = $action;
     }
 
     /**
@@ -36,7 +38,6 @@ class ShoppingListJob implements ShouldQueue
     {
         try{
             $list = [];
-            $count_ingredients = [];
             $total_ingredients = 0;
             $processed_ingredients = 0;
 
@@ -44,7 +45,7 @@ class ShoppingListJob implements ShouldQueue
             $progressKey = 'shopping_list_progress_' . $this->menu->id;
             $progressData = [
                 'progress' => 0,
-                'status' => 'active'
+                'status' => 'active_' . $this->action
             ];
 
             // Calcula el total de ingredientes para definir el progreso
@@ -66,59 +67,59 @@ class ShoppingListJob implements ShouldQueue
                 foreach($this->menu->recipes as $recipe){
                     foreach($recipe["ingredients"] as $ingredient){
                         $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
-                        if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                            $count_ingredients[$formatted_ingredient] += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
+                        if(array_key_exists($formatted_ingredient, $list)){
+                            $list[$formatted_ingredient]['amount'] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         } else{
                             $scrape = $this->scrape($formatted_ingredient);
-                            array_push($list, $scrape);
-                            $count_ingredients[$formatted_ingredient] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
+                            $list[$formatted_ingredient] = [
+                                'price' => $scrape[$formatted_ingredient] ?? 'N/A',
+                                'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
+                            ];
                         }
                         // Incrementa el progreso y actualiza la cache
-                        $processed_ingredients += $count_ingredients[$formatted_ingredient];
+                        $processed_ingredients += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         $progress = round(($processed_ingredients / $total_ingredients) * 100,1, PHP_ROUND_HALF_UP);
                         $progressData['progress'] = $progress;
-                        $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
+                        $progressData['status'] = $progress >= 100 ? 'inactive' : 'active_'. $this->action;
                         Cache::put($progressKey, $progressData, now()->addMinutes(10));
                     }
                 }
-                $shopping_list = ShoppingList::updateOrCreate([
-                    'menu_id' => $this->menu->id,
-                ],[
-                    'list'    => $list,
-                    'amounts' => $count_ingredients,
-                    'menu_type' => $this->menuType
-                ]);
             } else{
                 foreach($this->menu->menus as $day_menu){
                     foreach($day_menu as $recipe){
                         foreach($recipe["ingredients"] as $ingredient){
                             $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
-                            if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                                $count_ingredients[$formatted_ingredient] += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
+                            if(array_key_exists($formatted_ingredient, $list)){
+                                $list[$formatted_ingredient]['amount'] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                                 continue;
                             } else{
-                                $count_ingredients[$formatted_ingredient] += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
+                                $list[$formatted_ingredient] = [
+                                    'price' => $scrape[$formatted_ingredient] ?? 'N/A',
+                                    'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
+                                ];
                             }
 
                             // Incrementa el progreso y actualiza la cache
-                            $processed_ingredients += $count_ingredients[$formatted_ingredient];
+                            $processed_ingredients += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                             $progress = ($processed_ingredients / $total_ingredients) * 100;
                             $progressData['progress'] = $progress;
-                            $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
+                            $progressData['status'] = $progress >= 100 ? 'inactive' : 'active_'. $this->action;
                             Cache::put($progressKey, $progressData, now()->addMinutes(10));
                         }
                     }
                 }
-                $shopping_list = ShoppingList::updateOrCreate([
-                    'menu_id' => $this->menu->id,
-                ],[
-                    'amounts' => $count_ingredients,
-                    'menu_type' => $this->menuType
-                ]);
+
             }
 
+            $shopping_list = ShoppingList::updateOrCreate([
+                'menu_id' => $this->menu->id,
+            ],[
+                'list' => $list,
+                'menu_type' => $this->menuType
+            ]);
+
         } catch (Exception $error) {
-            $progressData['status'] = 'failed';
+            $progressData['status'] = 'failed_'. $this->action;
             Cache::put($progressKey, $progressData, now()->addMinutes(10));
             Cache::forget($progressKey);
             logger($error);
