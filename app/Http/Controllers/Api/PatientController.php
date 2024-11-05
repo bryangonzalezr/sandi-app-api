@@ -7,6 +7,8 @@ use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
+use App\Mail\PatientAccount;
+use App\Mail\SendPassword;
 use App\Models\ChatMessage;
 use App\Models\NutritionalPlan;
 use App\Models\NutritionalProfile;
@@ -15,6 +17,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class PatientController extends Controller
@@ -90,6 +93,8 @@ class PatientController extends Controller
             'patient_id' => $patient_user->id
         ]);
 
+        Mail::to($patient_user->email)->send(new SendPassword($password));
+
         return new UserResource($patient_user);
     }
 
@@ -98,7 +103,7 @@ class PatientController extends Controller
         $request->validate([
                 'patient_email' => ['required', 'string', 'email', 'exists:users,email'],
         ]);
-
+        $nutritionist = User::find(Auth::id());
         $patient_user = User::where('email', $request->patient_email)->first();
         $patient = Patient::where('patient_id', $patient_user->id)->withTrashed()->first();
 
@@ -117,6 +122,8 @@ class PatientController extends Controller
             ],[
                 'nutritionist_id' => Auth::id(),
             ]);
+
+            Mail::to($patient_user->email)->send(new PatientAccount($patient_user, $nutritionist));
 
             return new UserResource($patient_user);
         }else{
