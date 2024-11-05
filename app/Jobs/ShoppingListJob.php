@@ -72,7 +72,7 @@ class ShoppingListJob implements ShouldQueue
                         } else{
                             $scrape = $this->scrape($formatted_ingredient);
                             $list[$formatted_ingredient] = [
-                                'price' => $scrape[$formatted_ingredient] ?? 'N/A',
+                                'price' => $scrape->$formatted_ingredient ?? 'N/A',
                                 'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
                             ];
                         }
@@ -94,7 +94,7 @@ class ShoppingListJob implements ShouldQueue
                                 continue;
                             } else{
                                 $list[$formatted_ingredient] = [
-                                    'price' => $scrape[$formatted_ingredient] ?? 'N/A',
+                                    'price' => $scrape->$formatted_ingredient ?? 'N/A',
                                     'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
                                 ];
                             }

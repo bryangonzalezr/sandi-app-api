@@ -55,7 +55,7 @@ class TestShoppingList extends Command
             }
         } */
         // Despacha el job
-        ShoppingListJob::dispatch($menu, $menu->type)->onQueue('shoppingList');
+        ShoppingListJob::dispatch($menu, $menu->type, 'put')->onQueue('shoppingList');
 
         $this->info("ShoppingListJob for menu ID {$menuId} dispatched!");
 
