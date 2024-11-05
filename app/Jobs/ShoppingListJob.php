@@ -75,7 +75,7 @@ class ShoppingListJob implements ShouldQueue
                         }
                         // Incrementa el progreso y actualiza la cache
                         $processed_ingredients += $count_ingredients[$formatted_ingredient];
-                        $progress = ($processed_ingredients / $total_ingredients) * 100;
+                        $progress = round(($processed_ingredients / $total_ingredients) * 100,1, PHP_ROUND_HALF_UP);
                         $progressData['progress'] = $progress;
                         $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
                         Cache::put($progressKey, $progressData, now()->addMinutes(10));
