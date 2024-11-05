@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateExperienceRequest;
 use App\Http\Resources\ExperienceResource;
 use App\Models\Experience;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ExperienceController extends Controller
@@ -27,7 +28,17 @@ class ExperienceController extends Controller
      */
     public function store(StoreExperienceRequest $request)
     {
-        $experience = Experience::create($request->validated());
+        $experience = Experience::create(
+            [
+                "nutritionist_id" => Auth::id(),
+                "type" => $request->type,
+                "title" => $request->title,
+                "institution" => $request->institution,
+                "description" => $request->description,
+                "start_date" => Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d'),
+                "end_date" => Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d'),
+            ]
+        );
 
         return new ExperienceResource($experience);
     }
@@ -45,7 +56,17 @@ class ExperienceController extends Controller
      */
     public function update(UpdateExperienceRequest $request, Experience $experience)
     {
-        $experience->update($request->validated());
+        $experience->update(
+            [
+                "nutritionist_id" => Auth::id(),
+                "type" => $request->type,
+                "title" => $request->title,
+                "institution" => $request->institution,
+                "description" => $request->description,
+                "start_date" => Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d'),
+                "end_date" => Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d'),
+            ]
+        );
 
         return new ExperienceResource($experience);
     }
