@@ -34,21 +34,16 @@ class ShoppingListController extends Controller
     public function getProgress($menuId)
     {
         $progressKey = 'shopping_list_progress_' . $menuId;
-        $progressData = [
-            'progress' => 0,
-            'status' => 'active'
-        ];
-        $data = Cache::get($progressKey, $progressData);
+        $data = Cache::get($progressKey);
         if ($data){
             if ($data['progress'] >= 100){
                 $data = Cache::get($progressKey, [
                     'progress' => 100,
                     'status' => 'inactive'
                 ]);
+                Cache::forget($progressKey);
             }
-            Cache::forget($progressKey);
         }
-
         return response()->json([
             'progress' => $data
         ]);
