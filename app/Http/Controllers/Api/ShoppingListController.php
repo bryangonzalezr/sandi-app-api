@@ -40,11 +40,13 @@ class ShoppingListController extends Controller
             'status' => 'active'
         ]; */
 
-        if ($data['progress'] >= 100){
-            Cache::get($progressKey, [
-                'progress' => 100,
-                'status' => 'inactive'
-            ]);
+        if ($data){
+            if ($data['progress'] >= 100){
+                $data = Cache::get($progressKey, [
+                    'progress' => 100,
+                    'status' => 'inactive'
+                ]);
+            }
             Cache::forget($progressKey);
         }
 
