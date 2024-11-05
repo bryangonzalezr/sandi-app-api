@@ -26,7 +26,7 @@ class ShoppingListController extends Controller
 
         $shopping_list = ShoppingList::whereIn('menu_id', $user->dayMenus->pluck('_id'))->orWhere(function ($query) use ($user) {
             $query->whereIn('menu_id', $user->menus->pluck('_id'));
-        })->get();
+        })->orderBy('created_at','desc')->get();
 
         return ShoppingListResource::collection($shopping_list);
     }

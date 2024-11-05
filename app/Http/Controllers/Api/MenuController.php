@@ -54,7 +54,7 @@ class MenuController extends Controller
         })->when($user->hasRole('paciente'), function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
-        ->orderBy('created_at','asc')
+        ->orderBy('created_at','desc')
         ->paginate(15);
 
         return MenuResource::collection($menus);
@@ -86,7 +86,8 @@ class MenuController extends Controller
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
             $query->where('sandi_recipe', $request->boolean('sandi'));
-        })->get();
+        })->orderBy('created_at','desc')
+        ->get();
 
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
             if ($request->type === 'semanal') {
@@ -105,7 +106,8 @@ class MenuController extends Controller
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
             $query->where('sandi_recipe', $request->boolean('sandi'));
-        })->get();
+        })->orderBy('created_at','desc')
+        ->get();
 
         $menus_list = $day_menus->merge($menus);
 

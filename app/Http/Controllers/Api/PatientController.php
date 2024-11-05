@@ -36,7 +36,7 @@ class PatientController extends Controller
             }
         })
         ->get();
-        $patient_users = User::whereIn('id', $patients->pluck('patient_id'));
+        $patient_users = User::whereIn('id', $patients->pluck('patient_id'))->orderBy('created_at','desc');
 
         $patient_users = $request->boolean('paginate')
         ? $patient_users->paginate(15)
