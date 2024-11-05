@@ -15,6 +15,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PatientController extends Controller
 {
@@ -51,6 +52,7 @@ class PatientController extends Controller
      */
     public function store(StorePatientRequest $request)
     {
+        $password = Str::random(12);
         $patient_user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
@@ -62,7 +64,7 @@ class PatientController extends Controller
             'description' => $request->description,
             'objectives' => $request->objectives,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($password),
         ]);
         $patient_user->assignRole('paciente');
         $nutritional_profile = NutritionalProfile::create([
