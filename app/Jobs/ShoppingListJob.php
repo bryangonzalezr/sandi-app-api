@@ -122,7 +122,7 @@ class ShoppingListJob implements ShouldQueue
         } catch (Exception $error) {
             $progressData['status'] = 'failed';
             Cache::put($progressKey, $progressData, now()->addMinutes(10));
-            Cache::forget($progressKey);
+
             logger($error);
         }
 
