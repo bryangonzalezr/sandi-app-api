@@ -48,6 +48,9 @@ class ShoppingListJob implements ShouldQueue
                 'status' => 'active_' . $this->action
             ];
 
+            // Inicializa el progreso
+            Cache::put($progressKey, $progressData);
+
             // Calcula el total de ingredientes para definir el progreso
             if ($this->menu->type == 'diario') {
                 foreach ($this->menu->recipes as $recipe) {
