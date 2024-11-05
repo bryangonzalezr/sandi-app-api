@@ -55,7 +55,7 @@ class ShoppingListController extends Controller
 
     public function show($menuId)
     {
-        $shopping_list = ShoppingList::where('menu_id', $menuId)->first();
+        $shopping_list = ShoppingList::with(['dayMenu', 'menu'])->where('menu_id', $menuId)->first();
         return new ShoppingListResource($shopping_list);
     }
 
