@@ -54,15 +54,15 @@ class ShoppingListJob implements ShouldQueue
                         $total_ingredients += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                     }
                 }
-            } /* else {
+            } else {
                 foreach ($this->menu->menus as $day_menu) {
                     foreach ($day_menu as $recipe) {
                         $total_ingredients += count($recipe["ingredients"]);
                     }
                 }
-            } */
+            }
 
-            if ($this->menu->type == 'diario'){
+            if ($this->menuType == 'diario'){
                 foreach($this->menu->recipes as $recipe){
                     foreach($recipe["ingredients"] as $ingredient){
                         $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
@@ -81,38 +81,41 @@ class ShoppingListJob implements ShouldQueue
                         Cache::put($progressKey, $progressData, now()->addMinutes(10));
                     }
                 }
-            } /* else{
+                $shopping_list = ShoppingList::updateOrCreate([
+                    'menu_id' => $this->menu->id,
+                ],[
+                    'list'    => $list,
+                    'amounts' => $count_ingredients,
+                    'menu_type' => $this->menuType
+                ]);
+            } else{
                 foreach($this->menu->menus as $day_menu){
                     foreach($day_menu as $recipe){
                         foreach($recipe["ingredients"] as $ingredient){
-                            $formatted_ingredient = str_replace(' ','_',$ingredient);
+                            $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
                             if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                                $count_ingredients[$formatted_ingredient] += 1;
+                                $count_ingredients[$formatted_ingredient] += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                                 continue;
                             } else{
-                                $scrape = $this->scrape($formatted_ingredient);
-                                array_push($list, $scrape);
+                                $count_ingredients[$formatted_ingredient] += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                             }
 
                             // Incrementa el progreso y actualiza la cache
-                            $processed_ingredients++;
+                            $processed_ingredients += $count_ingredients[$formatted_ingredient];
                             $progress = ($processed_ingredients / $total_ingredients) * 100;
                             $progressData['progress'] = $progress;
                             $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
                             Cache::put($progressKey, $progressData, now()->addMinutes(10));
-
                         }
                     }
                 }
-            } */
-
-            $shopping_list = ShoppingList::updateOrCreate([
-                'menu_id' => $this->menu->id,
-            ],[
-                'list'    => $list,
-                'amounts' => $count_ingredients,
-                'menu_type' => $this->menuType
-            ]);
+                $shopping_list = ShoppingList::updateOrCreate([
+                    'menu_id' => $this->menu->id,
+                ],[
+                    'amounts' => $count_ingredients,
+                    'menu_type' => $this->menuType
+                ]);
+            }
 
         } catch (Exception $error) {
             $progressData['status'] = 'failed';
