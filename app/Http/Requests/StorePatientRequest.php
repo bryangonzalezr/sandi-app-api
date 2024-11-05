@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CivilStatus;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 
 class StorePatientRequest extends FormRequest
 {
@@ -22,8 +26,16 @@ class StorePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'patient_id' => ['required', 'integer', 'exists:users,id'],
-            'patient_email' => ['required', 'string', 'email', 'exists:users,email'],
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'sex' => ['required', 'string'],
+            'birthdate' => ['required', 'date'],
+            'phone_number' => ['required', 'string'],
+            'civil_status' => ['required', Rule::enum(CivilStatus::class)],
+            'objectives' => ['nullable', 'string'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::default()],
+            'password_confirmation' => ['required', 'string'],
         ];
     }
 }

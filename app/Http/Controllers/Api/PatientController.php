@@ -9,8 +9,10 @@ use App\Http\Resources\PatientResource;
 use App\Http\Resources\UserResource;
 use App\Models\ChatMessage;
 use App\Models\NutritionalPlan;
+use App\Models\NutritionalProfile;
 use App\Models\Patient;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,22 +51,42 @@ class PatientController extends Controller
      */
     public function store(StorePatientRequest $request)
     {
-        $patient_user = User::where('email', $request->patient_email)->first();
-        if ($patient_user == null){
-            return response()->json([
-                'message' => 'El correo electrónico no se encuentra registrado en el sistema'
-            ], 404);
-        }
+        $patient_user = User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'sex' => $request->sex,
+            'birthdate' => $request->birthdate,
+            'age' => Carbon::parse($request->birthdate)->age,
+            'phone_number' => $request->phone_number,
+            'civil_status' => $request->civil_status,
+            'description' => $request->description,
+            'objectives' => $request->objectives,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+        $patient_user->assignRole('paciente');
+        $nutritional_profile = NutritionalProfile::create([
+            'patient_id' => $patient_user->id,
+            'nutritional_state' => "",
+            'description' => "",
+            'height' => 0,
+            'weight' => 0,
+            'physical_comentario' => "",
+            'physical_status' => "",
+            'habits' => "",
+            'allergies' => "",
+            'morbid_antecedents' => "",
+            'patient_type' => "",
+            'family_antecedents' => "",
+            'digestion' => "",
+            'subjective_assessment' => "",
+            'nutritional_anamnesis' => "",
+        ]);
 
-        if ($patient_user->hasRole('usuario_basico')){
-            $patient_user->removeRole('usuario_basico');
-            $patient_user->assignRole('paciente');
-
-            $patient = Patient::create([
-                'nutritionist_id' => Auth::id(),
-                'patient_id' => $patient_user->id
-            ]);
-        }
+        $patient = Patient::create([
+            'nutritionist_id' => Auth::id(),
+            'patient_id' => $patient_user->id
+        ]);
 
         return new UserResource($patient_user);
     }
