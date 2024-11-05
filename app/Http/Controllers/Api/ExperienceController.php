@@ -16,9 +16,13 @@ class ExperienceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $experiences = Experience::where('nutritionist_id', Auth::id())->get();
+        $query = Experience::where('nutritionist_id', Auth::id())->orderBy('created_at','desc');
+
+        $experiences = $request->boolean('paginate')
+            ? $query->paginate(4)
+            : $query->get();
 
         return ExperienceResource::collection($experiences);
     }
