@@ -124,7 +124,10 @@ class PatientController extends Controller
         $patient_user->restore();
         $patient->removeRole('usuario_basico');
         $patient->assignRole('paciente');
-        $patient->nutritionalPlan?->restore();
+        $nutritionalPlan = $patient->nutritionalPlan()->withTrashed()->first();
+        if($nutritionalPlan){
+            $nutritionalPlan->restore();
+        }
 
         $messages = ChatMessage::onlyTrashed()
         ->with(['sender', 'receiver'])
