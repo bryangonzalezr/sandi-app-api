@@ -50,30 +50,31 @@ class ShoppingListJob implements ShouldQueue
             // Calcula el total de ingredientes para definir el progreso
             if ($this->menu->type == 'diario') {
                 foreach ($this->menu->recipes as $recipe) {
-                    $total_ingredients += count($recipe["ingredients"]);
+                    foreach($recipe["ingredients"] as $ingredient){
+                        $total_ingredients += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
+                    }
                 }
-            } else {
+            } /* else {
                 foreach ($this->menu->menus as $day_menu) {
                     foreach ($day_menu as $recipe) {
                         $total_ingredients += count($recipe["ingredients"]);
                     }
                 }
-            }
+            } */
 
             if ($this->menu->type == 'diario'){
                 foreach($this->menu->recipes as $recipe){
                     foreach($recipe["ingredients"] as $ingredient){
                         $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
                         if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                            $count_ingredients[$formatted_ingredient] += 1;
-                            continue;
+                            $count_ingredients[$formatted_ingredient] += round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         } else{
                             $scrape = $this->scrape($formatted_ingredient);
                             array_push($list, $scrape);
                             $count_ingredients[$formatted_ingredient] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         }
                         // Incrementa el progreso y actualiza la cache
-                        $processed_ingredients++;
+                        $processed_ingredients += $count_ingredients[$formatted_ingredient];
                         $progress = ($processed_ingredients / $total_ingredients) * 100;
                         $progressData['progress'] = $progress;
                         $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';

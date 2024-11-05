@@ -42,6 +42,18 @@ class TestShoppingList extends Command
             return;
         }
 
+        /* $list = [];
+        $count_ingredients = [];
+        foreach($menu->recipes as $recipe){
+            foreach($recipe["ingredients"] as $ingredient){
+                $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
+                if(array_key_exists($formatted_ingredient, $count_ingredients)){
+                    $count_ingredients[$formatted_ingredient] += 1;
+                    continue;
+                }
+                $this->info($formatted_ingredient);
+            }
+        } */
         // Despacha el job
         ShoppingListJob::dispatch($menu, $menu->type)->onQueue('shoppingList');
 
