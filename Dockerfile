@@ -18,18 +18,25 @@ RUN apt-get update && apt-get install -y \
 # Instala la extensión de MongoDB
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-#Instalar google chrome
-RUN apt-get update && apt-get install -y wget
-RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+# Instala Google Chrome
+RUN apt-get update && apt-get install -y wget \
+    && wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt-get install -y ./google-chrome-stable_current_amd64.deb \
+    && rm ./google-chrome-stable_current_amd64.deb
 
-# Instala librerias necesarias para chromedriver
-RUN apt-get update && apt-get install -y libglib2.0-0 \
+# Instala dependencias necesarias para ChromeDriver
+RUN apt-get update && apt-get install -y \
+    libglib2.0-0 \
     libnss3 \
     libgconf-2-4 \
     libfontconfig1 \
-    chromium-chromedriver \
-    chromium-browser
+    && apt-get clean
+
+# Descarga ChromeDriver en función de la versión de Google Chrome instalada
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
+    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip" && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    rm /tmp/chromedriver.zip
 
 # Instala Python 3, pip y el módulo para crear entornos virtuales
 RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
@@ -37,9 +44,9 @@ RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 # Crea un entorno virtual para Python
 RUN python3 -m venv /opt/venv
 
-# Activa el entorno virtual y luego instala numpy
-RUN /opt/venv/bin/pip install --upgrade pip && /opt/venv/bin/pip install numpy
-RUN /opt/venv/bin/pip install selenium && /opt/venv/bin/pip install webdriver-manager
+# Activa el entorno virtual y luego instala numpy, selenium y webdriver-manager
+RUN /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install numpy selenium webdriver-manager
 
 # Asegura que el entorno virtual esté disponible en el contenedor
 ENV PATH="/opt/venv/bin:$PATH"
@@ -71,8 +78,9 @@ RUN php artisan optimize
 # Ejecuta las migraciones
 RUN php artisan migrate:fresh --seed --force
 
-# Comando para iniciar Laravel Server y Reverb en paralelo
+# Comando para iniciar Laravel Server
 CMD php artisan serve --host=0.0.0.0 --port=8080
 
-# Expone los puertos que usará Laravel y Reverb
+# Expone el puerto que usará Laravel
 EXPOSE 8080
+
