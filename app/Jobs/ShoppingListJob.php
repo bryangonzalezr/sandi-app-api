@@ -4,12 +4,14 @@ namespace App\Jobs;
 
 use App\Models\DayMenu;
 use App\Models\ShoppingList;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ShoppingListJob implements ShouldQueue
 {
@@ -20,9 +22,11 @@ class ShoppingListJob implements ShouldQueue
      */
     public function __construct(
         public $menu,
+        public $menuType
     )
     {
         $this->menu = $menu;
+        $this->menuType = $menuType;
     }
 
     /**
@@ -30,13 +34,18 @@ class ShoppingListJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $list = [];
+        try{
+            $list = [];
         $count_ingredients = [];
         $total_ingredients = 0;
         $processed_ingredients = 0;
 
         // Identificador único para el progreso
         $progressKey = 'shopping_list_progress_' . $this->menu->id;
+        $progressData = [
+            'progress' => 0,
+            'status' => 'active'
+        ];
 
         // Calcula el total de ingredientes para definir el progreso
         if ($this->menu->type == 'diario') {
@@ -66,7 +75,9 @@ class ShoppingListJob implements ShouldQueue
                     // Incrementa el progreso y actualiza la cache
                     $processed_ingredients++;
                     $progress = ($processed_ingredients / $total_ingredients) * 100;
-                    Cache::put($progressKey, $progress, now()->addMinutes(10));
+                    $progressData['progress'] = $progress;
+                    $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
+                    Cache::put($progressKey, $progressData, now()->addMinutes(10));
                 }
             }
         } else{
@@ -85,20 +96,34 @@ class ShoppingListJob implements ShouldQueue
                         // Incrementa el progreso y actualiza la cache
                         $processed_ingredients++;
                         $progress = ($processed_ingredients / $total_ingredients) * 100;
-                        Cache::put($progressKey, $progress, now()->addMinutes(10));
+                        $progressData['progress'] = $progress;
+                        $progressData['status'] = $progress >= 100 ? 'inactive' : 'active';
+                        Cache::put($progressKey, $progressData, now()->addMinutes(10));
 
                     }
                 }
             }
         }
 
-        Cache::forget($progressKey);
 
-        $shopping_list = ShoppingList::create([
+        // Una vez terminado el trabajo, marca como "completado"
+
+
+        $shopping_list = ShoppingList::updateOrCreate([
             'menu_id' => $this->menu->id,
+        ],[
             'list'    => $list,
-            'amounts' => $count_ingredients
+            'amounts' => $count_ingredients,
+            'menu_type' => $this->menuType
         ]);
+
+        } catch (Exception $error) {
+            $progressData['status'] = 'failed';
+            Cache::put($progressKey, $progressData, now()->addMinutes(10));
+            Cache::forget($progressKey);
+            logger($error);
+        }
+
     }
 
     private function scrape($ingredient)

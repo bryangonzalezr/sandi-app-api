@@ -16,12 +16,16 @@ class ShoppingListResource extends JsonResource
     {
         return [
             '_id' => $this->_id,
-            'menu' => $this->menu,/* [
-                '_id' => $this->menu->_id,
-                'name' => $this->menu->name
-            ], */
+            'dayMenu' => [
+                '_id' => $this->dayMenu?->_id,
+                'name' => $this->dayMenu?->name
+            ],
+            'menu' => [
+                '_id' => $this->menu?->_id,
+                'name' => $this->menu?->name
+            ],
             'list' => $this->list,
-            'amount' => $this->amount
+            'amounts' => $this->amounts
         ];
     }
 }

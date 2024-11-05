@@ -75,28 +75,10 @@ class DayMenuController extends Controller
             ]);
         }
 
-        ShoppingListJob::dispatch($day_menu)->onQueue('shoppingList');
-        /* $list = [];
-        $count_ingredients = [];
-        foreach($day_menu->recipes as $recipe){
-            foreach($recipe["ingredients"] as $ingredient){
-                $formatted_ingredient = str_replace(' ','_',$ingredient);
-                if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                    $count_ingredients[$formatted_ingredient] += 1;
-                    continue;
-                } else{
-                    $scrape = $this->scrape($formatted_ingredient);
-                    array_push($list, $scrape);
-                    $count_ingredients[$formatted_ingredient] = 1;
-                }
-            }
-        }
-
-        $shopping_list = ShoppingList::create([
-            'menu_id' => $day_menu->id,
-            'list'    => $list,
-            'amounts' => $count_ingredients
-        ]); */
+        ShoppingListJob::dispatch(
+            $day_menu,
+            $day_menu->type
+        )->onQueue('shoppingList');
 
         return new DayMenuResource($day_menu);
     }

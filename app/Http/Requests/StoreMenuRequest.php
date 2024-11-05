@@ -35,6 +35,8 @@ class StoreMenuRequest extends FormRequest
             'menus.*.*.healthLabels' => ['nullable', 'array'],
             'menus.*.*.ingredientLines' => ['required', 'array'],
             'menus.*.*.ingredients' => ['required', 'array'],
+            'menus.*.*.ingredients.food' => ['required', 'string'],
+            'menus.*.*.ingredients.quantity' => ['required', 'numeric'],
             'menus.*.*.calories' => ['nullable', 'numeric'],
             'menus.*.*.mealType' => ['nullable', 'array'],
             'menus.*.*.instructions' => ['nullable', 'string'],

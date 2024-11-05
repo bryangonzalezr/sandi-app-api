@@ -156,30 +156,10 @@ class MenuController extends Controller
             }
         }
 
-        ShoppingListJob::dispatch($menu)->onQueue('shoppingList');
-        /* $list = [];
-        $count_ingredients = [];
-
-        foreach($menu->menus as $day_menu){
-            foreach($day_menu as $recipe){
-                foreach($recipe["ingredients"] as $ingredient){
-                    $formatted_ingredient = str_replace(' ','_',$ingredient);
-                    if(array_key_exists($formatted_ingredient, $count_ingredients)){
-                        $count_ingredients[$formatted_ingredient] += 1;
-                        continue;
-                    } else{
-                        $scrape = $this->scrape($formatted_ingredient);
-                        array_push($list, $scrape);
-                    }
-
-                }
-            }
-        }
-        $shopping_list = ShoppingList::create([
-            'menu_id' => $menu->id,
-            'list'    => $list,
-            'amount'  => $count_ingredients
-        ]); */
+        ShoppingListJob::dispatch(
+            $menu,
+            $menu->type
+        )->onQueue('shoppingList');
 
         return new MenuResource($menu);
     }
