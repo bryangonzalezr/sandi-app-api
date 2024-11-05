@@ -45,7 +45,7 @@ class ShoppingListJob implements ShouldQueue
             $progressKey = 'shopping_list_progress_' . $this->menu->id;
             $progressData = [
                 'progress' => 0,
-                'status' => 'active_' . $this->action
+                'status' => 'active'
             ];
 
             // Inicializa el progreso

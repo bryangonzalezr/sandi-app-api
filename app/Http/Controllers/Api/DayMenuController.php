@@ -78,7 +78,6 @@ class DayMenuController extends Controller
         ShoppingListJob::dispatch(
             $day_menu,
             $day_menu->type,
-            'post'
         )->onQueue('shoppingList');
 
         return new DayMenuResource($day_menu);
@@ -105,7 +104,6 @@ class DayMenuController extends Controller
         ShoppingListJob::dispatch(
             $dayMenu,
             $dayMenu->type,
-            'put'
         )->onQueue('shoppingList');
 
         return new DayMenuResource($dayMenu);
