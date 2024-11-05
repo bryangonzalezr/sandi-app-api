@@ -152,7 +152,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Rutas Lista de compras
     Route::get('/shopping-lists', [ShoppingListController::class, 'index'])->name('shoppinList.index');
-    Route::get('/shopping-list', [ShoppingListController::class, 'show'])->name('shoppingList.show');
+    Route::get('/shopping-list/{menuId}', [ShoppingListController::class, 'show'])->name('shoppingList.show');
+    Route::get('/progress-bar/{menuId}', [ShoppingListController::class, 'getProgress'])->name('shoppingList.progress');
 
     //Health Enums
     Route::prefix('enum')->group(function () {
