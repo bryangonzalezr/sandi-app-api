@@ -31,11 +31,11 @@ use Illuminate\Support\Facades\Storage;
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
-Route::post('/forgot-password', [PasswordController::class, 'newPassword'])
+Route::post('/forgot-password', [PasswordController::class, 'resetPassword'])
                 ->middleware('guest')
                 ->name('password.new');
 
-Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
+Route::post('/reset-password', [PasswordController::class, 'newPassword'])
                 ->middleware('guest')
                 ->name('password.reset');
 
