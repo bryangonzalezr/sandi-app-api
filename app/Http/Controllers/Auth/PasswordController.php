@@ -81,7 +81,6 @@ class PasswordController extends Controller
                 'password' => bcrypt($password),
                 'password_reset' => true
             ])->save();
-            dump($password);
         }
 
         Mail::to($request->email)->send(new ForgotPassword($user, $password));
