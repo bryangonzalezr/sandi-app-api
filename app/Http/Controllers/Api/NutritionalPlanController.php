@@ -53,7 +53,21 @@ class NutritionalPlanController extends Controller
     public function store(StoreNutritionalPlanRequest $request)
     {
 
-        $nutritional_plans = NutritionalPlan::create($request->validated());
+        $nutritional_plans = NutritionalPlan::updateOrCreate([
+            'patient_id' => $request->patient_id
+        ],[
+            'desayuno' => $request->desayuno,
+            'colacion' => $request->colacion,
+            'almuerzo' => $request->almuerzo,
+            'once' => $request->once,
+            'cena' => $request->cena,
+            'general_recommendations' => $request->general_recommendations,
+            'forbidden_foods' => $request->forbidden_foods,
+            'free_foods' => $request->free_foods,
+            'nutritional_requirement_id' => $request->nutritional_requirement_id,
+            'portion_id' => $request->portion_id,
+            'service_portion_id' => $request->service_portion_id,
+        ]);
 
         return new NutritionalPlanResource($nutritional_plans);
     }

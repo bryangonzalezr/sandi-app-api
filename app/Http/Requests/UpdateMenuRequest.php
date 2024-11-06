@@ -38,7 +38,7 @@ class UpdateMenuRequest extends FormRequest
             'menus.*.*.ingredients' => ['required', 'array'],
             'menus.*.*.ingredients.*.food' => ['required', 'string'],
             'menus.*.*.ingredients.*.quantity' => ['required', new NumericString],
-            'menus.*.*.ingredients.*.measure' => ['required', 'string'],
+            'menus.*.*.ingredients.*.measure' => ['nullable', 'string'],
             'menus.*.*.calories' => ['nullable', 'numeric'],
             'menus.*.*.mealType' => ['nullable', 'array'],
             'menus.*.*.instructions' => ['nullable', 'string'],

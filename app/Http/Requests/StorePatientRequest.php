@@ -27,12 +27,12 @@ class StorePatientRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:200'],
             'sex' => ['required', 'string'],
             'birthdate' => ['required', 'date'],
             'phone_number' => ['required', 'string'],
             'civil_status' => ['required', Rule::enum(CivilStatus::class)],
-            'objectives' => ['nullable', 'string'],
+            'objectives' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
 /*             'password' => ['required', 'confirmed', Rules\Password::default()],
             'password_confirmation' => ['required', 'string'], */

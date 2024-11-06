@@ -31,7 +31,7 @@ class UpdateRecipeRequest extends FormRequest
             'ingredients' => ['required', 'array'],
             'ingredients.*.food' => ['required', 'string'],
             'ingredients.*.quantity' => ['required',new NumericString],
-            'ingredients.*.measure' => ['required', 'string'],
+            'ingredients.*.measure' => ['nullable', 'string'],
             'calories' => ['required', 'numeric'],
             'mealType' => ['nullable', 'array'],
             'dishType' => ['nullable', 'array'],

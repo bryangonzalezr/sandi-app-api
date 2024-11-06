@@ -152,10 +152,11 @@ class RecipeController extends Controller
     {
         try {
             $auth_user = User::find(Auth::id());
+            $health = [];
             if ($auth_user->hasRole('paciente')) {
                 $nutritional_profile = $auth_user->nutritionalProfile;
 
-                $request['health'] = $nutritional_profile->allergies;
+                $health = $nutritional_profile->allergies;
             }
 
 
@@ -171,6 +172,8 @@ class RecipeController extends Controller
                 'user_id',
                 'patient_id',
             ];
+
+            $excluded = [];
 
             $fields = [
                 "label",
@@ -198,8 +201,11 @@ class RecipeController extends Controller
                         $params["q"] = $value;
                     } elseif (in_array($key,$ignore_params)){
                         continue;
-                    }
-                    else {
+                    } elseif($key === "excluded"){
+                        foreach ($value as $excluded_ingredient) {
+                            $excluded[] = $excluded_ingredient;
+                        }
+                    } else {
                         $params[$key] = $value;
                     }
                 }
@@ -208,6 +214,12 @@ class RecipeController extends Controller
 
             foreach ($fields as $field) {
                 $url .= '&field=' . urlencode($field);
+            }
+            foreach ($excluded as $food) {
+                $url .= '&excluded=' . urlencode($food);
+            }
+            foreach ($health as $allergy){
+                $url .= '&health=' . urlencode($allergy);
             }
             // Realizar la solicitud a la API
             $response = Http::get($url);

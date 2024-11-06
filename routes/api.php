@@ -21,11 +21,28 @@ use App\Http\Controllers\Api\ServicePortionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Mail\PatientAccount;
+use App\Mail\SendPassword;
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
+Route::post('/forgot-password', [PasswordController::class, 'newPassword'])
+                ->middleware('guest')
+                ->name('password.new');
+
+Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
+                ->middleware('guest')
+                ->name('password.reset');
+
+// Ruta de descarga
+/* Route::get('descarga/sandi-app', function (){
+    return Storage::download('apk/SandiApp.apk');
+}); */
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('check-session', [LoginController::class, 'checkSession'])->name('check-session');
@@ -141,6 +158,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Rutas Chat
     Route::get('/messages/{user}', [ChatMessageController::class, 'getMessage'])->name('chat.getMessage');
+    Route::get('/all-messages', [ChatMessageController::class, 'allMessages'])->name('chat.allMessages');
     Route::post('/messages/{user}', [ChatMessageController::class, 'sendMessage'])->name('chat.sendMessage');
     Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
@@ -155,6 +173,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/shopping-lists', [ShoppingListController::class, 'index'])->name('shoppinList.index');
     Route::get('/shopping-list/{menuId}', [ShoppingListController::class, 'show'])->name('shoppingList.show');
     Route::get('/progress-bar/{menuId}', [ShoppingListController::class, 'getProgress'])->name('shoppingList.progress');
+
+    //Test mail
+    /* Route::get('/testmail', function () {
+        $email = 'benjita.siete@gmail.com';
+        $patient_user = User::find(5);
+        $nutritionist = User::find(3);
+        Mail::to($email)->send(new PatientAccount($patient_user, $nutritionist));
+    });
+    Route::get('/testmail2', function () {
+        $password = Str::random(12);
+        $email = 'benjita.siete@gmail.com';
+        Mail::to($email)->send(new SendPassword($password));
+    }); */
 
     //Health Enums
     Route::prefix('enum')->group(function () {

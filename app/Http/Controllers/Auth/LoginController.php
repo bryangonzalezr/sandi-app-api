@@ -25,7 +25,7 @@ class LoginController extends Controller
             'name' => $request->name,
             'last_name' => $request->last_name,
             'sex' => $request->sex,
-            'birthdate' => $request->birthdate,
+            'birthdate' => Carbon::parse($request->birthdate),
             'age' => Carbon::parse($request->birthdate)->age,
             'phone_number' => $request->phone_number,
             'civil_status' => $request->civil_status,
