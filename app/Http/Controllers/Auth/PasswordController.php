@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Mail\ForgotPassword;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
@@ -55,7 +56,7 @@ class PasswordController extends Controller
 
         event(new PasswordReset($user));
 
-        return response()->json(['status' => 'Se ha cambiado la contraseña satisfactoriamente']);
+        return new UserResource($user);
     }
 
     public function resetPassword(Request $request): JsonResponse
