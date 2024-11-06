@@ -44,14 +44,43 @@ class LoginController extends Controller
             'weight' => 0,
             'physical_comentario' => "",
             'physical_status' => "",
-            'habits' => "",
-            'allergies' => "",
-            'morbid_antecedents' => "",
+            'habits' => [
+                'alcohol' => false,
+                'tabaco' => false
+            ],
+            'allergies' => [],
+            'morbid_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'insulin_resistance' => false,
+                'cirugias' => null,
+                'farmacos' => null,
+                'exams' => null,
+                'otros' => null,
+            ],
             'patient_type' => "",
-            'family_antecedents' => "",
-            'digestion' => "",
-            'subjective_assessment' => "",
-            'nutritional_anamnesis' => "",
+            'family_antecedents' => [
+                'dm2' => false,
+                'hta' => false,
+                'tiroides' => false,
+                'dislipidemia' => false,
+                'comments' => null,
+            ],
+            'subjective_assessment' => [
+                'usual_weight' => '',
+                'weight_variation' => '',
+                'gastrointestinal_symptoms' => '',
+                'appetite' => '',
+                'digestion' => '',
+                'digestion_frequency' => '',
+                'digestion_measures' => '',
+            ],
+            'nutritional_anamnesis' => [
+                'plan_anterior' => false,
+                'agua' => false,
+            ],
         ]);
 
         event(new Registered($user));

@@ -71,9 +71,10 @@ class ShoppingListJob implements ShouldQueue
                         if(array_key_exists($formatted_ingredient, $list)){
                             $list[$formatted_ingredient]['amount'] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                         } else{
-                            $scrape = $this->scrape($formatted_ingredient);
+                            //$scrape = $this->scrape($formatted_ingredient);
                             $list[$formatted_ingredient] = [
-                                'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                //'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                'price' => null,
                                 'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
                             ];
                         }
@@ -95,7 +96,8 @@ class ShoppingListJob implements ShouldQueue
                                 continue;
                             } else{
                                 $list[$formatted_ingredient] = [
-                                    'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                    //'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                    'price' => null,
                                     'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
                                 ];
                             }

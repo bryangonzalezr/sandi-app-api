@@ -31,11 +31,11 @@ use Illuminate\Support\Facades\Storage;
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
-Route::post('/forgot-password', [PasswordController::class, 'newPassword'])
+Route::post('/forgot-password', [PasswordController::class, 'resetPassword'])
                 ->middleware('guest')
                 ->name('password.new');
 
-Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
+Route::post('/reset-password', [PasswordController::class, 'newPassword'])
                 ->middleware('guest')
                 ->name('password.reset');
 
@@ -45,6 +45,7 @@ Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
 }); */
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('me', [LoginController::class, 'me'])->name('me');
     Route::get('check-session', [LoginController::class, 'checkSession'])->name('check-session');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
