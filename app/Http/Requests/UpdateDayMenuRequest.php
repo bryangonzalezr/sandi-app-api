@@ -35,7 +35,7 @@ class UpdateDayMenuRequest extends FormRequest
             'recipes.*.ingredients' => ['required', 'array'],
             'recipes.*.ingredients.*.food' => ['required', 'string'],
             'recipes.*.ingredients.*.quantity' => ['required', new NumericString],
-            'recipes.*.ingredients.*.measure' => ['required', 'string'],
+            'recipes.*.ingredients.*.measure' => ['nullable', 'string'],
             'recipes.*.calories' => ['nullable', 'numeric'],
             'recipes.*.mealType' => ['nullable', 'array'],
             'recipes.*.instructions' => ['nullable', 'string'],
