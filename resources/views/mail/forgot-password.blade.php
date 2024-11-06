@@ -6,7 +6,7 @@
     La contraseña es :password ',
     replace: [
         'username' => $user->name . ' ' . $user->last_name,
-        'password' => $passwsord
+        'password' => $password
 ]) }}
 
 Una vez dentro se le pedirá modificar esta contraseña.
