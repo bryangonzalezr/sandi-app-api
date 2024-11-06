@@ -32,6 +32,12 @@ class PasswordController extends Controller
 
         ]);
 
+        if($request->password == $request->new_password){
+            return response()->json([
+                'message' => 'La contraseña actual y la nueva son iguales'
+            ], 422);
+        }
+
         $user = User::where('email',$request['email'])->first();
         if(!Hash::check($request['password'],$user->password)){
             return response()->json([
