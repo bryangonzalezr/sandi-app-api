@@ -45,6 +45,7 @@ Route::post('/reset-password', [PasswordController::class, 'newPassword'])
 }); */
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('me', [LoginController::class, 'me'])->name('me');
     Route::get('check-session', [LoginController::class, 'checkSession'])->name('check-session');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
