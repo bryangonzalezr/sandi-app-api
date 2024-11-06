@@ -29,7 +29,24 @@ class PortionController extends Controller
      */
     public function store(StorePortionRequest $request)
     {
-        $portion = Portion::create($request->validated());
+        $portion = Portion::updateOrCreate([
+            'patient_id' => $request->patient_id
+        ],[
+            'total_calorias' => $request->total_calorias,
+            'cereales' => $request->cereales,
+            'verduras_gral' => $request->verduras_gral,
+            'verduras_libre_cons' => $request->verduras_libre_cons,
+            'frutas' => $request->frutas,
+            'carnes_ag' => $request->carnes_ag,
+            'carnes_bg' => $request->carnes_bg,
+            'legumbres' => $request->legumbres,
+            'lacteos_ag' => $request->lacteos_ag,
+            'lacteos_bg' => $request->lacteos_bg,
+            'lacteos_mg' => $request->lacteos_mg,
+            'aceites_grasas' => $request->aceitas_grasas,
+            'alim_ricos_lipidos' => $request->alim_ricos_lipidos,
+            'azucares' => $request->azucares,
+        ]);
 
         return new PortionResource($portion);
     }

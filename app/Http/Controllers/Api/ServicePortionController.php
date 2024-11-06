@@ -28,8 +28,16 @@ class ServicePortionController extends Controller
      */
     public function store(StoreServicePortionRequest $request)
     {
-        $portions = Portion::where('patient_id', $request->patient_id)->get();
-        $service_portion = ServicePortion::create($request->validated());
+        $service_portion = ServicePortion::updateOrCreate([
+            'patient_id' => $request->patient_id
+        ],[
+            'total_calorias' => $request->total_calorias,
+            'desayuno' => $request->desayuno,
+            'colacion' => $request->colacion,
+            'almuerzo' => $request->almuerzo,
+            'once' => $request->once,
+            'cena' => $request->cena
+        ]);
 
         return new ServicePortionResource($service_portion);
     }
