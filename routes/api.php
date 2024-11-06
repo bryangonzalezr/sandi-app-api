@@ -39,9 +39,10 @@ Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
                 ->middleware('guest')
                 ->name('password.reset');
 
-Route::get('descarga/sandi-app', function (){
+// Ruta de descarga
+/* Route::get('descarga/sandi-app', function (){
     return Storage::download('apk/SandiApp.apk');
-});
+}); */
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('check-session', [LoginController::class, 'checkSession'])->name('check-session');
