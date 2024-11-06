@@ -68,6 +68,7 @@ class PatientController extends Controller
             'objectives' => $request->objectives,
             'email' => $request->email,
             'password' => bcrypt($password),
+            'password_reset' => 1
         ]);
         $patient_user->assignRole('paciente');
         $nutritional_profile = NutritionalProfile::create([
