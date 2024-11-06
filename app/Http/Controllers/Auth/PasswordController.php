@@ -77,12 +77,11 @@ class PasswordController extends Controller
             ],401);
         }else{
             $password = Str::random(16);
-            $user->update([
-                'password' => bcrypt($password)
-            ]);
             $user->forceFill([
-                'password_reset' => 1
-            ]);
+                'password' => bcrypt($password),
+                'password_reset' => true
+            ])->save();
+            dump($password);
         }
 
         Mail::to($request->email)->send(new ForgotPassword($user, $password));
