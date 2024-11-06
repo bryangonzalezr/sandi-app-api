@@ -21,14 +21,27 @@ use App\Http\Controllers\Api\ServicePortionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VisitController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Mail\PatientAccount;
 use App\Mail\SendPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::post('login', [LoginController::class, 'apiLogin'])->name('login');
 Route::post('register', [LoginController::class, 'register'])->name('register');
+Route::post('/forgot-password', [PasswordController::class, 'newPassword'])
+                ->middleware('guest')
+                ->name('password.new');
+
+Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
+                ->middleware('guest')
+                ->name('password.reset');
+
+Route::get('descarga/sandi-app', function (){
+    return Storage::download('apk/SandiApp.apk');
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('check-session', [LoginController::class, 'checkSession'])->name('check-session');
