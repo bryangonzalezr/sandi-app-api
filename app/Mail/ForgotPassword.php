@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PatientAccount extends Mailable
+class ForgotPassword extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,8 +18,8 @@ class PatientAccount extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public User $patient_user,
-        public User $nutritionist
+        public User $user,
+        public string $password
     )
     {}
 
@@ -29,7 +29,7 @@ class PatientAccount extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'SandiApp - Activación de cuenta paciente',
+            subject: 'SandiApp - Recuperación de contraseña',
         );
     }
 
@@ -39,7 +39,7 @@ class PatientAccount extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.patient-account',
+            markdown: 'mail.forgot-password',
         );
     }
 }
