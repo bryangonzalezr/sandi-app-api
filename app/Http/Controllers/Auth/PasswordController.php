@@ -77,8 +77,10 @@ class PasswordController extends Controller
             ],401);
         }else{
             $password = Str::random(16);
+            $user->update([
+                'password' => bcrypt($password)
+            ]);
             $user->forceFill([
-                'password' => bcrypt($password),
                 'password_reset' => 1
             ]);
         }
