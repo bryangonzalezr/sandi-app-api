@@ -106,7 +106,7 @@ class PatientController extends Controller
         ]);
         $nutritionist = User::find(Auth::id());
         $patient_user = User::where('email', $request->patient_email)->first();
-        $patient = Patient::where('patient_id', $patient_user->id)->withTrashed()->first();
+        $patient = Patient::where('patient_id', $patient_user->id)->onlyTrashed()->first();
 
         if ($patient_user == null){
             return response()->json([
@@ -114,7 +114,7 @@ class PatientController extends Controller
             ], 404);
         }
 
-        if ($patient_user->hasRole('usuario_basico') && !$patient){
+        if ($patient_user->hasRole('usuario_basico')){
             $patient_user->removeRole('usuario_basico');
             $patient_user->assignRole('paciente');
 
@@ -158,7 +158,6 @@ class PatientController extends Controller
     {
         $patient->removeRole('paciente');
         $patient->assignRole('usuario_basico');
-
         $plan = NutritionalPlan::where('patient_id', $patient->id)->delete();
 
         $messages = ChatMessage::query()
