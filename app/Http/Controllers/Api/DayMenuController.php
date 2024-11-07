@@ -277,11 +277,20 @@ class DayMenuController extends Controller
                         $list[$formatted_ingredient]['amount'] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
                     } else{
                         //$scrape = $this->scrape($formatted_ingredient);
-                        $list[$formatted_ingredient] = [
-                            //'price' => $scrape->$formatted_ingredient ?? 'N/A',
-                            'price' => null,
-                            'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
-                        ];
+                        if ($ingredient['quantity'] != 0){
+                            $list[$formatted_ingredient] = [
+                                //'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                'price' => null,
+                                'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
+                            ];
+                        } else{
+                            $list[$formatted_ingredient] = [
+                                //'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                'price' => null,
+                                'amount' => 1,
+                            ];
+                        }
+
                     }
                 }
             }
