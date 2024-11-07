@@ -88,7 +88,7 @@ class MenuController extends Controller
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
             $query->where('sandi_recipe', $request->boolean('sandi'));
-        })->orderBy('created_at','desc')
+        })
         ->get();
 
         $menus = Menu::when($request->filled('type'), function ($query) use ($request) {
@@ -108,10 +108,10 @@ class MenuController extends Controller
             $query->where('user_id', $user->id);
         })->when($request->filled('sandi'), function ($query) use ($request) {
             $query->where('sandi_recipe', $request->boolean('sandi'));
-        })->orderBy('created_at','desc')
+        })
         ->get();
 
-        $menus_list = $day_menus->merge($menus);
+        $menus_list = $day_menus->merge($menus)->sortByDesc('created_at')->values();
 
         $paginate = $request->boolean('paginate') ? PaginationHelper::paginate($menus_list, 15) : $menus_list;
 
