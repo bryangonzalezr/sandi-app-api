@@ -23,7 +23,7 @@ class PasswordController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function newPassword(Request $request): JsonResponse
+    public function newPassword(Request $request)
     {
         $request->validate([
             'email' => ['required', 'email'],
