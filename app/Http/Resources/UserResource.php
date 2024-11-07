@@ -34,6 +34,7 @@ class UserResource extends JsonResource
             'civil_status' => $this->civil_status,
             'objectives' => $this->objectives,
             'password_reset' => $this->password_reset,
+            'filed' => $this->deleted_at ? true : false,
             'nutritionist' => $nutritionist ?? null,
             'nutritional_profile' => new NutritionalProfileResource($this->nutritionalProfile),
         ];
