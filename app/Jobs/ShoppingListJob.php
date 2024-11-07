@@ -32,7 +32,7 @@ class ShoppingListJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    /* public function handle(): void
     {
         try{
             $list = [];
@@ -144,5 +144,5 @@ class ShoppingListJob implements ShouldQueue
         }elseif ($response[0] == 'ok') {
             return json_decode($response[1]);
         }
-    }
+    } */
 }

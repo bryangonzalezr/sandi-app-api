@@ -29,7 +29,7 @@ class StorePatientRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:200'],
             'sex' => ['required', 'string'],
-            'birthdate' => ['required', 'date'],
+            'birthdate' => ['required', 'date_format:d-m-Y'],
             'phone_number' => ['required', 'string'],
             'civil_status' => ['required', Rule::enum(CivilStatus::class)],
             'objectives' => ['nullable', 'string', 'max:255'],
