@@ -77,7 +77,7 @@ class NutritionalPlanController extends Controller
      */
     public function show(User $patient)
     {
-        $nutritionalPlan = $patient?->nutritionalPlan->withTrashed();
+        $nutritionalPlan = $patient?->nutritionalPlan;
         $return = $nutritionalPlan ? new NutritionalPlanResource($nutritionalPlan) :
                     response()->json(["data" => null]);
         return $return;
