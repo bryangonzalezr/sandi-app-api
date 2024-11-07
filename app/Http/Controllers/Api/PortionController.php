@@ -43,7 +43,7 @@ class PortionController extends Controller
             'lacteos_ag' => $request->lacteos_ag,
             'lacteos_bg' => $request->lacteos_bg,
             'lacteos_mg' => $request->lacteos_mg,
-            'aceites_grasas' => $request->aceitas_grasas,
+            'aceites_grasas' => $request->aceites_grasas,
             'alim_ricos_lipidos' => $request->alim_ricos_lipidos,
             'azucares' => $request->azucares,
         ]);
