@@ -5,17 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreShoppingListRequest;
 use App\Http\Resources\ShoppingListResource;
-use App\Jobs\ShoppingListJob;
-use App\Models\DayMenu;
-use App\Models\Menu;
 use App\Models\ShoppingList;
 use App\Models\User;
-use App\Observers\SupermarketCrawlerObserver;
-use Auth;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Spatie\Crawler\Crawler;
 
 class ShoppingListController extends Controller
 {

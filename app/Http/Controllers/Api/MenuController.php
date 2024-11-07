@@ -18,9 +18,11 @@ use App\Models\Patient;
 use App\Models\Recipe;
 use App\Models\ShoppingList;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MenuController extends Controller
 {
@@ -157,11 +159,11 @@ class MenuController extends Controller
                 ]);
             }
         }
-
-        ShoppingListJob::dispatch(
+        $this->shoppingList($menu);
+        /* ShoppingListJob::dispatch(
             $menu,
             $menu->type,
-        )->onQueue('shoppingList');
+        )->onQueue('shoppingList'); */
 
         return new MenuResource($menu);
     }
@@ -190,10 +192,12 @@ class MenuController extends Controller
             ]);
         }
 
-        ShoppingListJob::dispatch(
+        $this->shoppingList($menu);
+
+        /* ShoppingListJob::dispatch(
             $menu,
             $menu->type,
-        )->onQueue('shoppingList');
+        )->onQueue('shoppingList'); */
 
         return new MenuResource($menu);
     }
@@ -390,6 +394,41 @@ class MenuController extends Controller
                 'message' => 'Error al generar el menú',
             ], 500);
         }
+    }
+
+    private function shoppingList(Menu $menu)
+    {
+        try {
+            $list = [];
+            foreach($menu->menus as $day_menu){
+                foreach($day_menu as $recipe){
+                    foreach($recipe["ingredients"] as $ingredient){
+                        $formatted_ingredient = str_replace(' ','_',$ingredient['food']);
+                        if(array_key_exists($formatted_ingredient, $list)){
+                            $list[$formatted_ingredient]['amount'] = round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP);
+                            continue;
+                        } else{
+                            $list[$formatted_ingredient] = [
+                                //'price' => $scrape->$formatted_ingredient ?? 'N/A',
+                                'price' => null,
+                                'amount' => round($ingredient['quantity'], 0, PHP_ROUND_HALF_UP),
+                            ];
+                        }
+                    }
+                }
+            }
+
+            $shopping_list = ShoppingList::updateOrCreate([
+                'menu_id' => $menu->id,
+            ],[
+                'list' => $list,
+                'menu_type' => $menu->type
+            ]);
+            Log::info("Se ha creado la lista de compras con éxito");
+        } catch(Exception $error){
+            Log::error($error);
+        }
+
     }
 
     /* private function scrape($ingredient)
