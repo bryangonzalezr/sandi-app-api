@@ -59,19 +59,21 @@ class DayMenuController extends Controller
     {
         if ($request->boolean('sandi_recipe')){
             $recipes = [];
+            $recipe = [];
             foreach($request->input('recipes') as $recipe){
                 $created_recipe = Recipe::create($recipe);
-                array_push($recipes, collect($created_recipe));
+                $created_recipe->user_id = $request->user_id;
+                $created_recipe->save();
+                array_push($recipes, $created_recipe->toArray());
             }
-
-            $day_menu = DayMenu::firstOrCreate($request->validated());
+            $day_menu = DayMenu::create($request->validated());
             $day_menu->update([
                 'type' => "diario",
                 'recipes' => $recipes
             ]);
 
         } else {
-            $day_menu = DayMenu::firstOrCreate($request->validated());
+            $day_menu = DayMenu::create($request->validated());
             $day_menu->update([
                 'type' => "diario",
             ]);

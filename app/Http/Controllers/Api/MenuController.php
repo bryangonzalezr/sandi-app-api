@@ -129,7 +129,9 @@ class MenuController extends Controller
             foreach($request->input('menus') as $day_menu){
                 foreach($day_menu as $recipe){
                     $created_recipe = Recipe::create($recipe);
-                    array_push($recipes, collect($created_recipe));
+                    $created_recipe->user_id = $request->user_id;
+                    $created_recipe->save();
+                    array_push($recipes, $created_recipe->toArray());
                 }
                 array_push($day_menus, $recipes);
                 $recipes = [];
