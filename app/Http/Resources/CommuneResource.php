@@ -13,8 +13,11 @@ class CommuneResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'region' => $this->provinces->regions->name,
-            'commune' => $this->name
+            'commune' => $this->name,
+            'region' => [
+                'id' => $this->provinces->regions->id,
+                'name' => $this->provinces->regions->name,
+            ],
         ];
     }
 }
