@@ -41,8 +41,8 @@ class PasswordController extends Controller
         $user = User::where('email',$request->email)->first();
         if(!Hash::check($request->password,$user->password)){
             return response()->json([
-                'message' => 'Invalid Credentials'
-            ],401);
+                'message' => 'La contraseña actual es incorrecta'
+            ],422);
         }
 
         // Here we will attempt to reset the user's password. If it is successful we
