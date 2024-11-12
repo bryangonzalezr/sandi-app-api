@@ -38,8 +38,8 @@ class PasswordController extends Controller
             ], 422);
         }
 
-        $user = User::where('email',$request['email'])->first();
-        if(!Hash::check($request['password'],$user->password)){
+        $user = User::where('email',$request->email)->first();
+        if(!Hash::check($request->password,$user->password)){
             return response()->json([
                 'message' => 'Invalid Credentials'
             ],401);
