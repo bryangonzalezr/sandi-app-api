@@ -122,7 +122,8 @@ class DayMenuController extends Controller
      */
     public function destroy(DayMenu $dayMenu)
     {
-        //dd($dayMenu->shoppingList);
+        $shopping_list = $dayMenu->shoppingList()->first();
+        $shopping_list->delete();
         $dayMenu->delete();
 
         return response()->json([

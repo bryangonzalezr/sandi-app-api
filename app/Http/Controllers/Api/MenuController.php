@@ -209,6 +209,8 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
+        $shopping_list = $menu->shoppingList()->first();
+        $shopping_list->delete();
         $menu->delete();
 
         return response()->json([
