@@ -1,0 +1,531 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "15"
+  creationTimestamp: "2024-09-02T02:21:17Z"
+  generation: 17
+  labels:
+    app: sandi-api
+  managedFields:
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:template:
+          f:metadata:
+            f:annotations:
+              .: {}
+              f:kubectl.kubernetes.io/restartedAt: {}
+    manager: kubectl-rollout
+    operation: Update
+    time: "2024-09-05T04:31:26Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:progressDeadlineSeconds: {}
+        f:replicas: {}
+        f:revisionHistoryLimit: {}
+        f:selector: {}
+        f:strategy:
+          f:rollingUpdate:
+            .: {}
+            f:maxSurge: {}
+            f:maxUnavailable: {}
+          f:type: {}
+        f:template:
+          f:metadata:
+            f:labels:
+              .: {}
+              f:app: {}
+          f:spec:
+            f:containers:
+              k:{"name":"sandi-api-sha256-1"}:
+                .: {}
+                f:env:
+                  .: {}
+                  k:{"name":"APP_DEBUG"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_ENV"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_KEY"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_LOCALE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_MAINTENANCE_DRIVER"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_NAME"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_PORT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_TIMEZONE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"APP_URL"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BCRYPT_ROUNDS"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"BROADCAST_CONNECTION"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DB_CONNECTION"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DB_DATABASE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DB_HOST"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DB_PASSWORD"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DB_PORT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DB_USERNAME"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DBM_CONNECTION"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DBM_DATABASE"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"DBM_URI"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"FILESYSTEM_DISK"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"FRONTEND_URL"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"LOG_CHANNEL"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"LOG_DEPRECATIONS_CHANNEL"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"LOG_LEVEL"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"LOG_STACK"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"QUEUE_CONNECTION"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SANCTUM_STATEFUL_DOMAINS"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SESSION_DOMAIN"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SESSION_DRIVER"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SESSION_ENCRYPT"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SESSION_LIFETIME"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                  k:{"name":"SESSION_PATH"}:
+                    .: {}
+                    f:name: {}
+                    f:valueFrom:
+                      .: {}
+                      f:configMapKeyRef: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+            f:dnsPolicy: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:terminationGracePeriodSeconds: {}
+    manager: unknown
+    operation: Update
+    time: "2024-09-07T16:32:30Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:template:
+          f:spec:
+            f:containers:
+              k:{"name":"sandi-api-sha256-1"}:
+                f:image: {}
+    manager: kubectl-set
+    operation: Update
+    time: "2024-09-10T01:38:26Z"
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:deployment.kubernetes.io/revision: {}
+      f:status:
+        f:availableReplicas: {}
+        f:conditions:
+          .: {}
+          k:{"type":"Available"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Progressing"}:
+            .: {}
+            f:lastTransitionTime: {}
+            f:lastUpdateTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+        f:observedGeneration: {}
+        f:readyReplicas: {}
+        f:replicas: {}
+        f:updatedReplicas: {}
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2024-09-10T01:38:46Z"
+  name: sandi-api
+  namespace: default
+  resourceVersion: "7118797"
+  uid: 52c71d43-a6d2-4dc1-ad63-23f19c11fed2
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sandi-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: "2024-09-05T04:31:26Z"
+      creationTimestamp: null
+      labels:
+        app: sandi-api
+    spec:
+      containers:
+      - env:
+        - name: APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: APP_NAME
+              name: sandi-api-config-mss0
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              key: APP_ENV
+              name: sandi-api-config-mss0
+        - name: APP_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: APP_KEY
+              name: sandi-api-config-mss0
+        - name: APP_DEBUG
+          valueFrom:
+            configMapKeyRef:
+              key: APP_DEBUG
+              name: sandi-api-config-mss0
+        - name: APP_TIMEZONE
+          valueFrom:
+            configMapKeyRef:
+              key: APP_TIMEZONE
+              name: sandi-api-config-mss0
+        - name: APP_URL
+          valueFrom:
+            configMapKeyRef:
+              key: APP_URL
+              name: sandi-api-config-mss0
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef:
+              key: FRONTEND_URL
+              name: sandi-api-config-mss0
+        - name: SANCTUM_STATEFUL_DOMAINS
+          valueFrom:
+            configMapKeyRef:
+              key: SANCTUM_STATEFUL_DOMAINS
+              name: sandi-api-config-mss0
+        - name: SESSION_DOMAIN
+          valueFrom:
+            configMapKeyRef:
+              key: SESSION_DOMAIN
+              name: sandi-api-config-mss0
+        - name: APP_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: APP_PORT
+              name: sandi-api-config-mss0
+        - name: APP_LOCALE
+          valueFrom:
+            configMapKeyRef:
+              key: APP_LOCALE
+              name: sandi-api-config-mss0
+        - name: DB_CONNECTION
+          valueFrom:
+            configMapKeyRef:
+              key: DB_CONNECTION
+              name: sandi-api-config-mss0
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: DB_HOST
+              name: sandi-api-config-mss0
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: DB_PORT
+              name: sandi-api-config-mss0
+        - name: DB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: DB_DATABASE
+              name: sandi-api-config-mss0
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: DB_USERNAME
+              name: sandi-api-config-mss0
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: DB_PASSWORD
+              name: sandi-api-config-mss0
+        - name: DBM_CONNECTION
+          valueFrom:
+            configMapKeyRef:
+              key: DBM_CONNECTION
+              name: sandi-api-config-mss0
+        - name: DBM_URI
+          valueFrom:
+            configMapKeyRef:
+              key: DBM_URI
+              name: sandi-api-config-mss0
+        - name: DBM_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: DBM_DATABASE
+              name: sandi-api-config-mss0
+        - name: SESSION_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              key: SESSION_DRIVER
+              name: sandi-api-config-mss0
+        - name: SESSION_LIFETIME
+          valueFrom:
+            configMapKeyRef:
+              key: SESSION_LIFETIME
+              name: sandi-api-config-mss0
+        - name: SESSION_ENCRYPT
+          valueFrom:
+            configMapKeyRef:
+              key: SESSION_ENCRYPT
+              name: sandi-api-config-mss0
+        - name: SESSION_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: SESSION_PATH
+              name: sandi-api-config-mss0
+        - name: BROADCAST_CONNECTION
+          valueFrom:
+            configMapKeyRef:
+              key: BROADCAST_CONNECTION
+              name: sandi-api-config-mss0
+        - name: FILESYSTEM_DISK
+          valueFrom:
+            configMapKeyRef:
+              key: FILESYSTEM_DISK
+              name: sandi-api-config-mss0
+        - name: QUEUE_CONNECTION
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE_CONNECTION
+              name: sandi-api-config-mss0
+        - name: LOG_CHANNEL
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_CHANNEL
+              name: sandi-api-config-mss0
+        - name: LOG_STACK
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_STACK
+              name: sandi-api-config-mss0
+        - name: LOG_DEPRECATIONS_CHANNEL
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_DEPRECATIONS_CHANNEL
+              name: sandi-api-config-mss0
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_LEVEL
+              name: sandi-api-config-mss0
+        - name: BCRYPT_ROUNDS
+          valueFrom:
+            configMapKeyRef:
+              key: BCRYPT_ROUNDS
+              name: sandi-api-config-mss0
+        - name: APP_MAINTENANCE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              key: APP_MAINTENANCE_DRIVER
+              name: sandi-api-config-mss0
+        image: southamerica-west1-docker.pkg.dev/axial-reference-434120-t5/sandirtx/sandi-api@sha256:9709937ce5c38f7faee13f222d0d0298b41a1a39699b540ddd4a4f63543c71b3
+        imagePullPolicy: IfNotPresent
+        name: sandi-api-sha256-1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2024-09-02T02:27:41Z"
+    lastUpdateTime: "2024-09-02T02:27:41Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2024-09-02T02:21:17Z"
+    lastUpdateTime: "2024-09-10T01:38:46Z"
+    message: ReplicaSet "sandi-api-784bf9f87b" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 17
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+

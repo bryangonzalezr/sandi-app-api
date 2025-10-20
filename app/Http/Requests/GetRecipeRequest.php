@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class GetRecipeRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+
+        return [
+            'query'             => ['string', 'nullable'],
+            'range_ingredients' => ['string', 'nullable'],
+            'diet'              => ['array', 'nullable'],
+            'health'           => ['array', 'nullable'],
+            'cuisineType'      => ['array', 'nullable'],
+            'mealType'         => ['array', 'nullable'],
+            'dishType'         => ['array', 'nullable'],
+            'calories'         => ['string', 'nullable'],
+            'time'             => ['string', 'nullable'],
+            'excluded'         => ['array', 'nullable'],
+            'nutrients'        => ['array', 'nullable'],
+            'timespan'         => ['numeric', 'nullable'],
+            'patient_id'       => ['numeric', 'nullable', 'exists:users,id']
+        ];
+    }
+}
